@@ -1,8 +1,7 @@
-import { Text, View } from "react-native";
-import Login from "./(auth)/login";
+import RegisterScreen from "./auth/register";
 
 export default function Index() {
   return (
-    <Login />
+    <RegisterScreen/>
   );
 }
