@@ -15,3 +15,28 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db = getFirestore(app);
+
+export const getFirebaseErrorMessage = (code: string) => {
+  switch (code) {
+    case "auth/email-already-in-use":
+      return "Este email já está em uso";
+    case "auth/invalid-email":
+      return "Email inválido";
+    case "auth/operation-not-allowed":
+      return "Operação não permitida";
+    case "auth/weak-password":
+      return "Senha muito fraca";
+    case "auth/network-request-failed":
+      return "Erro de conexão. Verifique sua internet";
+    case "auth/too-many-requests":
+      return "Muitas tentativas. Tente novamente mais tarde";
+    case "firestore/permission-denied":
+      return "Erro de permissão. Verifique as regras do Firestore";
+    case "firestore/unavailable":
+      return "Serviço temporariamente indisponível";
+    case "firestore/deadline-exceeded":
+      return "Tempo limite excedido. Tente novamente";
+    default:
+      return "Erro ao criar conta. Tente novamente";
+  }
+};
