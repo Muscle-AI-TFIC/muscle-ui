@@ -1,25 +1,34 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, Alert, TouchableOpacity } from "react-native";
-import { Button } from "@/src/components/Button/Button";
-import * as styles from "@/src/styles/Login";
-import * as buttonProps from "@/src/components/Button/Button.styles";
+import { View, Text, TextInput, Alert, Button } from "react-native";
+import { auth } from "@/services/firebase"; // seu serviço Firebase
+import { signInWithEmailAndPassword } from "firebase/auth";
 
 export const LoginScreen: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     if (!email || !password) {
       Alert.alert("Erro", "Preencha todos os campos");
       return;
     }
 
-    Alert.alert("Sucesso", `Bem-vindo, ${email}`);
+    setLoading(true);
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+      Alert.alert("Sucesso", `Bem-vindo, ${user.email}`);
+    } catch (error: any) {
+      Alert.alert("Erro", error.code || "Falha no login");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <View className={styles.container}>
-      <Text className={styles.title}>Login</Text>
+    <View style={{ padding: 20 }}>
+      <Text style={{ fontSize: 24, marginBottom: 20 }}>Login</Text>
 
       <TextInput
         placeholder="Email"
@@ -27,7 +36,7 @@ export const LoginScreen: React.FC = () => {
         autoCapitalize="none"
         value={email}
         onChangeText={setEmail}
-        className={styles.input}
+        style={{ borderWidth: 1, marginBottom: 10, padding: 10 }}
       />
 
       <TextInput
@@ -35,16 +44,10 @@ export const LoginScreen: React.FC = () => {
         secureTextEntry
         value={password}
         onChangeText={setPassword}
-        className={styles.input}
+        style={{ borderWidth: 1, marginBottom: 20, padding: 10 }}
       />
 
-      <View className={styles.buttonContainer}>
-        <Button className="box-decoration-slice bg-linear-to-r from-indigo-600 to-pink-500 px-2 text-white" title="Entrar" onPress={handleLogin} />
-      </View>
-
-      <TouchableOpacity onPress={() => Alert.alert("Recuperar senha")}>
-        <Text className={styles.forgotPassword}>Esqueceu a senha?</Text>
-      </TouchableOpacity>
+      <Button title={loading ? "Entrando..." : "Login"} onPress={handleLogin} disabled={loading} />
     </View>
   );
 };

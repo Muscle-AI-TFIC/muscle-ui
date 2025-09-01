@@ -1,8 +1,8 @@
 import { View, Text, Image, TextInput, TouchableOpacity, ScrollView, Alert, ActivityIndicator, KeyboardAvoidingView, Platform} from "react-native";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import { getFirebaseErrorMessage } from "@/src/services/firebase";
-import { registerprops } from "@/src/styles/Register";
-import { db, auth } from "@/src/services/firebase";
+import { getFirebaseErrorMessage } from "@/services/firebase";
+import { registerprops } from "@/styles/Register";
+import { db, auth } from "@/services/firebase";
 import { doc, setDoc } from "firebase/firestore";
 import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
