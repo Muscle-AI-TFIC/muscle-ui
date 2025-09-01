@@ -13,9 +13,11 @@
   "dependencies": {
     "@expo/vector-icons": "^14.1.0",
     "@react-native-async-storage/async-storage": "^2.1.2",
+    "@react-native-firebase/app": "^23.2.1",
     "@react-navigation/bottom-tabs": "^7.3.10",
     "@react-navigation/elements": "^2.3.8",
     "@react-navigation/native": "^7.1.6",
+    "@tailwindcss/vite": "^4.1.12",
     "expo": "~53.0.22",
     "expo-blur": "~14.1.5",
     "expo-constants": "~17.1.7",
@@ -29,7 +31,7 @@
     "expo-symbols": "~0.4.5",
     "expo-system-ui": "~5.0.11",
     "expo-web-browser": "~14.2.0",
-    "firebase": "^12.2.1",
+    "firebase": "12.2.1",
     "react": "19.0.0",
     "react-dom": "19.0.0",
     "react-native": "^0.79.5",
@@ -38,7 +40,9 @@
     "react-native-safe-area-context": "5.4.0",
     "react-native-screens": "~4.11.1",
     "react-native-web": "~0.20.0",
-    "react-native-webview": "13.13.5"
+    "react-native-webview": "13.13.5",
+    "tailwindcss": "^4.1.12",
+    "zod": "^4.1.5"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
