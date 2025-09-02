@@ -4,18 +4,20 @@ import { auth } from "@/services/firebase";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { setDoc } from "firebase/firestore";
 
+// Mock the functions from auth
 vi.mock("firebase/auth", () => ({
   createUserWithEmailAndPassword: vi.fn(),
   updateProfile: vi.fn(),
 }));
 
+// Mock the functions
 vi.mock("firebase/firestore", () => ({
   setDoc: vi.fn(),
   doc: vi.fn(),
 }));
 
 vi.mock("@/services/firebase", () => ({
-  auth: {},
+  auth: {}, // Change auth to be an empity arr
   db: {},
   getFirebaseErrorMessage: vi.fn((code: string) => `Erro: ${code}`),
 }));
@@ -47,6 +49,7 @@ describe("submitRegistration", () => {
     });
   });
 
+  // Error exeption fix in the service register using this test
   it("Should return an error if registration fails", async () => {
     const errorCode = "auth/email-already-in-use";
     (createUserWithEmailAndPassword as any).mockRejectedValue({ code: errorCode });
