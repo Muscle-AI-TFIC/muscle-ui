@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
-import { getAuth } from "firebase/auth"
+import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAWwImxatooLaSFCEDI9-WzxPfn7uvf2SY",
@@ -16,27 +16,27 @@ const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db = getFirestore(app);
 
-export const getFirebaseErrorMessage = (code: string) => {
+export const getFirebaseErrorMessage = (code: string): string => {
   switch (code) {
     case "auth/email-already-in-use":
-      return "Este email já está em uso";
+      return "This email is already in use";
     case "auth/invalid-email":
-      return "Email inválido";
+      return "Invalid email";
     case "auth/operation-not-allowed":
-      return "Operação não permitida";
+      return "Operation not allowed";
     case "auth/weak-password":
-      return "Senha muito fraca";
+      return "Password is too weak";
     case "auth/network-request-failed":
-      return "Erro de conexão. Verifique sua internet";
+      return "Network error. Please check your connection";
     case "auth/too-many-requests":
-      return "Muitas tentativas. Tente novamente mais tarde";
+      return "Too many requests. Please try again later";
     case "firestore/permission-denied":
-      return "Erro de permissão. Verifique as regras do Firestore";
+      return "Permission error. Please check your Firestore rules";
     case "firestore/unavailable":
-      return "Serviço temporariamente indisponível";
+      return "Service temporarily unavailable";
     case "firestore/deadline-exceeded":
-      return "Tempo limite excedido. Tente novamente";
+      return "Request timed out. Please try again";
     default:
-      return "Erro ao criar conta. Tente novamente";
+      return "Error creating account. Please try again";
   }
 };
