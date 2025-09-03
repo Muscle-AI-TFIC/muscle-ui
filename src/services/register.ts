@@ -21,6 +21,7 @@ export const submitRegistration = async (infos: RegisterInfos) => {
     });
 
     return {
+      uid: user.uid,
       name: infos.name,
       email: infos.email,
     };
