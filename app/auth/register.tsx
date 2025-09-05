@@ -136,7 +136,7 @@ export default function RegisterScreen() {
       >
         <View style={registerprops.header}>
           <Text style={registerprops.title}>Criar Conta</Text>
-          <Image style={registerprops.logo} source={require("@/assets/images/logo.png")} />
+          <Image style={registerprops.logo} source={require("../../assets/images/logo.png")} />
           <Text style={registerprops.subtitle}>Preencha os dados abaixo para criar sua conta</Text>
         </View>
 
