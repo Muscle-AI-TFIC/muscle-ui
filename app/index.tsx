@@ -1,12 +1,7 @@
-"use client";
+import RegisterScreen from "./auth/register";
 
-import React from "react";
-import Page from "./(welcome)/page";
-
-export default function Home() {
+export default function Index() {
   return (
-    <div>
-      <Page />
-    </div>
+    <RegisterScreen/>
   );
 }
