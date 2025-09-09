@@ -3,7 +3,7 @@ import { View, Text, TextInput, Alert, Button } from "react-native";
 import { auth } from "@/services/firebase"; // seu serviço Firebase
 import { signInWithEmailAndPassword } from "firebase/auth";
 
-export const LoginScreen: React.FC = () => {
+export default function LoginScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
