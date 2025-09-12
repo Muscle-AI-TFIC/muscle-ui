@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { enviarInput, TrainingInput } from "../../app/inputPage/trainingInput";
+import {enviarInput, TrainingInput, validarInput} from "../../app/inputPage/trainingInput";
 
 // Mock do Firebase
 vi.mock("firebase/firestore", () => {
@@ -60,5 +60,48 @@ describe("Função enviarInput (com Firebase mockado)", () => {
 
     expect(result).toBe("Erro: não foi possível enviar os dados.");
     expect(addDoc).toHaveBeenCalledTimes(1);
+  });
+});
+
+describe("Função validarInput", () => {
+  it("deve retornar true para dados válidos", () => {
+    const input: TrainingInput = {
+      tipoTreino: "musculação",
+      peso: 70,
+      idade: 25,
+      objetivo: "ganhar massa",
+    };
+
+    expect(validarInput(input)).toBe(true);
+  });
+
+  it("deve retornar false para peso inválido", () => {
+    const input: TrainingInput = {
+      tipoTreino: "cardio",
+      peso: -5,
+      idade: 20,
+    };
+
+    expect(validarInput(input)).toBe(false);
+  });
+
+  it("deve retornar false para idade inválida", () => {
+    const input: TrainingInput = {
+      tipoTreino: "crossfit",
+      peso: 70,
+      idade: 0,
+    };
+
+    expect(validarInput(input)).toBe(false);
+  });
+
+  it("deve retornar false se tipoTreino estiver vazio", () => {
+    const input: TrainingInput = {
+      tipoTreino: "",
+      peso: 70,
+      idade: 25,
+    };
+
+    expect(validarInput(input)).toBe(false);
   });
 });
