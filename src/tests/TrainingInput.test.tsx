@@ -1,11 +1,26 @@
-// TrainingInput.test.ts
-// Testes unitários para TrainingInput.tsx
+import { describe, it, expect, vi, beforeEach } from "vitest";
+import { enviarInput, TrainingInput } from "../../app/inputPage/trainingInput";
 
-import { describe, it, expect } from "vitest";
-import { validarInput, enviarInput, TrainingInput } from "../../app/inputPage/TrainingInput";
+// Mock do Firebase
+vi.mock("firebase/firestore", () => {
+  return {
+    getFirestore: vi.fn(() => ({})), // retorna um db fake
+    collection: vi.fn(() => ({})),    // retorna um objeto fake para collection
+    addDoc: vi.fn(),                  // função que será controlada pelos testes
+  };
+});
 
-describe("Função validarInput", () => {
-  it("deve retornar true para dados válidos", () => {
+// Importa o addDoc mockado
+import { addDoc } from "firebase/firestore";
+
+describe("Função enviarInput (com Firebase mockado)", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it("deve enviar dados válidos com sucesso", async () => {
+    (addDoc as any).mockResolvedValueOnce({ id: "abc123" });
+
     const input: TrainingInput = {
       tipoTreino: "musculação",
       peso: 70,
@@ -13,60 +28,37 @@ describe("Função validarInput", () => {
       objetivo: "ganhar massa",
     };
 
-    expect(validarInput(input)).toBe(true);
+    const result = await enviarInput(input);
+
+    expect(result).toBe("Dados enviados para o Firebase com sucesso.");
+    expect(addDoc).toHaveBeenCalledTimes(1);
   });
 
-  it("deve retornar false para peso inválido", () => {
+  it("deve retornar erro se input for inválido", async () => {
     const input: TrainingInput = {
-      tipoTreino: "cardio",
-      peso: -5,
-      idade: 20,
-    };
-
-    expect(validarInput(input)).toBe(false);
-  });
-
-  it("deve retornar false para idade inválida", () => {
-    const input: TrainingInput = {
-      tipoTreino: "crossfit",
-      peso: 70,
+      tipoTreino: "",
+      peso: -10,
       idade: 0,
     };
 
-    expect(validarInput(input)).toBe(false);
-  });
-
-  it("deve retornar false se tipoTreino estiver vazio", () => {
-    const input: TrainingInput = {
-      tipoTreino: "",
-      peso: 70,
-      idade: 25,
-    };
-
-    expect(validarInput(input)).toBe(false);
-  });
-});
-
-describe("Função enviarInput", () => {
-  it("deve retornar mensagem de sucesso para input válido", async () => {
-    const input: TrainingInput = {
-      tipoTreino: "musculação",
-      peso: 80,
-      idade: 30,
-    };
-
     const result = await enviarInput(input);
-    expect(result).toBe("Dados enviados com sucesso.");
-  });
 
-  it("deve retornar erro para input inválido", async () => {
-    const input: TrainingInput = {
-      tipoTreino: "",
-      peso: 0,
-      idade: -1,
-    };
-
-    const result = await enviarInput(input);
     expect(result).toBe("Erro: dados inválidos.");
+    expect(addDoc).not.toHaveBeenCalled();
+  });
+
+  it("deve lidar com erro do Firebase", async () => {
+    (addDoc as any).mockRejectedValueOnce(new Error("Falha no Firebase"));
+
+    const input: TrainingInput = {
+      tipoTreino: "cardio",
+      peso: 60,
+      idade: 22,
+    };
+
+    const result = await enviarInput(input);
+
+    expect(result).toBe("Erro: não foi possível enviar os dados.");
+    expect(addDoc).toHaveBeenCalledTimes(1);
   });
 });
