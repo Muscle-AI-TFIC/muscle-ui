@@ -86,7 +86,7 @@ export default function RegisterScreen() {
       await setDoc(doc(db, "usuarios", user.uid), userData, { merge: false });
 
       Alert.alert("Sucesso!", "Registro realizado com sucesso!", [
-        { text: "OK", onPress: () => router.replace("/main/home") },
+        { text: "OK", onPress: () => router.replace("/auth/login") },
       ]);
     } catch (error: any) {
       const message = error?.code ? getFirebaseErrorMessage(error.code) : error?.message || "Erro inesperado";
