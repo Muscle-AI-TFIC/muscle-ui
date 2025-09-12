@@ -1,14 +1,24 @@
-import React, { useState } from "react";
-import { View, Text, TextInput, Alert, Button } from "react-native";
-import { auth } from "@/services/firebase"; // seu serviço Firebase
+import React, { useState} from "react";
+import {
+  View,
+  Image,
+  Text,
+  TextInput,
+  Alert,
+  TouchableOpacity,
+  ActivityIndicator,
+} from "react-native";
+import { AuthError, UserCredential } from "firebase/auth";
+import { auth } from "@/services/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
+import { loginProps } from "@/styles/Login";
 
-export const LoginScreen: React.FC = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
+export default function LoginScreen(){
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
 
-  const handleLogin = async () => {
+  const handleLogin = async (): Promise<void> => {
     if (!email || !password) {
       Alert.alert("Erro", "Preencha todos os campos");
       return;
@@ -16,38 +26,60 @@ export const LoginScreen: React.FC = () => {
 
     setLoading(true);
     try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const userCredential: UserCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
       const user = userCredential.user;
       Alert.alert("Sucesso", `Bem-vindo, ${user.email}`);
-    } catch (error: any) {
-      Alert.alert("Erro", error.code || "Falha no login");
+    } catch (error) {
+      const err = error as AuthError;
+      Alert.alert("Erro", err.code || "Falha no login");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <View style={{ padding: 20 }}>
-      <Text style={{ fontSize: 24, marginBottom: 20 }}>Login</Text>
+    <View style={loginProps.screen}>
+      <Text style={loginProps.containerTop}>Login</Text>
+      <Image style={loginProps.logo} source={require("assets/images/logo-final.png")} />
+      <View style={loginProps.email}>
+        <TextInput
+          placeholder="Email"
+          keyboardType="email-address"
+          autoCapitalize="none"
+          value={email}
+          onChangeText={setEmail}
+        />
+      </View>
 
-      <TextInput
-        placeholder="Email"
-        keyboardType="email-address"
-        autoCapitalize="none"
-        value={email}
-        onChangeText={setEmail}
-        style={{ borderWidth: 1, marginBottom: 10, padding: 10 }}
-      />
+      <View style={loginProps.password}>
+        <TextInput
+          placeholder="Senha"
+          secureTextEntry
+          value={password}
+          onChangeText={setPassword}
+        />
+      </View>
 
-      <TextInput
-        placeholder="Senha"
-        secureTextEntry
-        value={password}
-        onChangeText={setPassword}
-        style={{ borderWidth: 1, marginBottom: 20, padding: 10 }}
-      />
+      <TouchableOpacity
+        style={loginProps.loginButton}
+        onPress={handleLogin}
+        disabled={loading}
+      >
+        {loading ? (
+          <ActivityIndicator color="#fff" />
+        ) : (
+          <Text style={loginProps.loginButtonText}>Login</Text>
+        )}
+      </TouchableOpacity>
 
-      <Button title={loading ? "Entrando..." : "Login"} onPress={handleLogin} disabled={loading} />
+      <View style={loginProps.footer}>
+        <Text style={loginProps.footerText}>Esqueceu a senha?</Text>
+        <Text style={loginProps.footerText}>Criar conta</Text>
+      </View>
     </View>
   );
-};
+}
