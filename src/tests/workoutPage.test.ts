@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { generateWorkoutJson, WorkoutData } from "../../app/inputPage/workoutPage";
+import { generateWorkoutJson, WorkoutData } from "../../app/tabs/workoutPage";
 
 describe("Função generateWorkoutJson", () => {
   it("gera JSON com dados corretos", () => {
