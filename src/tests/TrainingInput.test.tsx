@@ -11,7 +11,7 @@ vi.mock("firebase/firestore", () => {
 });
 
 // Importa o addDoc mockado
-import { addDoc } from "firebase/firestore";
+import { addDoc, collection } from "firebase/firestore";
 
 describe("Função enviarInput (com Firebase mockado)", () => {
   beforeEach(() => {
@@ -64,6 +64,38 @@ describe("Função enviarInput (com Firebase mockado)", () => {
     expect(result).toBe("Erro: não foi possível enviar os dados.");
     expect(addDoc).toHaveBeenCalledTimes(1);
   });
+
+  it("deve enviar múltiplos inputs corretamente", async () => {
+    (addDoc as any).mockResolvedValue({ id: "ok" });
+
+    const inputs: TrainingInput[] = [
+      { tipoTreino: "musculação", peso: 70, altura: 1.75, idade: 25 },
+      { tipoTreino: "crossfit", peso: 68, altura: 1.72, idade: 26 },
+    ];
+
+    for (const input of inputs) {
+      await enviarInput(input);
+    }
+
+    expect(addDoc).toHaveBeenCalledTimes(inputs.length);
+  });
+
+  it("deve usar a coleção correta 'trainings' ao enviar dados", async () => {
+    (addDoc as any).mockResolvedValue({ id: "123" });
+
+    const input: TrainingInput = {
+      tipoTreino: "cardio",
+      peso: 65,
+      altura: 1.70,
+      idade: 22,
+    };
+
+    await enviarInput(input);
+
+    // Aqui collection é o spy importado diretamente
+    expect(collection).toHaveBeenCalledWith(expect.anything(), "trainings");
+  });
+
 });
 
 describe("Função validarInput", () => {
