@@ -7,6 +7,7 @@ const TrainingInputForm: React.FC = () => {
   const [formData, setFormData] = useState<TrainingInput>({
     tipoTreino: '',
     peso: 0,
+    altura: 0, // Campo de altura adicionado
     idade: 0,
     objetivo: ''
   });
@@ -19,7 +20,7 @@ const TrainingInputForm: React.FC = () => {
 
     setFormData(prev => ({
       ...prev,
-      [name]: name === 'peso' || name === 'idade' ? Number(value) : value
+      [name]: name === 'peso' || name === 'idade' || name === 'altura' ? Number(value) : value
     }));
   };
 
@@ -37,6 +38,7 @@ const TrainingInputForm: React.FC = () => {
         setFormData({
           tipoTreino: '',
           peso: 0,
+          altura: 0, // Reset do campo altura
           idade: 0,
           objetivo: ''
         });
@@ -84,6 +86,21 @@ const TrainingInputForm: React.FC = () => {
             step="0.1"
             required
             placeholder="Ex: 75.5"
+          />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="altura">Altura (m) *</label>
+          <input
+            type="number"
+            id="altura"
+            name="altura"
+            value={formData.altura || ''}
+            onChange={handleInputChange}
+            min="0.1"
+            step="0.01"
+            required
+            placeholder="Ex: 1.75"
           />
         </div>
 
