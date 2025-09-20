@@ -25,6 +25,7 @@ describe("Função enviarInput (com Firebase mockado)", () => {
       tipoTreino: "musculação",
       peso: 70,
       idade: 25,
+      altura: 1.75,
       objetivo: "ganhar massa",
     };
 
@@ -39,6 +40,7 @@ describe("Função enviarInput (com Firebase mockado)", () => {
       tipoTreino: "",
       peso: -10,
       idade: 0,
+      altura: 1.75,
     };
 
     const result = await enviarInput(input);
@@ -53,6 +55,7 @@ describe("Função enviarInput (com Firebase mockado)", () => {
     const input: TrainingInput = {
       tipoTreino: "cardio",
       peso: 60,
+      altura: 1.70,
       idade: 22,
     };
 
@@ -68,6 +71,7 @@ describe("Função validarInput", () => {
     const input: TrainingInput = {
       tipoTreino: "musculação",
       peso: 70,
+      altura: 1.75,
       idade: 25,
       objetivo: "ganhar massa",
     };
@@ -79,6 +83,7 @@ describe("Função validarInput", () => {
     const input: TrainingInput = {
       tipoTreino: "cardio",
       peso: -5,
+      altura: 1.70,
       idade: 20,
     };
 
@@ -89,6 +94,7 @@ describe("Função validarInput", () => {
     const input: TrainingInput = {
       tipoTreino: "crossfit",
       peso: 70,
+      altura: 1.75,
       idade: 0,
     };
 
@@ -99,6 +105,18 @@ describe("Função validarInput", () => {
     const input: TrainingInput = {
       tipoTreino: "",
       peso: 70,
+      altura: 1.75,
+      idade: 25,
+    };
+
+    expect(validarInput(input)).toBe(false);
+  });
+
+  it("deve retornar false se altura for inválida", () => {
+    const input: TrainingInput = {
+      tipoTreino: "musculação",
+      peso: 70,
+      altura: 0,
       idade: 25,
     };
 
