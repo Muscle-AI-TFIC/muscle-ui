@@ -1,13 +1,22 @@
 // TrainingInputForm.tsx
 import React, { useState } from 'react';
+import { 
+  View, 
+  Text, 
+  TextInput, 
+  TouchableOpacity, 
+  StyleSheet, 
+  ScrollView,
+  Alert 
+} from 'react-native';
+import { Picker } from '@react-native-picker/picker';
 import { TrainingInput, enviarInput } from './trainingInput';
-import '@/styles/TrainingInputForm.css'; 
 
-const TrainingInputForm: React.FC = () => {
+export default function TrainingInputForm() {
   const [formData, setFormData] = useState<TrainingInput>({
     tipoTreino: '',
     peso: 0,
-    altura: 0, // Campo de altura adicionado
+    altura: 0,
     idade: 0,
     objetivo: ''
   });
@@ -15,138 +24,141 @@ const TrainingInputForm: React.FC = () => {
   const [mensagem, setMensagem] = useState<string>('');
   const [enviando, setEnviando] = useState<boolean>(false);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-
+  const handleInputChange = (name: string, value: string | number) => {
     setFormData(prev => ({
       ...prev,
-      [name]: name === 'peso' || name === 'idade' || name === 'altura' ? Number(value) : value
+      [name]: value
     }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
+    // Validação básica
+    if (!formData.tipoTreino || formData.peso <= 0 || formData.altura <= 0 || formData.idade <= 0) {
+      Alert.alert('Erro', 'Por favor, preencha todos os campos obrigatórios.');
+      return;
+    }
+
     setEnviando(true);
     setMensagem('');
 
     try {
       const resultado = await enviarInput(formData);
       setMensagem(resultado);
+      
+      Alert.alert('Sucesso', resultado);
 
       // Limpar formulário se sucesso
       if (resultado.includes('sucesso')) {
         setFormData({
           tipoTreino: '',
           peso: 0,
-          altura: 0, // Reset do campo altura
+          altura: 0,
           idade: 0,
           objetivo: ''
         });
       }
     } catch (error) {
-      setMensagem('Erro inesperado ao enviar dados.');
+      const mensagemErro = 'Erro inesperado ao enviar dados.';
+      setMensagem(mensagemErro);
+      Alert.alert('Erro', mensagemErro);
     } finally {
       setEnviando(false);
     }
   };
 
   return (
-    <div className="training-form-container">
-      <h2>Registro de Treino</h2>
+    <ScrollView style={styles.container}>
+      <View style={styles.formContainer}>
+        <Text style={styles.title}>Registro de Treino</Text>
 
-      <form onSubmit={handleSubmit} className="training-form">
-        <div className="form-group">
-          <label htmlFor="tipoTreino">Tipo de Treino *</label>
-          <select
-            id="tipoTreino"
-            name="tipoTreino"
-            value={formData.tipoTreino}
-            onChange={handleInputChange}
-            required
-          >
-            <option value="">Selecione o tipo de treino</option>
-            <option value="musculação">Musculação</option>
-            <option value="cardio">Cardio</option>
-            <option value="crossfit">Crossfit</option>
-            <option value="yoga">Yoga</option>
-            <option value="pilates">Pilates</option>
-            <option value="outro">Outro</option>
-          </select>
-        </div>
+        <View style={styles.formGroup}>
+          <Text style={styles.label}>Tipo de Treino *</Text>
+          <View style={styles.pickerContainer}>
+            <Picker
+              selectedValue={formData.tipoTreino}
+              onValueChange={(value) => handleInputChange('tipoTreino', value)}
+              style={styles.picker}
+            >
+              <Picker.Item label="Selecione o tipo de treino" value="" />
+              <Picker.Item label="Musculação" value="Musculação" />
+              <Picker.Item label="Cardio" value="Cardio" />
+              <Picker.Item label="Crossfit" value="Crossfit" />
+              <Picker.Item label="Yoga" value="Yoga" />
+              <Picker.Item label="Pilates" value="Pilates" />
+              <Picker.Item label="Outro" value="Outro" />
+            </Picker>
+          </View>
+        </View>
 
-        <div className="form-group">
-          <label htmlFor="peso">Peso (kg) *</label>
-          <input
-            type="number"
-            id="peso"
-            name="peso"
-            value={formData.peso || ''}
-            onChange={handleInputChange}
-            min="1"
-            step="0.1"
-            required
+        <View style={styles.formGroup}>
+          <Text style={styles.label}>Peso (kg) *</Text>
+          <TextInput
+            style={styles.input}
+            value={formData.peso > 0 ? formData.peso.toString() : ''}
+            onChangeText={(text) => handleInputChange('peso', parseFloat(text) || 0)}
+            keyboardType="numeric"
             placeholder="Ex: 75.5"
+            placeholderTextColor="#999"
           />
-        </div>
+        </View>
 
-        <div className="form-group">
-          <label htmlFor="altura">Altura (m) *</label>
-          <input
-            type="number"
-            id="altura"
-            name="altura"
-            value={formData.altura || ''}
-            onChange={handleInputChange}
-            min="0.1"
-            step="0.01"
-            required
+        <View style={styles.formGroup}>
+          <Text style={styles.label}>Altura (m) *</Text>
+          <TextInput
+            style={styles.input}
+            value={formData.altura > 0 ? formData.altura.toString() : ''}
+            onChangeText={(text) => handleInputChange('altura', parseFloat(text) || 0)}
+            keyboardType="numeric"
             placeholder="Ex: 1.75"
+            placeholderTextColor="#999"
           />
-        </div>
+        </View>
 
-        <div className="form-group">
-          <label htmlFor="idade">Idade *</label>
-          <input
-            type="number"
-            id="idade"
-            name="idade"
-            value={formData.idade || ''}
-            onChange={handleInputChange}
-            min="1"
-            max="120"
-            required
+        <View style={styles.formGroup}>
+          <Text style={styles.label}>Idade *</Text>
+          <TextInput
+            style={styles.input}
+            value={formData.idade > 0 ? formData.idade.toString() : ''}
+            onChangeText={(text) => handleInputChange('idade', parseInt(text) || 0)}
+            keyboardType="numeric"
             placeholder="Ex: 30"
+            placeholderTextColor="#999"
           />
-        </div>
+        </View>
 
-        <div className="form-group">
-          <label htmlFor="objetivo">Objetivo</label>
-          <textarea
-            id="objetivo"
-            name="objetivo"
+        <View style={styles.formGroup}>
+          <Text style={styles.label}>Objetivo</Text>
+          <TextInput
+            style={[styles.input, styles.textArea]}
             value={formData.objetivo}
-            onChange={handleInputChange}
-            rows={3}
+            onChangeText={(text) => handleInputChange('objetivo', text)}
+            multiline
+            numberOfLines={4}
             placeholder="Ex: Ganhar massa muscular, perder peso, melhorar condicionamento..."
+            placeholderTextColor="#999"
+            textAlignVertical="top"
           />
-        </div>
+        </View>
 
-        <button
-          type="submit"
+        <TouchableOpacity
+          style={[styles.submitButton, enviando && styles.disabledButton]}
+          onPress={handleSubmit}
           disabled={enviando}
-          className="submit-button"
         >
-          {enviando ? 'Enviando...' : 'Registrar Treino'}
-        </button>
-      </form>
+          <Text style={styles.submitButtonText}>
+            {enviando ? 'Enviando...' : 'Registrar Treino'}
+          </Text>
+        </TouchableOpacity>
 
-      {mensagem && (
-        <div className={`mensagem ${mensagem.includes('Erro') ? 'erro' : 'sucesso'}`}>
-          {mensagem}
-        </div>
-      )}
-    </div>
+        {mensagem ? (
+          <View style={[
+            styles.mensagem, 
+            mensagem.includes('Erro') ? styles.mensagemErro : styles.mensagemSucesso
+          ]}>
+            <Text style={styles.mensagemText}>{mensagem}</Text>
+          </View>
+        ) : null}
+      </View>
+    </ScrollView>
   );
-};
-
-export default TrainingInputForm;
+}
