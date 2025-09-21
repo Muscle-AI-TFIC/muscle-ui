@@ -9,7 +9,8 @@ import {
   ActivityIndicator,
   Keyboard,
   KeyboardAvoidingView,
-  Platform
+  Platform,
+  ScrollView
 } from "react-native";
 import { AuthError, UserCredential } from "firebase/auth";
 import { auth } from "@/services/firebase";

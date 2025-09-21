@@ -1,4 +1,6 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Dimensions } from "react-native";
+
+const { width: screenWidth } = Dimensions.get("window");
 
 export const styleHome = StyleSheet.create({
   mainContainer: {
@@ -72,4 +74,23 @@ export const styleHome = StyleSheet.create({
     color: '#666',
     textAlign: 'center',
   },
+  topBox:{
+    borderWidth: 4,
+    paddingTop: 50,
+    paddingBottom: 50,
+    borderRadius: 30,
+    width: screenWidth * 0.8,
+    backgroundColor: "hsla(252, 59%, 10%, 1.00)",
+    alignItems: 'center',
+    marginTop: 10,
+  },
+  text: {
+    color: "white",
+    fontFamily: "cursive",
+    fontSize: 20,
+  },
+  mainBox: {
+    margin: 'auto',
+    marginTop: 30,
+  }
 });
