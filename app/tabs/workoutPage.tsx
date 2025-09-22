@@ -8,7 +8,6 @@ export interface WorkoutData {
   focus: string;
 }
 
-// Função isolada para facilitar testes com Vitest
 export function generateWorkoutJson(data: WorkoutData): string {
   return JSON.stringify(data, null, 2);
 }
