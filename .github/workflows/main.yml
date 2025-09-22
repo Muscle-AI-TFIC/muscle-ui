@@ -2,8 +2,9 @@ name: Muscle-ai CI
 
 on:
   push:
-    - main
-    - dev-base
+    branches:
+      - main
+      - dev-base
 
 jobs:
   build_and_test:
