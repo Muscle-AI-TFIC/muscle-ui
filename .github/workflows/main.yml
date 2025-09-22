@@ -45,5 +45,8 @@ jobs:
         with:
           node-version: '20'
 
+      - name: Install vitest
+        run: npm install vitest
+
       - name: Run tests
         run: npm test
