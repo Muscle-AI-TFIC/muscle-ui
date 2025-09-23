@@ -59,4 +59,4 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y mailutils
 
       - name: Send notification
-        run: echo "Build complete" | mail -s "Build complete" ${{ env.EMAIL }}
+        run: echo "Build complete" | mail -s "Build complete" ${{ vars.EMAIL }}
