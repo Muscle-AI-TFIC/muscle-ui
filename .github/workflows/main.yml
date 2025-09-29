@@ -40,8 +40,8 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-      - name: Install vitest
-        run: npm install vitest
+      - name: Install vitest + coverage
+        run: npm install vitest c8 --save-dev
       - name: Run tests with coverage
         run: npm test -- --coverage
       - name: Upload coverage report
@@ -52,7 +52,6 @@ jobs:
 
   notification:
     runs-on: ubuntu-latest
-    needs: tests
     environment: ci
     steps:
       - uses: actions/checkout@v4
