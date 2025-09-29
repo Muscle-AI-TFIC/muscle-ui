@@ -20,6 +20,7 @@
     "@react-navigation/elements": "^2.3.8",
     "@react-navigation/native": "^7.1.6",
     "@tailwindcss/vite": "^4.1.12",
+    "coverage": "^0.4.1",
     "eslint-config-expo": "~10.0.0",
     "expo": "^54.0.4",
     "expo-blur": "~15.0.7",
