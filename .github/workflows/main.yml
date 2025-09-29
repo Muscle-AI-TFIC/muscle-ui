@@ -54,10 +54,18 @@ jobs:
   notification:
     runs-on: ubuntu-latest
     needs: tests
-    environment: env
     steps:
-      - name: Install mailutils
-        run: sudo apt-get update && sudo apt-get install -y mailutils
-
-      - name: Send notification
-        run: echo "Build complete" | mail -s "Build complete" "${{ vars.EMAIL }}"
+      - name: Send notification via curl SMTP
+        run: |
+          curl --url "smtps://smtp.gmail.com:465" \
+               --ssl-reqd \
+               --mail-from "$EMAIL_USER" \
+               --mail-rcpt "$EMAIL_DEST" \
+               --user "$EMAIL_USER:$EMAIL_PASS" \
+               -T <(echo -e "From: $EMAIL_USER\nTo: $EMAIL_DEST\nSubject: $EMAIL_SUBJECT\n\n$EMAIL_CONTENT")
+        env:
+          EMAIL_USER: ${{ secrets.EMAIL_USER }}
+          EMAIL_PASS: ${{ secrets.EMAIL_PASS }}
+          EMAIL_DEST: ${{ secrets.EMAIL_DEST }}
+          EMAIL_SUBJECT: "Build Complete"
+          EMAIL_CONTENT: "Seu job terminou com sucesso."
