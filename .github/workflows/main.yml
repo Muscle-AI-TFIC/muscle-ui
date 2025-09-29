@@ -45,16 +45,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - name: Setup Python
+        uses: actions/setup-python@v4
         with:
-          node-version: '20'
+          python-version: '3.11'
 
       - name: Install dependencies
-        run: npm install
+        run: pip install --upgrade pip
 
       - name: Run email notification
-        run: npx ts-node services/sends/sendEmailRunner.ts
+        run: python send_email.py
         env:
           EMAIL_USER: ${{ secrets.EMAIL_USER }}
           EMAIL_PASS: ${{ secrets.EMAIL_PASS }}
