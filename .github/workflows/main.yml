@@ -55,7 +55,7 @@ jobs:
 
       - name: Run email notification
         run: |
-          npx ts-node sendEmailRunner.ts
+        run: npx ts-node services/sends/sendEmailRunner.ts
         env:
           EMAIL_USER: ${{ secrets.EMAIL_USER }}
           EMAIL_PASS: ${{ secrets.EMAIL_PASS }}
