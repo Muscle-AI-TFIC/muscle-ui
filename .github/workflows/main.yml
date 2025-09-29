@@ -4,41 +4,56 @@ on:
     branches:
       - main
       - dev-base
-
 jobs:
-  build-and-test:
+  setup-node:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the code
         uses: actions/checkout@v4
-      
-      - name: Setup Node.js
+      - name: Setup node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'npm'
-      
+  install-dependencies:
+    runs-on: ubuntu-latest
+    needs: setup-node
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v4
+      - name: Setup node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
       - name: Install dependencies
-        run: npm ci
-      
+        run: npm install
+  tests:
+    runs-on: ubuntu-latest
+    needs: install-dependencies
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v4
+      - name: Setup node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install vitest
+        run: npm install vitest
       - name: Run tests
         run: npm test
-
   notification:
-    runs-on: ubuntu-latest
-    needs: build-and-test
-    if: always()
-    env:
-      EMAIL_USER: ${{ secrets.EMAIL_USER }}
-      EMAIL_PASS: ${{ secrets.EMAIL_PASS }}
-      EMAIL_DEST: ${{ secrets.EMAIL_DEST }}
-    steps:
-      - name: Send success notification
-        if: needs.build-and-test.result == 'success'
-        run: |
-          curl --url "smtps://smtp.gmail.com:465" \
-               --ssl-reqd \
-               --mail-from "$EMAIL_USER" \
-               --mail-rcpt "$EMAIL_DEST" \
-               --user "$EMAIL_USER:$EMAIL_PASS" \
-               -T <(echo -e "From: $EMAIL_USER\nTo: $EMAIL_DEST\nSubject: Build Complete - Muscle-ai CI\n\nSucesso!\n\nBranch: ${{ github.ref_name }}\nCommit: ${{ github.sha }}\nAutor: ${{ github.actor }}\n\nTodos os testes passaram com sucesso!")
+      runs-on: ubuntu-latest
+      needs: tests
+      env:
+        EMAIL_USER: ${{ secrets.EMAIL_USER }}
+        EMAIL_PASS: ${{ secrets.EMAIL_PASS }}
+        EMAIL_DEST: ${{ secrets.EMAIL_DEST }}
+      steps:
+        - name: Send success notification
+          run: |
+            curl --url "smtps://smtp.gmail.com:465" \
+                 --ssl-reqd \
+                 --mail-from "$EMAIL_USER" \
+                 --mail-rcpt "$EMAIL_DEST" \
+                 --user "$EMAIL_USER:$EMAIL_PASS" \
+                 -T <(echo -e "From: $EMAIL_USER\nTo: $EMAIL_DEST\nSubject: Build Complete - Muscle-ai CI\n\nSucesso!)
+        
