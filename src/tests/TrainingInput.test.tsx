@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import {enviarInput, TrainingInput, validarInput} from "../../app/tabs/trainingInput";
+import {enviarInput, TrainingInput, validarInput} from "../services/trainingInput";
 
 // Mock do Firebase
 vi.mock("firebase/firestore", () => {
