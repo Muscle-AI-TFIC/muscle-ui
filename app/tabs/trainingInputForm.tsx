@@ -106,7 +106,7 @@ export default function TrainingInputForm() {
           <View style={trainingFormStyles.formGroup}>
             <Text style={trainingFormStyles.label}>Altura (m) *</Text>
             <TextInput
-              style={[trainingFormStyles.input, trainingFormStyles.focusedInput]}
+              style={trainingFormStyles.input}
               value={formData.altura > 0 ? formData.altura.toString() : ''}
               onChangeText={(text) => handleInputChange('altura', parseFloat(text) || 0)}
               keyboardType="numeric"
@@ -119,7 +119,7 @@ export default function TrainingInputForm() {
           <View style={trainingFormStyles.formGroup}>
             <Text style={trainingFormStyles.label}>Idade *</Text>
             <TextInput
-              style={[trainingFormStyles.input, trainingFormStyles.focusedInput]}
+              style={trainingFormStyles.input}
               value={formData.idade > 0 ? formData.idade.toString() : ''}
               onChangeText={(text) => handleInputChange('idade', parseInt(text) || 0)}
               keyboardType="numeric"

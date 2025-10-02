@@ -61,9 +61,6 @@ export const trainingFormStyles = StyleSheet.create({
     textAlignVertical: 'top', // Para multiline alinhar no topo
   },
 
-  focusedInput: {
-    borderColor: '#007bff',
-  },
 
   submitButton: {
     padding: 15,

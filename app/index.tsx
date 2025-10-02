@@ -4,6 +4,6 @@ import TrainingInputForm from "./tabs/trainingInputForm";
 
 export default function Index() {
   return (
-    <LoginScreen/> // Choose the page you want to see
+    <TrainingInputForm />
   );
 }
