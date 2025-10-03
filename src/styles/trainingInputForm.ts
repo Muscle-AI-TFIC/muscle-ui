@@ -19,7 +19,7 @@ export const trainingFormStyles = StyleSheet.create({
 
   form: {
     // No RN, flexDirection: 'column' é o padrão
-    gap: 20, // gap não é suportado no RN, usaremos marginBottom nos filhos
+    marginBottom: 20
   },
 
   formGroup: {
