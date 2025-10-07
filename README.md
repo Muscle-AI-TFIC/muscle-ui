@@ -1,3 +1,5 @@
+[![Muscle-ai CI](https://github.com/Muscle-AI-TFIC/muscle-ui/actions/workflows/main.yml/badge.svg)](https://github.com/Muscle-AI-TFIC/muscle-ui/actions/workflows/main.yml)
+
 # Welcome to your Expo app 👋
 
 This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
