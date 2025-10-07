@@ -41,6 +41,15 @@ export async function enviarInput(input: TrainingInput): Promise<string> {
     //Calculando IMC
     const imc = calcularIMC(input.peso, input.altura);
 
+    console.log('Tentando enviar dados para Firebase:', {
+      tipoTreino: input.tipoTreino,
+      peso: input.peso,
+      altura: input.altura,
+      idade: input.idade,
+      objetivo: input.objetivo,
+      imc: imc
+    });
+
     // "trainings" será o nome da coleção no Firestore
     await addDoc(collection(db, "trainings"), {
       tipoTreino: input.tipoTreino,
@@ -49,12 +58,13 @@ export async function enviarInput(input: TrainingInput): Promise<string> {
       altura: input.altura,
       objetivo: input.objetivo || null,
       imc: imc,
-      criadoEm: new Date(), // marca o horário do envio
+      criadoEm: new Date(),
     });
 
+    console.log('Dados enviados com sucesso!');
     return "Dados enviados para o Firebase com sucesso.";
   } catch (error) {
-    console.error("Erro ao enviar dados para o Firebase:", error);
+    console.error("Erro detalhado ao enviar dados para o Firebase:", error);
     return "Erro: não foi possível enviar os dados.";
   }
 }
