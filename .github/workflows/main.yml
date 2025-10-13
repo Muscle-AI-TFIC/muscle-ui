@@ -58,7 +58,7 @@ jobs:
       with:
         node-version: '20'
     - run: npm install
-    - run: npm audit
+    - run: npm audit --audit-level=high
 
   notification:
     runs-on: ubuntu-latest
