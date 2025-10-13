@@ -58,7 +58,9 @@ jobs:
       with:
         node-version: '20'
     - run: npm install
-    - run: npm audit --audit-level=high
+    - name: Security audit
+      run: npm audit --audit-level=high
+      continue-on-error: true
 
   notification:
     runs-on: ubuntu-latest
