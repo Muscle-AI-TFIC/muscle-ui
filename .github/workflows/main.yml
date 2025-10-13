@@ -63,6 +63,11 @@ jobs:
           npm audit --audit-level=high --json > audit.json
           cat audit.json
       continue-on-error: true
+    - name: Upload audit report
+      uses: actions/upload-artifact@v4
+      with:
+        name: npm-audit-report
+        path: audit.json
 
   notification:
     runs-on: ubuntu-latest
