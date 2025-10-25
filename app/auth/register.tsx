@@ -1,126 +1,87 @@
-import { View, Text, Image, TextInput, TouchableOpacity, ScrollView, Alert, ActivityIndicator, KeyboardAvoidingView, Platform} from "react-native";
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import { getFirebaseErrorMessage } from "@/services/firebase";
+import { View, Text, Image, TextInput, TouchableOpacity, ScrollView, Alert, ActivityIndicator, KeyboardAvoidingView, Platform } from "react-native";
+import { supabase } from "@/services/supabase";
 import { registerprops } from "@/styles/Register";
-import { db, auth } from "@/services/firebase";
-import { doc, setDoc } from "firebase/firestore";
 import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
 import { router } from "expo-router";
 import { z } from "zod";
 
-const registerSchema = z
-  .object({
-    name: z.string().min(2, "Nome deve ter pelo menos 2 caracteres"),
-    email: z.email("Email inválido"),
-    password: z.string().min(6, "Senha deve ter pelo menos 6 caracteres"),
-    confirmPassword: z.string(),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: "Senhas não conferem",
-    path: ["confirmPassword"],
-  });
+const parseNumber = (v: any) => {
+  if (!v) return 0;
+  const num = Number(String(v).replace(',', '.'));
+  return isNaN(num) ? 0 : num;
+};
 
-type RegisterFormData = z.infer<typeof registerSchema>;
+const registerSchema = z.object({
+  name: z.string().min(2, "Nome deve ter pelo menos 2 caracteres"),
+  email: z.email("Email inválido"),
+  password: z.string().min(6, "Senha deve ter pelo menos 6 caracteres"),
+  confirmPassword: z.string().min(1, "Confirme sua senha"),
+  altura: z.preprocess(parseNumber, z.number().positive("Altura deve ser positiva")),
+  peso: z.preprocess(parseNumber, z.number().positive("Peso deve ser positivo")),
+  idade: z.preprocess(parseNumber, z.number().int("Idade deve ser inteira").positive("Idade deve ser positiva")),
+  goal: z.string().min(1, "Objetivo é obrigatório").max(100, "Objetivo muito longo"),
+}).refine((data) => data.password === data.confirmPassword, {
+  message: "Senhas não conferem",
+  path: ["confirmPassword"],
+});
+
+const FIELDS = [
+  { key: "name", placeholder: "Nome completo", autoCapitalize: "words" as const },
+  { key: "email", placeholder: "Email", keyboardType: "email-address" as const },
+  { key: "password", placeholder: "Senha (mínimo 6 caracteres)", secureTextEntry: true },
+  { key: "confirmPassword", placeholder: "Confirmar senha", secureTextEntry: true },
+  { key: "altura", placeholder: "Altura em metros (Ex: 1.75)", keyboardType: "decimal-pad" as const },
+  { key: "peso", placeholder: "Peso em kg (Ex: 70.5)", keyboardType: "decimal-pad" as const },
+  { key: "idade", placeholder: "Idade em anos", keyboardType: "numeric" as const },
+  { key: "goal", placeholder: "Objetivo (Ex: Ganhar massa muscular)" },
+];
 
 export default function RegisterScreen() {
-  const [formData, setFormData] = useState<RegisterFormData>({
-    name: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-  });
-
+  const [formData, setFormData] = useState<Record<string, string>>(
+    Object.fromEntries(FIELDS.map(f => [f.key, ""]))
+  );
   const [loading, setLoading] = useState(false);
-  const [errors, setErrors] = useState<Partial<Record<keyof RegisterFormData, string>>>({});
 
-  const handleInputChange = (field: keyof RegisterFormData, value: string) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
-    if (errors[field]) {
-      setErrors((prev) => ({ ...prev, [field]: undefined }));
-    }
-  };
+  const updateField = (key: string, value: string) => 
+    setFormData(prev => ({ ...prev, [key]: value }));
 
   const submitRegistration = async () => {
     try {
-      registerSchema.parse(formData);
-      setErrors({});
-    } catch (err: any) {
-      if (err.errors) {
-        const fieldErrors: Partial<RegisterFormData> = {};
-        err.errors.forEach((e: any) => {
-          const path = e.path[0] as keyof RegisterFormData;
-          fieldErrors[path] = e.message;
-        });
-        setErrors(fieldErrors);
-        Alert.alert("Erro", "Por favor, corrija os erros no formulário");
-      }
-      return;
-    }
+      const validated = registerSchema.parse(formData);
+      setLoading(true);
 
-    setLoading(true);
-
-    try {
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        formData.email.trim(),
-        formData.password
-      );
-      const user = userCredential.user;
-
-      await updateProfile(user, {
-        displayName: formData.name.trim(),
+      const { data, error } = await supabase.auth.signUp({
+        email: formData.email.trim().toLowerCase(),
+        password: formData.password,
       });
 
-      const userData = {
-        uid: user.uid,
-        name: formData.name.trim(),
-        email: formData.email.trim().toLowerCase(),
-        displayName: formData.name.trim(),
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-        isActive: true,
-        profileComplete: true,
-      };
+      if (error) throw error;
 
-      await setDoc(doc(db, "usuarios", user.uid), userData, { merge: false });
+      if (data.user) {
+        const { error: insertError } = await supabase.from('person_info').insert({
+          user_id: data.user.id,
+          name: formData.name.trim(),
+          height: validated.altura,
+          weight: validated.peso,
+          age: validated.idade,
+          goal: formData.goal.trim(),
+        });
 
-      Alert.alert("Sucesso!", "Registro realizado com sucesso!", [
-        { text: "OK", onPress: () => router.replace("/auth/login") },
+        if (insertError) throw insertError;
+      }
+
+      Alert.alert("Sucesso!", "Registro realizado! Verifique seu email.", [
+        { text: "OK", onPress: () => router.replace("/auth/login") }
       ]);
-    } catch (error: any) {
-      const message = error?.code ? getFirebaseErrorMessage(error.code) : error?.message || "Erro inesperado";
+    } catch (err: any) {
+      const message = err.errors 
+        ? "Por favor, corrija os erros no formulário" 
+        : err.message || "Ocorreu um erro durante o registro.";
       Alert.alert("Erro", message);
     } finally {
       setLoading(false);
     }
-  };
-
-  const renderInputField = (field: keyof RegisterFormData) => {
-    const placeholders: Record<keyof RegisterFormData, string> = {
-      name: "Nome completo",
-      email: "Email",
-      password: "Senha (mínimo 6 caracteres)",
-      confirmPassword: "Confirmar senha",
-    };
-
-    return (
-      <View key={field} style={registerprops.inputContainer}>
-        <TextInput
-          style={[registerprops.input, errors[field] ? registerprops.inputError : null]}
-          placeholder={placeholders[field]}
-          value={formData[field]}
-          onChangeText={(value) => handleInputChange(field, value)}
-          secureTextEntry={field === "password" || field === "confirmPassword"}
-          autoCapitalize={field === "name" ? "words" : "none"}
-          keyboardType={field === "email" ? "email-address" : "default"}
-          returnKeyType={field === "confirmPassword" ? "done" : "next"}
-          autoComplete={field.includes("password") ? "new-password" : undefined}
-          editable={!loading}
-        />
-        {errors[field] && <Text style={registerprops.errorText}>{errors[field]}</Text>}
-      </View>
-    );
   };
 
   return (
@@ -141,11 +102,24 @@ export default function RegisterScreen() {
         </View>
 
         <View style={registerprops.form}>
-          {(["name", "email", "password", "confirmPassword"] as const).map(renderInputField)}
+          {FIELDS.map(({ key, placeholder, ...props }) => (
+            <View key={key} style={registerprops.inputContainer}>
+              <TextInput
+                style={registerprops.input}
+                placeholder={placeholder}
+                value={formData[key]}
+                onChangeText={(v) => updateField(key, v)}
+                autoCapitalize="none"
+                autoCorrect={false}
+                editable={!loading}
+                {...props}
+              />
+            </View>
+          ))}
         </View>
 
         <TouchableOpacity
-          style={[registerprops.registerButton, loading ? registerprops.registerButtonDisabled : null]}
+          style={[registerprops.registerButton, loading && registerprops.registerButtonDisabled]}
           onPress={submitRegistration}
           disabled={loading}
           activeOpacity={0.8}

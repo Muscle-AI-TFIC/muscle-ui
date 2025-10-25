@@ -2,29 +2,21 @@ import React, { useState } from 'react';
 import {
   View,
   Text,
-  TouchableOpacity,
-  StyleSheet,
-  Dimensions,
+  TouchableOpacity
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { styleHome } from '@/styles/Home';
-import { router } from 'expo-router';
-import * as Router from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 interface NavBarProps {
   onTabChange: (tab: string) => void;
 }
 
-const { width } = Dimensions.get('window');
-
 export function CustomNavigationBar({ onTabChange }: NavBarProps) {
   const [activeTab, setActiveTab] = useState('home');
 
   const tabs = [
     { id: 'home', title: 'Início', icon: 'home' },
-    { id: 'search', title: 'Buscar', icon: 'search' },
-    { id: 'notifications', title: 'Notificações', icon: 'notifications', badge: 3 },
     { id: 'profile', title: 'Perfil', icon: 'person' },
   ];
 
@@ -52,11 +44,7 @@ export function CustomNavigationBar({ onTabChange }: NavBarProps) {
                 size={22}
                 color={activeTab === tab.id ? '#007AFF' : '#8E8E93'}
               />
-              {tab.badge && (
-                <View style={styleHome.badge}>
-                  <Text style={styleHome.badgeText}>{tab.badge}</Text>
-                </View>
-              )}
+              
             </View>
             <Text
               style={[
