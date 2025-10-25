@@ -1,7 +1,5 @@
 import { vi, describe, it, expect, beforeEach } from "vitest";
-import { Alert } from "react-native";
 import { supabase } from "@/services/supabase";
-import { router } from "expo-router";
 
 vi.mock("@/services/supabase", () => ({
   supabase: {
