@@ -7,15 +7,11 @@ import {
   Alert,
   TouchableOpacity,
   ActivityIndicator,
-  Keyboard,
   KeyboardAvoidingView,
   Platform
 } from "react-native";
-import { AuthError, UserCredential } from "firebase/auth";
-import { auth } from "@/services/firebase";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { supabase } from "@/services/supabase";
 import { loginProps } from "@/styles/Login";
-import { test } from "vitest";
 import { router } from "expo-router";
 
 export default function LoginScreen() {
@@ -31,18 +27,18 @@ export default function LoginScreen() {
 
     setLoading(true);
     try {
-      const userCredential: UserCredential = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      const user = userCredential.user;
-      Alert.alert("Sucesso", `Bem-vindo, ${user.email}`,[
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: email,
+        password: password,
+      });
+
+      if (error) throw error;
+
+      Alert.alert("Sucesso", `Bem-vindo, ${data.user?.email}`,[
         { text: "OK", onPress: () => router.push("/tabs/home")}
       ]);
-    } catch (error) {
-      const err = error as AuthError;
-      Alert.alert("Erro", err.code || "Falha no login");
+    } catch (error: any) {
+      Alert.alert("Erro", error.message || "Falha no login");
     } finally {
       setLoading(false);
     }
@@ -90,7 +86,9 @@ export default function LoginScreen() {
 
       <View style={loginProps.footer}>
         <Text style={loginProps.footerText}>Esqueceu a senha?</Text>
-        <Text style={loginProps.footerText}>Criar conta</Text>
+        <TouchableOpacity onPress={() => router.push("/auth/register")}>
+          <Text style={loginProps.footerText}>Criar conta</Text>
+        </TouchableOpacity>
       </View>
     </View>
   </KeyboardAvoidingView>
