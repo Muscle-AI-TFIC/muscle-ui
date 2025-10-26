@@ -81,4 +81,17 @@ export const welcomeStyles = StyleSheet.create({
     height: 12,
     borderRadius: 6,
   },
+  progressBarContainer: {
+    height: 8,
+    width: "80%",
+    backgroundColor: "#ddd",
+    borderRadius: 4,
+    marginVertical: 20,
+    alignSelf: "center",
+  },
+  progressBarFill: {
+    height: "100%",
+    backgroundColor: "#0070f3",
+    borderRadius: 4,
+  }
 });
