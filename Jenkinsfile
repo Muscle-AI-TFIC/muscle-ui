@@ -1,18 +1,17 @@
 pipeline {
-    agent {
-        node { 
-            label 'node'
-        }
-    }
+    agent any
+
     stages {
-        stage('Install Dependencies') {
+        stage('Build Docker Image') {
             steps {
-                sh 'npm install'
+                echo 'Building the Docker image...'
+                sh 'docker build -t muscle-ui-app .'
             }
         }
-        stage('Test') {
+        stage('List Docker Images') {
             steps {
-                sh 'npm test'
+                echo 'Listing Docker images...'
+                sh 'docker images'
             }
         }
     }
