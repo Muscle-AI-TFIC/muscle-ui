@@ -21,7 +21,7 @@
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "assets/images/favicon-32x32.png"
+      "favicon": "./assets/images/favicon-32x32.png"
     },
     "plugins": [
       "expo-router",
@@ -37,6 +37,10 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "SUPABASE_URL": "https://dabczdtbzddoihrjuzut.supabase.co",
+      "SUPABASE_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRhYmN6ZHRiemRkb2locmp1enV0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE0MTgxNjQsImV4cCI6MjA3Njk5NDE2NH0.h3lJvTdSi3CqhVZlf28dLM4WftOf1rxOAz97czHHicY"
     }
   }
 }
