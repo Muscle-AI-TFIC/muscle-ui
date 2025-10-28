@@ -1,13 +1,8 @@
-FROM jenkins/jenkins:lts
+FROM jenkins/inbound-agent:latest
 
 USER root
-
 RUN apt-get update && apt-get install -y \
-    git \
-    curl \
-    unzip \ 
+    docker.io \
     && rm -rf /var/lib/apt/lists/*
 
 USER jenkins
-
-EXPOSE 8080 50000
