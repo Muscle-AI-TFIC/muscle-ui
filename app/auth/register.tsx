@@ -1,10 +1,10 @@
 import { View, Text, Image, TextInput, TouchableOpacity, ScrollView, Alert, ActivityIndicator, KeyboardAvoidingView, Platform } from "react-native";
+import { supabase } from "@/services/supabase";
 import { registerprops } from "@/styles/Register";
 import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
 import { router } from "expo-router";
 import { z } from "zod";
-import { signUp } from "@/services/signUp";
 
 const parseNumber = (v: any) => {
   if (!v) return 0;
@@ -19,9 +19,7 @@ const registerSchema = z.object({
   confirmPassword: z.string().min(1, "Confirme sua senha"),
   altura: z.preprocess(parseNumber, z.number().positive("Altura deve ser positiva")),
   peso: z.preprocess(parseNumber, z.number().positive("Peso deve ser positivo")),
-  birth_date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Data de nascimento inválida (YYYY-MM-DD)"), // New field
-  gender: z.string().min(1, "Gênero é obrigatório"), // New field
-  fitness_level: z.string().min(1, "Nível de condicionamento é obrigatório"), // New field
+  idade: z.preprocess(parseNumber, z.number().int("Idade deve ser inteira").positive("Idade deve ser positiva")),
   goal: z.string().min(1, "Objetivo é obrigatório").max(100, "Objetivo muito longo"),
 }).refine((data) => data.password === data.confirmPassword, {
   message: "Senhas não conferem",
@@ -35,9 +33,7 @@ const FIELDS = [
   { key: "confirmPassword", placeholder: "Confirmar senha", secureTextEntry: true },
   { key: "altura", placeholder: "Altura em metros (Ex: 1.75)", keyboardType: "decimal-pad" as const },
   { key: "peso", placeholder: "Peso em kg (Ex: 70.5)", keyboardType: "decimal-pad" as const },
-  { key: "birth_date", placeholder: "Data de Nascimento (YYYY-MM-DD)", keyboardType: "numbers-and-punctuation" as const }, // New field
-  { key: "gender", placeholder: "Gênero (Ex: Masculino, Feminino, Outro)" }, // New field
-  { key: "fitness_level", placeholder: "Nível de Condicionamento (Ex: Iniciante, Intermediário, Avançado)" }, // New field
+  { key: "idade", placeholder: "Idade em anos", keyboardType: "numeric" as const },
   { key: "goal", placeholder: "Objetivo (Ex: Ganhar massa muscular)" },
 ];
 
@@ -55,12 +51,28 @@ export default function RegisterScreen() {
       const validated = registerSchema.parse(formData);
       setLoading(true);
 
-      const { data, error } = await signUp(validated);
+      const { data, error } = await supabase.auth.signUp({
+        email: formData.email.trim().toLowerCase(),
+        password: formData.password,
+      });
 
       if (error) throw error;
 
+      if (data.user) {
+        const { error: insertError } = await supabase.from('person_info').insert({
+          user_id: data.user.id,
+          name: formData.name.trim(),
+          height: validated.altura,
+          weight: validated.peso,
+          age: validated.idade,
+          goal: formData.goal.trim(),
+        });
+
+        if (insertError) throw insertError;
+      }
+
       Alert.alert("Sucesso!", "Registro realizado! Verifique seu email.", [
-        { text: "OK", onPress: () => router.replace("/tabs/welcome") }
+        { text: "OK", onPress: () => router.replace("/auth/login") }
       ]);
     } catch (err: any) {
       const message = err.errors 

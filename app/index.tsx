@@ -1,4 +1,4 @@
-import LoginScreen from "./auth/singIn";
+import LoginScreen from "./auth/login";
 
 export default function Index() {
   return (

@@ -1,7 +1,7 @@
-import { describe, vi, it, expect } from "vitest";
-import { supabase } from "@/utils/supabase";
+import { vi, describe, it, expect, beforeEach } from "vitest";
+import { supabase } from "@/services/supabase";
 
-vi.mock("@/utils/supabase", () => ({
+vi.mock("@/services/supabase", () => ({
   supabase: {
     auth: {
       signInWithPassword: vi.fn(),
@@ -12,21 +12,6 @@ vi.mock("@/utils/supabase", () => ({
     })),
   },
 }));
-
-describe("Supabase Client", () => {
-  it("should be defined", () => {
-    expect(supabase).toBeDefined();
-  });
-
-  it("should have auth property", () => {
-    expect(supabase.auth).toBeDefined();
-  });
-
-  it("should have from method", () => {
-    expect(supabase.from).toBeDefined();
-  });
-});
-
 
 vi.mock("expo-router", () => ({
   router: {

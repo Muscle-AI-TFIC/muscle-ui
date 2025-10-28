@@ -10,9 +10,9 @@ import {
   KeyboardAvoidingView,
   Platform
 } from "react-native";
+import { supabase } from "@/services/supabase";
 import { loginProps } from "@/styles/Login";
 import { router } from "expo-router";
-import { signIn } from "@/services/signIn";
 
 export default function LoginScreen() {
   const [email, setEmail] = useState<string>("");
@@ -27,7 +27,10 @@ export default function LoginScreen() {
 
     setLoading(true);
     try {
-      const { data, error } = await signIn(email, password);
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: email,
+        password: password,
+      });
 
       if (error) throw error;
 
@@ -83,7 +86,7 @@ export default function LoginScreen() {
 
       <View style={loginProps.footer}>
         <Text style={loginProps.footerText}>Esqueceu a senha?</Text>
-        <TouchableOpacity onPress={() => router.push("/auth/singUp")}>
+        <TouchableOpacity onPress={() => router.push("/auth/register")}>
           <Text style={loginProps.footerText}>Criar conta</Text>
         </TouchableOpacity>
       </View>
