@@ -1,94 +1,96 @@
 import React, { useState } from 'react';
-import {
-  View,
-  Text,
-  TouchableOpacity
-} from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { styleHome } from '@/styles/Home';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import Profile from './profile';
 
-interface NavBarProps {
-  onTabChange: (tab: string) => void;
+interface Exercise {
+  id: string;
+  name: string;
+  completed: boolean;
 }
 
-export function CustomNavigationBar({ onTabChange }: NavBarProps) {
-  const [activeTab, setActiveTab] = useState('home');
+const mockExercises: Exercise[] = [
+  { id: '1', name: 'Flexões', completed: false },
+  { id: '2', name: 'Agachamentos', completed: true },
+  { id: '3', name: 'Prancha (30s)', completed: false },
+  { id: '4', name: 'Polichinelos', completed: false },
+];
 
-  const tabs = [
-    { id: 'home', title: 'Início', icon: 'home' },
-    { id: 'profile', title: 'Perfil', icon: 'person' },
-  ];
+export default function Home() {
+  const [exercises, setExercises] = useState<Exercise[]>(mockExercises);
 
-  const handleTabPress = (tabId: string) => {
-    setActiveTab(tabId);
-    onTabChange(tabId);
+  const toggleComplete = (id: string) => {
+    setExercises((prevExercises) =>
+      prevExercises.map((exercise) =>
+        exercise.id === id ? { ...exercise, completed: !exercise.completed } : exercise
+      )
+    );
   };
 
-  return (
-    <SafeAreaView  edges={['bottom']} style={styleHome.container}>
-      <View style={styleHome.navbar}>
-        {tabs.map((tab) => (
-          <TouchableOpacity
-            key={tab.id}
-            style={[
-              styleHome.tab,
-              activeTab === tab.id && styleHome.activeTab,
-            ]}
-            onPress={() => handleTabPress(tab.id)}
-            activeOpacity={0.7}
-          >
-            <View style={styleHome.iconContainer}>
-              <Ionicons
-                name={activeTab === tab.id ? tab.icon as any : `${tab.icon}-outline` as any}
-                size={22}
-                color={activeTab === tab.id ? '#007AFF' : '#8E8E93'}
-              />
-              
-            </View>
-            <Text
-              style={[
-                styleHome.tabTitle,
-                activeTab === tab.id && styleHome.activeTabTitle,
-              ]}
-            >
-              {tab.title}
-            </Text>
-          </TouchableOpacity>
-        ))}
-      </View>
-    </SafeAreaView>
+  const renderItem = ({ item }: { item: Exercise }) => (
+    <View style={styles.exerciseItem}>
+      <TouchableOpacity onPress={() => toggleComplete(item.id)} style={styles.checkbox}>
+        <Ionicons
+          name={item.completed ? 'checkbox-outline' : 'square-outline'}
+          size={24}
+          color={item.completed ? 'green' : 'gray'}
+        />
+      </TouchableOpacity>
+      <Text style={[styles.exerciseName, item.completed && styles.completedExerciseName]}>
+        {item.name}
+      </Text>
+    </View>
   );
-}
-
-export default function HomeWithCustomNavBar() {
-  const [currentTab, setCurrentTab] = useState('home');
-
-  const renderContent = () => {
-    switch (currentTab) {
-      case 'home':
-        return (
-          <View style={styleHome.content}>
-            <Text style={styleHome.contentTitle}>Início</Text>
-            <Text style={styleHome.contentText}>Conteúdo da tela </Text>
-          </View>
-        );
-      case 'profile':
-        return (
-          <View style={styleHome.content}>
-            <Profile />
-          </View>
-        );
-      default:
-        return null;
-    }
-  };
 
   return (
-    <View style={styleHome.mainContainer}>
-      {renderContent()}
-      <CustomNavigationBar onTabChange={setCurrentTab} />
+    <View style={styles.container}>
+      <Text style={styles.title}>Exercícios do Dia</Text>
+      <FlatList
+        data={exercises}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.id}
+        style={styles.list}
+      />
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 20,
+    backgroundColor: '#f0f0f0',
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 20,
+    textAlign: 'center',
+  },
+  list: {
+    flexGrow: 1,
+  },
+  exerciseItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    padding: 15,
+    borderRadius: 10,
+    marginBottom: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.2,
+    shadowRadius: 1.41,
+    elevation: 2,
+  },
+  checkbox: {
+    marginRight: 15,
+  },
+  exerciseName: {
+    fontSize: 18,
+    flex: 1,
+  },
+  completedExerciseName: {
+    textDecorationLine: 'line-through',
+    color: 'gray',
+  },
+});
