@@ -1,5 +1,5 @@
 pipeline {
-    agent any
+    agent { label 'Muscle-Agent' }
 
     stages {
         stage('Build Docker Image') {
@@ -10,7 +10,7 @@ pipeline {
         }
         stage('List Docker Images') {
             steps {
-                echo 'Listing Docker images...'
+                echo 'Listing Docker images'
                 sh 'docker images'
             }
         }
