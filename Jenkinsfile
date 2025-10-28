@@ -8,10 +8,11 @@ pipeline {
                 sh 'docker build -t muscle-ui-app .'
             }
         }
-        stage('List Docker Images') {
+        stage('Run Tests') {
             steps {
-                echo 'Listing Docker images'
-                sh 'docker images'
+                echo 'Running tests...'
+                sh 'npm install'
+                sh 'npm test'
             }
         }
     }
