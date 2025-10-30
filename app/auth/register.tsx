@@ -17,9 +17,11 @@ const registerSchema = z.object({
   email: z.email("Email inválido"),
   password: z.string().min(6, "Senha deve ter pelo menos 6 caracteres"),
   confirmPassword: z.string().min(1, "Confirme sua senha"),
+  dataNascimento: z.string().min(10, "Data de nascimento inválida"),
   altura: z.preprocess(parseNumber, z.number().positive("Altura deve ser positiva")),
   peso: z.preprocess(parseNumber, z.number().positive("Peso deve ser positivo")),
-  idade: z.preprocess(parseNumber, z.number().int("Idade deve ser inteira").positive("Idade deve ser positiva")),
+  gender: z.string().min(1, "Gênero é obrigatório"),
+  fitness_level: z.string().min(1, "Nível de fitness é obrigatório"),
   goal: z.string().min(1, "Objetivo é obrigatório").max(100, "Objetivo muito longo"),
 }).refine((data) => data.password === data.confirmPassword, {
   message: "Senhas não conferem",
@@ -31,9 +33,11 @@ const FIELDS = [
   { key: "email", placeholder: "Email", keyboardType: "email-address" as const },
   { key: "password", placeholder: "Senha (mínimo 6 caracteres)", secureTextEntry: true },
   { key: "confirmPassword", placeholder: "Confirmar senha", secureTextEntry: true },
+  { key: "dataNascimento", placeholder: "YYYY-MM-DD" },
   { key: "altura", placeholder: "Altura em metros (Ex: 1.75)", keyboardType: "decimal-pad" as const },
   { key: "peso", placeholder: "Peso em kg (Ex: 70.5)", keyboardType: "decimal-pad" as const },
-  { key: "idade", placeholder: "Idade em anos", keyboardType: "numeric" as const },
+  { key: "gender", placeholder: "Gênero" },
+  { key: "fitness_level", placeholder: "Nível de fitness (Ex: Iniciante)" },
   { key: "goal", placeholder: "Objetivo (Ex: Ganhar massa muscular)" },
 ];
 
@@ -59,16 +63,24 @@ export default function RegisterScreen() {
       if (error) throw error;
 
       if (data.user) {
-        const { error: insertError } = await supabase.from('person_info').insert({
-          user_id: data.user.id,
+        const profileData = {
+          id: data.user.id,
           name: formData.name.trim(),
-          height: validated.altura,
-          weight: validated.peso,
-          age: validated.idade,
+          birth_date: validated.dataNascimento,
+          height_cm: validated.altura,
+          weight_kg: validated.peso,
+          gender: validated.gender,
+          fitness_level: validated.fitness_level,
           goal: formData.goal.trim(),
-        });
+        };
+        console.log("Inserting profile data:", profileData);
 
-        if (insertError) throw insertError;
+        const { error: insertError } = await supabase.from('user_profiles').insert(profileData);
+
+        if (insertError) {
+          console.error("Error inserting profile:", insertError);
+          throw insertError;
+        }
       }
 
       Alert.alert("Sucesso!", "Registro realizado! Verifique seu email.", [
