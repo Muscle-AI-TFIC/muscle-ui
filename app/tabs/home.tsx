@@ -8,6 +8,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { styleHome } from '@/styles/Home';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Profile from './profile';
+import ToDoList from './toDoList';
 
 interface NavBarProps {
   onTabChange: (tab: string) => void;
@@ -70,8 +71,7 @@ export default function HomeWithCustomNavBar() {
       case 'home':
         return (
           <View style={styleHome.content}>
-            <Text style={styleHome.contentTitle}>Início</Text>
-            <Text style={styleHome.contentText}>Conteúdo da tela </Text>
+            <ToDoList />
           </View>
         );
       case 'profile':
