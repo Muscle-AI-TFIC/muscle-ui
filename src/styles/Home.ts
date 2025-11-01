@@ -3,18 +3,18 @@ import { StyleSheet } from "react-native";
 export const styleHome = StyleSheet.create({
   mainContainer: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#121212',
   },
   container: {
-    backgroundColor: '#fff',
+    backgroundColor: '#1E1E1E',
     borderTopWidth: 1,
-    borderTopColor: '#E1E1E1',
+    borderTopColor: '#333',
   },
   navbar: {
     flexDirection: 'row',
     paddingHorizontal: 8,
     paddingVertical: 8,
-    backgroundColor: '#fff',
+    backgroundColor: '#1E1E1E',
   },
   tab: {
     flex: 1,
@@ -24,7 +24,7 @@ export const styleHome = StyleSheet.create({
     borderRadius: 8,
   },
   activeTab: {
-    backgroundColor: 'rgba(0, 122, 255, 0.1)',
+    backgroundColor: 'rgba(255, 165, 0, 0.15)',
   },
   iconContainer: {
     position: 'relative',
@@ -48,11 +48,11 @@ export const styleHome = StyleSheet.create({
   },
   tabTitle: {
     fontSize: 12,
-    color: '#8E8E93',
+    color: '#AAA',
     textAlign: 'center',
   },
   activeTabTitle: {
-    color: '#007AFF',
+    color: '#FFA500',
     fontWeight: '600',
   },
   content: {
@@ -63,11 +63,11 @@ export const styleHome = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 16,
-    color: '#333',
+    color: '#FFA500',
   },
   contentText: {
     fontSize: 16,
-    color: '#666',
+    color: '#DDD',
     textAlign: 'center',
   },
 });

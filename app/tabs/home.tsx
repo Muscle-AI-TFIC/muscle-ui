@@ -44,7 +44,7 @@ export function CustomNavigationBar({ onTabChange }: NavBarProps) {
               <Ionicons
                 name={activeTab === tab.id ? tab.icon as any : `${tab.icon}-outline` as any}
                 size={22}
-                color={activeTab === tab.id ? '#007AFF' : '#8E8E93'}
+                color={activeTab === tab.id ? '#FFA500' : '#8E8E93'}
               />
               
             </View>

@@ -88,7 +88,7 @@ const ExerciseDetails: React.FC<ExerciseDetailsProps> = ({ exercise, visible, on
         <View style={styles.modalHeader}>
           <Text style={styles.modalTitle}>Detalhes do Exercício</Text>
           <TouchableOpacity onPress={onClose} style={styles.closeButton}>
-            <Ionicons name="close" size={24} color="#333" />
+            <Ionicons name="close" size={24} color="#FFA500" />
           </TouchableOpacity>
         </View>
 
@@ -107,25 +107,25 @@ const ExerciseDetails: React.FC<ExerciseDetailsProps> = ({ exercise, visible, on
 
           <View style={styles.detailsGrid}>
             <View style={styles.detailItem}>
-              <Ionicons name="list" size={20} color="#007AFF" />
+              <Ionicons name="list" size={20} color="#FFA500" />
               <Text style={styles.detailLabel}>Séries</Text>
               <Text style={styles.detailValue}>{exercise.sets}</Text>
             </View>
 
             <View style={styles.detailItem}>
-              <Ionicons name="repeat" size={20} color="#007AFF" />
+              <Ionicons name="repeat" size={20} color="#FFA500" />
               <Text style={styles.detailLabel}>Repetições</Text>
               <Text style={styles.detailValue}>{exercise.reps}</Text>
             </View>
 
             <View style={styles.detailItem}>
-              <Ionicons name="time" size={20} color="#007AFF" />
+              <Ionicons name="time" size={20} color="#FFA500" />
               <Text style={styles.detailLabel}>Duração</Text>
               <Text style={styles.detailValue}>{exercise.duration_minutes} min</Text>
             </View>
 
             <View style={styles.detailItem}>
-              <Ionicons name="play" size={20} color="#007AFF" />
+              <Ionicons name="play" size={20} color="#FFA500" />
               <Text style={styles.detailLabel}>Posição</Text>
               <Text style={styles.detailValue}>{exercise.position}°</Text>
             </View>
@@ -219,7 +219,7 @@ export default function Home() {
         onPress={() => showExerciseDetails(item)}
         style={styles.detailsButton}
       >
-        <Ionicons name="information-circle-outline" size={24} color="#007AFF" />
+        <Ionicons name="information-circle-outline" size={24} color="#FFA500" />
       </TouchableOpacity>
     </View>
   );
@@ -264,13 +264,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: '#f0f0f0',
+    backgroundColor: '#121212',
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 20,
     textAlign: 'center',
+    color: '#FFA500',
   },
   list: {
     flexGrow: 1,
@@ -278,13 +279,13 @@ const styles = StyleSheet.create({
   exerciseItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: '#1E1E1E',
     padding: 15,
     borderRadius: 10,
     marginBottom: 10,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
+    shadowOpacity: 0.4,
     shadowRadius: 3,
     elevation: 2,
   },
@@ -298,26 +299,25 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '600',
     marginBottom: 4,
-    color: '#333',
+    color: '#FFF',
   },
   completedExerciseName: {
     textDecorationLine: 'line-through',
-    color: 'gray',
+    color: '#888',
   },
   exerciseDetails: {
     fontSize: 14,
-    color: '#666',
+    color: '#BBB',
     marginBottom: 2,
   },
 
-
-   progressContainer: {
-    backgroundColor: '#fff',
+  progressContainer: {
+    backgroundColor: '#1E1E1E',
     padding: 15,
     borderRadius: 12,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
+    shadowOpacity: 0.3,
     shadowRadius: 3,
     elevation: 3,
   },
@@ -330,41 +330,41 @@ const styles = StyleSheet.create({
   progressText: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#333',
+    color: '#FFF',
   },
   percentageText: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#007AFF',
+    color: '#FFA500',
   },
   progressBar: {
     height: 8,
-    backgroundColor: '#E0E0E0',
+    backgroundColor: '#333',
     borderRadius: 4,
     overflow: 'hidden',
   },
   progressFill: {
     height: '100%',
-    backgroundColor: '#007AFF',
+    backgroundColor: '#FFA500',
     borderRadius: 4,
   },
   bottomContainer: {
     padding: 20,
-    backgroundColor: '#f8f9fa',
+    backgroundColor: '#181818',
     borderTopWidth: 1,
-    borderTopColor: '#E5E5EA',
+    borderTopColor: '#333',
   },
   detailsButton: {
     padding: 8,
   },
   exerciseDifficulty: {
     fontSize: 12,
-    color: '#888',
+    color: '#AAA',
     marginTop: 2,
   },
   modalContainer: {
     flex: 1,
-    backgroundColor: '#f8f9fa',
+    backgroundColor: '#121212',
   },
   modalHeader: {
     flexDirection: 'row',
@@ -372,13 +372,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 20,
     borderBottomWidth: 1,
-    borderBottomColor: '#E5E5EA',
-    backgroundColor: '#fff',
+    borderBottomColor: '#333',
+    backgroundColor: '#1E1E1E',
   },
   modalTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#333',
+    color: '#FFA500',
   },
   closeButton: {
     padding: 4,
@@ -396,16 +396,17 @@ const styles = StyleSheet.create({
   exerciseNameLarge: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#333',
+    color: '#FFF',
     flex: 1,
   },
   difficultyBadge: {
     paddingHorizontal: 12,
     paddingVertical: 6,
     borderRadius: 20,
+    backgroundColor: '#FFA500',
   },
   difficultyText: {
-    color: '#fff',
+    color: '#000',
     fontWeight: '600',
     fontSize: 12,
   },
@@ -413,12 +414,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginBottom: 25,
-    backgroundColor: '#fff',
+    backgroundColor: '#1E1E1E',
     padding: 15,
     borderRadius: 12,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
+    shadowOpacity: 0.3,
     shadowRadius: 2,
     elevation: 2,
   },
@@ -428,60 +429,59 @@ const styles = StyleSheet.create({
   },
   detailLabel: {
     fontSize: 12,
-    color: '#666',
+    color: '#AAA',
     marginTop: 4,
     marginBottom: 2,
   },
   detailValue: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#333',
+    color: '#FFF',
   },
   descriptionSection: {
-    backgroundColor: '#fff',
+    backgroundColor: '#1E1E1E',
     padding: 15,
     borderRadius: 12,
     marginBottom: 15,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
+    shadowOpacity: 0.3,
     shadowRadius: 2,
     elevation: 2,
   },
   sectionTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#333',
+    color: '#FFA500',
     marginBottom: 10,
   },
   descriptionText: {
     fontSize: 14,
     lineHeight: 20,
-    color: '#666',
+    color: '#CCC',
   },
   instructionsSection: {
-    backgroundColor: '#fff',
+    backgroundColor: '#1E1E1E',
     padding: 15,
     borderRadius: 12,
     marginBottom: 20,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
+    shadowOpacity: 0.3,
     shadowRadius: 2,
     elevation: 2,
   },
   instructionItem: {
-    flexDirection:
-
-  'row',
+    flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 8,
   },
   instructionText: {
     fontSize: 14,
-    color: '#666',
+    color: '#CCC',
     marginLeft: 8,
     flex: 1,
   },
 });
+
 
