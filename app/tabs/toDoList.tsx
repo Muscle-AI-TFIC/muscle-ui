@@ -9,8 +9,10 @@ interface Exercise {
   sets: number;
   reps: number;
   position: number;
+  description?: string;
+  difficulty?: string;
+  duration_minutes?: number;
 }
-
 const mockExercises: Exercise[] = [
   {
     id: '1',
@@ -18,7 +20,10 @@ const mockExercises: Exercise[] = [
     completed: false,
     sets: 3,
     reps: 15,
-    position: 1
+    position: 1,
+    description: 'Exercício para fortalecer peitoral, tríceps e ombros. Mantenha o corpo alinhado durante todo o movimento.',
+    difficulty: 'Intermediário',
+    duration_minutes: 10
   },
   {
     id: '2',
@@ -26,7 +31,10 @@ const mockExercises: Exercise[] = [
     completed: true,
     sets: 4,
     reps: 12,
-    position: 2
+    position: 2,
+    description: 'Exercício fundamental para membros inferiores. Foque em manter as costas retas e descer até formar 90 graus com os joelhos.',
+    difficulty: 'Iniciante',
+    duration_minutes: 15
   },
   {
     id: '3',
@@ -34,7 +42,10 @@ const mockExercises: Exercise[] = [
     completed: false,
     sets: 3,
     reps: 1,
-    position: 4
+    position: 4,
+    description: 'Exercício isométrico para core e abdômen. Mantenha a posição por 30-60 segundos por série.',
+    difficulty: 'Iniciante',
+    duration_minutes: 5
   },
   {
     id: '4',
@@ -42,7 +53,10 @@ const mockExercises: Exercise[] = [
     completed: false,
     sets: 4,
     reps: 10,
-    position: 3
+    position: 3,
+    description: 'Exercício completo que combina agachamento, flexão e salto. Excelente para condicionamento cardiovascular.',
+    difficulty: 'Avançado',
+    duration_minutes: 12
   },
 ];
 
