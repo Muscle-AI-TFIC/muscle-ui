@@ -275,7 +275,7 @@ export default function Home() {
               autoPlay
               loop={false}
               style={{ width: 250, height: 250 }}
-              onAnimationFinish={() => setShowCongrats(false)} // fecha ao terminar
+              onAnimationFinish={() => setShowCongrats(false)}
             />
             <Text style={styles.congratsText}>Parabéns! 🎉</Text>
             <Text style={styles.subText}>Você concluiu todos os exercícios!</Text>
@@ -517,7 +517,7 @@ const styles = StyleSheet.create({
   },
   modalContentAnimation: {
     alignItems: 'center',
-  
+    backgroundColor: '#1E1E1E',
     padding: 20,
     borderRadius: 20,
     shadowColor: '#000',
