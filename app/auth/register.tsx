@@ -101,9 +101,9 @@ export default function RegisterScreen() {
           <Text style={registerprops.subtitle}>Preencha os dados abaixo para criar sua conta</Text>
         </View>
 
-        <View style={registerprops.form}>
+        <View style={registerprops.form }>
           {FIELDS.map(({ key, placeholder, ...props }) => (
-            <View key={key} style={registerprops.inputContainer}>
+            <View key={key} style={{ width: "100%", alignItems: "center" }}>
               <TextInput
                 style={registerprops.input}
                 placeholder={placeholder}
@@ -113,6 +113,7 @@ export default function RegisterScreen() {
                 autoCorrect={false}
                 editable={!loading}
                 {...props}
+
               />
             </View>
           ))}

@@ -116,7 +116,7 @@ export default function WelcomePage() {
             key={i}
             style={[
               welcomeStyles.dot,
-              { backgroundColor: currentStep === i + 1 ? "#0070f3" : "#ccc" },
+              { backgroundColor: currentStep === i + 1 ? "#FFA500" : "#ccc" },
             ]}
           />
         ))}
