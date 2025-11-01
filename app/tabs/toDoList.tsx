@@ -1,6 +1,7 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect } from 'react';
 import { View, Text, FlatList, Modal, TouchableOpacity, ScrollView, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import LottieView from 'lottie-react-native';
 
 interface Exercise {
   id: string;
@@ -170,6 +171,14 @@ export default function Home() {
   const totalExercises = exercises.length;
   const progressPercentage = totalExercises > 0 ? (completedExercises / totalExercises) * 100 : 0;
 
+  const [showCongrats, setShowCongrats] = useState(false);
+
+  useEffect(() => {
+    if (completedExercises === totalExercises && totalExercises > 0) {
+      setShowCongrats(true);
+    }
+  }, [completedExercises, totalExercises]);
+
   const showExerciseDetails = (exercise: Exercise) => {
     setSelectedExercise(exercise);
     setDetailsVisible(true);
@@ -257,6 +266,23 @@ export default function Home() {
           visible={detailsVisible}
           onClose={closeExerciseDetails}
       />
+
+      <Modal visible={showCongrats} transparent animationType="fade">
+        <View style={styles.overlay}>
+          <View style={styles.modalContentAnimation}>
+            <LottieView
+              source={{ uri: 'https://lottie.host/d7475065-8824-4b37-a57a-cd59c3d645cf/ZUrcBTai6f.lottie' }}
+              autoPlay
+              loop={false}
+              style={{ width: 250, height: 250 }}
+              onAnimationFinish={() => setShowCongrats(false)} // fecha ao terminar
+            />
+            <Text style={styles.congratsText}>Parabéns! 🎉</Text>
+            <Text style={styles.subText}>Você concluiu todos os exercícios!</Text>
+          </View>
+        </View>
+      </Modal>
+
     </View>
   );
 }
@@ -482,6 +508,36 @@ const styles = StyleSheet.create({
     marginLeft: 8,
     flex: 1,
   },
+
+  overlay: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+  },
+  modalContentAnimation: {
+    alignItems: 'center',
+  
+    padding: 20,
+    borderRadius: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.4,
+    shadowRadius: 5,
+    elevation: 4,
+  },
+  congratsText: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#FFA500',
+    marginTop: 10,
+  },
+  subText: {
+    fontSize: 16,
+    color: '#FFF',
+    marginTop: 4,
+  },
+
 });
 
 
