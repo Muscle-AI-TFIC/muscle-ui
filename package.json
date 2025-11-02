@@ -24,7 +24,7 @@
     "@tailwindcss/vite": "^4.1.12",
     "coverage": "^0.4.1",
     "eslint-config-expo": "~10.0.0",
-    "expo": "^54.0.21",
+    "expo": "^54.0.20",
     "expo-blur": "~15.0.7",
     "expo-constants": "~18.0.10",
     "expo-file-system": "~19.0.17",
