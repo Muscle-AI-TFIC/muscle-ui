@@ -8,17 +8,17 @@ import {
 } from "react-native";
 import { welcomeStyles } from "@/styles/Welcome";
 import { router } from 'expo-router';
+import {nextStepLogic, prevStepLogic, progressLogic} from "@/services/welcomeLogic";
 
 export default function WelcomePage() {
   const [currentStep, setCurrentStep] = useState(1);
+  const totalSteps = 4;
+  const progress = progressLogic(currentStep, totalSteps);
 
-  const nextStep = () => {
-    if (currentStep < 4) setCurrentStep(currentStep + 1);
-  };
+  // agora apenas delega para as funções puras
+  const nextStep = () => setCurrentStep((prev) => nextStepLogic(prev));
+  const prevStep = () => setCurrentStep((prev) => prevStepLogic(prev));
 
-  const prevStep = () => {
-    if (currentStep > 1) setCurrentStep(currentStep - 1);
-  };
 
   const renderStep = () => {
     switch (currentStep) {
@@ -77,6 +77,13 @@ export default function WelcomePage() {
     <ScrollView contentContainerStyle={welcomeStyles.container}>
       <View style={welcomeStyles.card}>{renderStep()}</View>
 
+        {/* Barra de progresso dinâmica */}
+      <View style={welcomeStyles.progressBarContainer}>
+        <View
+          style={[welcomeStyles.progressBarFill, { width: `${progress}%` }]}
+        />
+      </View>
+
       <View style={welcomeStyles.buttons}>
         <TouchableOpacity
           style={[welcomeStyles.button, currentStep === 1 && welcomeStyles.disabledButton]}
@@ -109,7 +116,7 @@ export default function WelcomePage() {
             key={i}
             style={[
               welcomeStyles.dot,
-              { backgroundColor: currentStep === i + 1 ? "#0070f3" : "#ccc" },
+              { backgroundColor: currentStep === i + 1 ? "#FFA500" : "#ccc" },
             ]}
           />
         ))}

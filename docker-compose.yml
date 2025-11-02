@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  jenkins:
+    image: jenkins/jenkins:lts
+    container_name: jenkins-master
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    volumes:
+      - jenkins_home:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart: unless-stopped
+
+  agent:
+    build: 
+      context: .
+    container_name: jenkins-agent
+    depends_on:
+      - jenkins
+    environment:
+      - JENKINS_URL=http://jenkins:8080/
+      - JENKINS_AGENT_NAME=Muscle-Agent
+      - JENKINS_SECRET=ef89d95e61958be132e1aab84ef0b638fb2c6890102a341738f1bd2224cc8d62
+      - JENKINS_AGENT_WORKDIR=/home/jenkins/agent
+      - JENKINS_WEB_SOCKET=true
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart: unless-stopped
+
+volumes:
+  jenkins_home:

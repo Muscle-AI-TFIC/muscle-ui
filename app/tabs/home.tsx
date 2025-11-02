@@ -7,6 +7,8 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import { styleHome } from '@/styles/Home';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import Profile from './profile';
+import ToDoList from './toDoList';
 
 interface NavBarProps {
   onTabChange: (tab: string) => void;
@@ -42,7 +44,7 @@ export function CustomNavigationBar({ onTabChange }: NavBarProps) {
               <Ionicons
                 name={activeTab === tab.id ? tab.icon as any : `${tab.icon}-outline` as any}
                 size={22}
-                color={activeTab === tab.id ? '#007AFF' : '#8E8E93'}
+                color={activeTab === tab.id ? '#FFA500' : '#8E8E93'}
               />
               
             </View>
@@ -69,29 +71,13 @@ export default function HomeWithCustomNavBar() {
       case 'home':
         return (
           <View style={styleHome.content}>
-            <Text style={styleHome.contentTitle}>Início</Text>
-            <Text style={styleHome.contentText}>Conteúdo da tela </Text>
-          </View>
-        );
-      case 'search':
-        return (
-          <View style={styleHome.content}>
-            <Text style={styleHome.contentTitle}>Treinos</Text>
-            <Text style={styleHome.contentText}>Treinos</Text>
-          </View>
-        );
-      case 'notifications':
-        return (
-          <View style={styleHome.content}>
-            <Text style={styleHome.contentTitle}>Notificações</Text>
-            <Text style={styleHome.contentText}>Suas notificações</Text>
+            <ToDoList />
           </View>
         );
       case 'profile':
         return (
           <View style={styleHome.content}>
-            <Text style={styleHome.contentTitle}>Perfil</Text>
-            <Text style={styleHome.contentText}>Seu perfil</Text>
+            <Profile />
           </View>
         );
       default:
