@@ -20,7 +20,6 @@ export const loginProps = StyleSheet.create({
   containerBottom: {},
 
   screen: {
-    flex: 1,
     backgroundColor: "#121212",
     justifyContent: "center",
     alignItems: "center",

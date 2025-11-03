@@ -8,7 +8,8 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   KeyboardAvoidingView,
-  Platform
+  Platform,
+  ScrollView
 } from "react-native";
 import { supabase } from "@/services/supabase";
 import { loginProps } from "@/styles/Login";
@@ -46,9 +47,11 @@ export default function LoginScreen() {
 
   return (
     <KeyboardAvoidingView
-    style={{ flex: 1 }}
+    style={{ flex: 1, backgroundColor: '#121212' }}
     behavior={Platform.OS === "android" ? "padding" : "height"}
+    keyboardVerticalOffset={0}
     >
+    <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}>
     <View style={loginProps.screen}>
       <Text style={loginProps.containerTop}>Login</Text>
       <Image style={loginProps.logo} source={require("assets/images/logo-final.png")} />
@@ -91,6 +94,7 @@ export default function LoginScreen() {
         </TouchableOpacity>
       </View>
     </View>
+    </ScrollView>
   </KeyboardAvoidingView>
   );
 }
