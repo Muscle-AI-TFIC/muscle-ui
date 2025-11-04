@@ -1,26 +1,164 @@
 import { StyleSheet } from "react-native";
 
-export const styleProfile = StyleSheet.create({
-  content: {
+export const styles = StyleSheet.create({
+  container: {
     flex: 1,
     backgroundColor: '#121212',
   },
-  text: {
-    fontSize: 16,
-    color: '#EEE',
+  header: {
+    paddingTop: 60,
+    paddingBottom: 20,
+    paddingHorizontal: 20,
   },
-  title: {
+  headerTitle: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    color: '#fff',
+  },
+  profileSection: {
+    alignItems: 'center',
+    paddingVertical: 30,
+    backgroundColor: '#1E1E1E',
+    marginHorizontal: 20,
+    borderRadius: 20,
+    marginBottom: 30,
+  },
+  avatarContainer: {
+    position: 'relative',
+    marginBottom: 15,
+  },
+  avatar: {
+    width: 120,
+    height: 120,
+    borderRadius: 60,
+    borderWidth: 4,
+    borderColor: '#FFA500',
+  },
+  avatarPlaceholder: {
+    width: 120,
+    height: 120,
+    borderRadius: 60,
+    backgroundColor: '#FFA500',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 4,
+    borderColor: '#FF8C00',
+  },
+  avatarPlaceholderText: {
+    fontSize: 48,
+    fontWeight: 'bold',
+    color: '#fff',
+  },
+  editBadge: {
+    position: 'absolute',
+    bottom: 0,
+    right: 0,
+    backgroundColor: '#FFA500',
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 3,
+    borderColor: '#1E1E1E',
+  },
+  editBadgeText: {
+    fontSize: 16,
+    color: '#fff',
+  },
+  userName: {
     fontSize: 24,
     fontWeight: 'bold',
-    margin: 20,
-    color: '#FFA500',
+    color: '#fff',
+    marginBottom: 5,
   },
-  image: {
-    width: 100,
-    height: 100,
-    borderRadius: 100,
-    alignSelf: 'center',
-    borderWidth: 2,
-    borderColor: '#FFA500',
+  userEmail: {
+    fontSize: 14,
+    color: '#B0B0B0',
+    marginBottom: 8,
+  },
+  hintText: {
+    fontSize: 12,
+    color: '#666',
+    fontStyle: 'italic',
+    marginTop: 5,
+  },
+  menuSection: {
+    backgroundColor: '#1E1E1E',
+    marginHorizontal: 20,
+    borderRadius: 20,
+    overflow: 'hidden',
+    marginBottom: 20,
+  },
+  menuItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: '#2A2A2A',
+  },
+  menuIconContainer: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: '#2A2A2A',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 15,
+  },
+  menuIcon: {
+    fontSize: 20,
+  },
+  menuTextContainer: {
+    flex: 1,
+  },
+  menuTitle: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#fff',
+    marginBottom: 3,
+  },
+  menuSubtitle: {
+    fontSize: 13,
+    color: '#B0B0B0',
+  },
+  menuArrow: {
+    fontSize: 28,
+    color: '#B0B0B0',
+    fontWeight: '300',
+  },
+  logoutSection: {
+    paddingHorizontal: 20,
+    marginBottom: 30,
+  },
+  logoutButton: {
+    backgroundColor: '#FF3B30',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 18,
+    borderRadius: 15,
+    shadowColor: '#FF3B30',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 5,
+  },
+  logoutIcon: {
+    fontSize: 20,
+    marginRight: 10,
+  },
+  logoutText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  footer: {
+    alignItems: 'center',
+    paddingVertical: 20,
+  },
+  footerText: {
+    fontSize: 12,
+    color: '#666',
   },
 });
