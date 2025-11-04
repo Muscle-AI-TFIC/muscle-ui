@@ -1,27 +1,13 @@
-import { useState, useEffect } from 'react';
-import {
-  Text,
-  Image,
-  View,
-  StyleSheet,
-  TouchableOpacity,
-  ScrollView,
-  Alert,
-  ActivityIndicator,
-  TextInput,
-  Modal
-} from 'react-native';
+import { Text, Image, View, TouchableOpacity, ScrollView, Alert, ActivityIndicator, TextInput, Modal } from 'react-native';
+import { getData, loadProfileImage, saveProfileImage, removeProfileImage } from "@/services/user_profile";
 import * as ImagePicker from 'expo-image-picker';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { supabase } from "@/services/supabase";
-import { getData } from "@/services/user_profile";
+import { useState, useEffect } from 'react';
+import { UserInfo } from '@/types/UserInfo';
 import { styles } from '@/styles/Profile';
 import { router } from 'expo-router';
-import { UserInfo } from '@/types/UserInfo';
-
-const STORAGE_KEYS = {
-  PROFILE_IMAGE: '@profile_image',
-};
+import { calculateIMC } from '@/utils/calcImc';
+import { calculateAge } from '@/utils/calcAge';
 
 export default function ProfileScreen() {
   const [image, setImage] = useState<string | null>(null);
@@ -33,7 +19,7 @@ export default function ProfileScreen() {
 
   useEffect(() => {
     loadUserData();
-    loadProfileImage();
+    loadImage();
   }, []);
 
   const loadUserData = async () => {
@@ -55,25 +41,10 @@ export default function ProfileScreen() {
     }
   };
 
-  const loadProfileImage = async () => {
-    try {
-      const savedImage = await AsyncStorage.getItem(STORAGE_KEYS.PROFILE_IMAGE);
-
-      if (savedImage) {
-        setImage(savedImage);
-      }
-    } catch (error) {
-      console.error('Erro ao carregar imagem:', error);
-    }
-  };
-
-  const saveProfileImage = async (imageUri: string) => {
-    try {
-      await AsyncStorage.setItem(STORAGE_KEYS.PROFILE_IMAGE, imageUri);
-      console.log('Imagem salva com sucesso!');
-    } catch (error) {
-      console.error('Erro ao salvar imagem:', error);
-      Alert.alert('Erro', 'Não foi possível salvar a imagem');
+  const loadImage = async () => {
+    const savedImage = await loadProfileImage();
+    if (savedImage) {
+      setImage(savedImage);
     }
   };
 
@@ -103,7 +74,7 @@ export default function ProfileScreen() {
     }
   };
 
-  const removeProfileImage = async () => {
+  const handleRemoveProfileImage = async () => {
     Alert.alert(
       'Remover Foto',
       'Deseja remover sua foto de perfil?',
@@ -114,7 +85,7 @@ export default function ProfileScreen() {
           style: 'destructive',
           onPress: async () => {
             try {
-              await AsyncStorage.removeItem(STORAGE_KEYS.PROFILE_IMAGE);
+              await removeProfileImage();
               setImage(null);
               Alert.alert('Sucesso', 'Foto removida com sucesso!');
             } catch (error) {
@@ -124,29 +95,6 @@ export default function ProfileScreen() {
         }
       ]
     );
-  };
-
-  const calculateIMC = () => {
-    if (userInfo?.weight_kg && userInfo?.height_cm) {
-      const pesoNum = userInfo.weight_kg;
-      const alturaNum = userInfo.height_cm / 100;
-      return (pesoNum / (alturaNum * alturaNum)).toFixed(1);
-    }
-    return '--';
-  };
-
-  const calculateAge = () => {
-    if (userInfo?.birth_date) {
-      const birthDate = new Date(userInfo.birth_date);
-      const today = new Date();
-      let age = today.getFullYear() - birthDate.getFullYear();
-      const monthDiff = today.getMonth() - birthDate.getMonth();
-      if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
-        age--;
-      }
-      return age.toString();
-    }
-    return '--';
   };
 
   const handleLogout = async () => {
@@ -162,7 +110,7 @@ export default function ProfileScreen() {
             setLoading(true);
             try {
               await supabase.auth.signOut();
-              await AsyncStorage.removeItem(STORAGE_KEYS.PROFILE_IMAGE);
+              await removeProfileImage();
               router.push('/auth/login');
             } catch (error) {
               Alert.alert('Erro', 'Falha ao sair');
@@ -184,13 +132,14 @@ export default function ProfileScreen() {
     );
   }
 
+
   return (
     <ScrollView style={styles.container}>
       {/* Foto de Perfil */}
       <View style={styles.profileSection}>
         <TouchableOpacity
           onPress={pickImage}
-          onLongPress={image ? removeProfileImage : undefined}
+          onLongPress={image ? handleRemoveProfileImage : undefined}
           style={styles.avatarContainer}
         >
           {image ? (
@@ -227,11 +176,11 @@ export default function ProfileScreen() {
           <Text style={styles.statLabel}>Altura (cm)</Text>
         </View>
         <View style={styles.statCard}>
-          <Text style={styles.statValue}>{calculateIMC()}</Text>
+          <Text style={styles.statValue}>{calculateIMC(userInfo)}</Text>
           <Text style={styles.statLabel}>IMC</Text>
         </View>
         <View style={styles.statCard}>
-          <Text style={styles.statValue}>{calculateAge()}</Text>
+          <Text style={styles.statValue}>{calculateAge(userInfo)}</Text>
           <Text style={styles.statLabel}>Idade</Text>
         </View>
       </View>
