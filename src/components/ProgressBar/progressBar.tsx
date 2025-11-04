@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text } from 'react-native';
-import { styles } from '@/styles/exerciseStyles/progressBarStyles';
+import { styles } from '@/components/ProgressBar/progressBarStyles';
 
 interface ProgressBarProps {
   completed: number;

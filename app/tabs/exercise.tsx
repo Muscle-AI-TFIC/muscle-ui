@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList } from 'react-native';
-import { Exercise } from '@/types/exercise';
+import { Exercise } from '@/types/Exercise';
 import { mockExercises, calculateProgress } from '@/services/exerciseLogic';
-import ExerciseDetails from './exerciseDetails';
-import ExerciseItem from './exerciseItem';
-import ProgressBar from './progressBar';
-import CongratulationsModal from './congratulationsModal';
-import { styles } from '@/styles/exerciseStyles/homeStyles';
+import ExerciseDetails from '@/components/exerciseDetails/exerciseDetails';
+import ExerciseItem from '@/components/ExerciseItem/exerciseItem';
+import ProgressBar from '@/components/ProgressBar/progressBar';
+import CongratulationsModal from '@/components/CongratulationsModal/congratulationsModal';
+import { styles } from '@/styles/Exercise';
 
 export default function Home() {
   const [exercises, setExercises] = useState<Exercise[]>(mockExercises);

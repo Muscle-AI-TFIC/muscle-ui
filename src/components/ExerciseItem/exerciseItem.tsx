@@ -1,8 +1,8 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { Exercise } from '../../../src/types/exercise';
-import { styles } from '@/styles/exerciseStyles/exerciseItemStyles';
+import { Exercise } from '../../types/Exercise';
+import { styles } from '@/components/ExerciseItem/exerciseItemStyles';
 
 interface ExerciseItemProps {
   item: Exercise;

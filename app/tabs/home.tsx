@@ -8,7 +8,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { styleHome } from '@/styles/Home';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Profile from './profile';
-import ToDoList from './exercise/exercise';
+import ToDoList from './exercise';
 
 interface NavBarProps {
   onTabChange: (tab: string) => void;

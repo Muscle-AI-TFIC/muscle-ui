@@ -1,9 +1,9 @@
 import React from 'react';
 import { View, Text, Modal, TouchableOpacity, ScrollView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { ExerciseDetailsProps } from '@/types/exercise';
+import { ExerciseDetailsProps } from '@/types/Exercise';
 import { getDifficultyColor } from '@/services/exerciseLogic';
-import { styles } from '@/styles/exerciseStyles/exerciseDetailsStyles';
+import { styles } from '@/components/exerciseDetails/exerciseDetailsStyles';
 
 const ExerciseDetails: React.FC<ExerciseDetailsProps> = ({ exercise, visible, onClose }) => {
   if (!exercise) return null;

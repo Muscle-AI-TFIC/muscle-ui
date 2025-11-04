@@ -1,4 +1,4 @@
-import { Exercise } from '../types/exercise';
+import { Exercise } from '../types/Exercise';
 
 export const mockExercises: Exercise[] = [
   {
