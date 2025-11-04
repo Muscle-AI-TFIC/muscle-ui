@@ -22,30 +22,10 @@ This is an [Expo](https://expo.dev) project created with [`create-expo-app`](htt
 
 To set up and run the Jenkins master and agent using Docker Compose, and ensure the agent has proper Docker permissions, follow these steps:
 
-1.  **Start Jenkins Master and Agent (Initial Setup):**
+**Start Jenkins Master and Agent (Initial Setup):**
     ```bash
     docker compose up -d
     ```
-
-2.  **Configure Jenkins Agent Dynamically (for Docker Permissions):**
-    The Jenkins agent needs access to the host's Docker daemon. To ensure this works across different machines, the agent's Docker group ID needs to match the host's.
-
-    a.  **Get the Docker Group ID (GID) from your host machine:**
-        ```bash
-        DOCKER_GID=$(getent group docker | cut -d: -f3)
-        ```
-
-    b.  **Build the `jenkins-agent` image, passing the host's GID:**
-        ```bash
-        docker compose build --build-arg DOCKER_GID=$DOCKER_GID agent
-        ```
-
-    c.  **Restart the `jenkins-agent` container:**
-        ```bash
-        docker compose up -d agent
-        ```
-
-    These steps ensure that the `jenkins-agent` container is built with the correct Docker group permissions, allowing it to interact with the host's Docker daemon.
 
 In the output, you'll find options to open the app in a
 
