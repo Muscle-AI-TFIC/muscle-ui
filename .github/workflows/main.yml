@@ -68,23 +68,3 @@ jobs:
       with:
         name: npm-audit-report
         path: audit.json
-
-  notification:
-    runs-on: ubuntu-latest
-    environment: ci
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Setup Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.11'
-
-      - name: Run email notification
-        run: python send_email.py
-        env:
-          EMAIL_USER: ${{ secrets.EMAIL_USER }}
-          EMAIL_PASS: ${{ secrets.EMAIL_PASS }}
-          EMAIL_DEST: ${{ secrets.EMAIL_DEST }}
-          EMAIL_SUBJECT: "Build Complete"
-          EMAIL_CONTENT: "Seu job terminou com sucesso."
