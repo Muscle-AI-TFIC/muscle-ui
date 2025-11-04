@@ -1,17 +1,22 @@
 pipeline {
-  agent any
+  agent {
+    docker {
+      image 'node:20'
+      args '-v /var/run/docker.sock:/var/run/docker.sock'
+    }
+  }
+
   stages {
     stage('Build') {
       steps {
-        echo 'Building...'
-        sh 'npm install && npm run build'
+        sh 'npm install'
       }
     }
-    stage('Run Tests') {
-        steps {
-            echo 'Running tests...'
-            sh 'npm test'
-        }
+
+    stage('Test') {
+      steps {
+        sh 'npm test'
+      }
     }
   }
 }
