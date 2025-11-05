@@ -1,14 +1,10 @@
 import React, { useState } from 'react';
-import {
-  View,
-  Text,
-  TouchableOpacity
-} from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { styleHome } from '@/styles/Home';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import Profile from './profile';
+import { styleHome } from '@/styles/Home';
 import ToDoList from './toDoList';
+import Profile from './profile';
 
 interface NavBarProps {
   onTabChange: (tab: string) => void;
@@ -28,7 +24,7 @@ export function CustomNavigationBar({ onTabChange }: NavBarProps) {
   };
 
   return (
-    <SafeAreaView  edges={['bottom']} style={styleHome.container}>
+    <SafeAreaView edges={['bottom']} style={styleHome.container}>
       <View style={styleHome.navbar}>
         {tabs.map((tab) => (
           <TouchableOpacity
@@ -42,11 +38,14 @@ export function CustomNavigationBar({ onTabChange }: NavBarProps) {
           >
             <View style={styleHome.iconContainer}>
               <Ionicons
-                name={activeTab === tab.id ? tab.icon as any : `${tab.icon}-outline` as any}
+                name={
+                  activeTab === tab.id
+                    ? (tab.icon as any)
+                    : (`${tab.icon}-outline` as any)
+                }
                 size={22}
                 color={activeTab === tab.id ? '#FFA500' : '#8E8E93'}
               />
-              
             </View>
             <Text
               style={[

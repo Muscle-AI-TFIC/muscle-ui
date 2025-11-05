@@ -1,80 +1,66 @@
 import { Text, Image, View, TouchableOpacity, ScrollView, Alert, ActivityIndicator, TextInput, Modal } from 'react-native';
-import { getData, loadProfileImage, saveProfileImage, removeProfileImage } from "@/services/user_profile";
-import * as ImagePicker from 'expo-image-picker';
+import { loadProfileImage, saveProfileImage, removeProfileImage, pickImageFromGallery } from "@/services/image";
+import { loadUserProfile, updateUserProfile, logoutUser } from "@/services/profile";
+import { calculateIMC } from '@/utils/calcImc';
+import { calculateAge } from '@/utils/calcAge';
 import { supabase } from "@/services/supabase";
 import { useState, useEffect } from 'react';
 import { UserInfo } from '@/types/UserInfo';
 import { styles } from '@/styles/Profile';
 import { router } from 'expo-router';
-import { calculateIMC } from '@/utils/calcImc';
-import { calculateAge } from '@/utils/calcAge';
 
 export default function ProfileScreen() {
   const [image, setImage] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
+  const [loadingProfile, setLoadingProfile] = useState<boolean>(true);
   const [userEmail, setUserEmail] = useState<string>("");
   const [userName, setUserName] = useState<string>("");
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
+  const [userId, setUserId] = useState<string>("");
 
   useEffect(() => {
-    loadUserData();
-    loadImage();
+    initializeProfile();
   }, []);
 
-  const loadUserData = async () => {
+  const initializeProfile = async () => {
     try {
       const { data: { user } } = await supabase.auth.getUser();
+      
       if (user) {
-        setUserEmail(user.email || "");
-        setUserName(user.user_metadata?.name || user.email?.split('@')[0] || "Usuário");
+        setUserId(user.id);
+        
+        // Carregar dados do perfil
+        await loadUserProfile({
+          userId: user.id,
+          setUserInfo,
+          setUserEmail,
+          setUserName,
+        });
 
-        const apiData = await getData(user.id);
-
-        if (apiData && apiData.message && apiData.message.data) {
-          const userData = apiData.message.data;
-          setUserInfo(userData);
+        // Carregar imagem
+        const savedImage = await loadProfileImage();
+        if (savedImage) {
+          setImage(savedImage);
         }
       }
     } catch (error) {
-      console.error('Erro ao carregar dados:', error);
+      console.error('Erro ao inicializar perfil:', error);
+    } finally {
+      setLoadingProfile(false);
     }
   };
 
-  const loadImage = async () => {
-    const savedImage = await loadProfileImage();
-    if (savedImage) {
-      setImage(savedImage);
-    }
-  };
-
-  const saveUserInfo = async () => {
-    setModalVisible(false);
-    Alert.alert('Sucesso', 'Informações salvas com sucesso!');
-  };
-
-  const pickImage = async () => {
-    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    if (status !== 'granted') {
-      Alert.alert('Permissão necessária', 'Precisamos de permissão para acessar suas fotos!');
-      return;
-    }
-
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ['images'],
-      allowsEditing: true,
-      aspect: [1, 1],
-      quality: 0.8,
-    });
-
-    if (!result.canceled) {
-      const imageUri = result.assets[0].uri;
+  const handlePickImage = async () => {
+    const imageUri = await pickImageFromGallery();
+    
+    if (imageUri) {
       setImage(imageUri);
       await saveProfileImage(imageUri);
     }
   };
 
-  const handleRemoveProfileImage = async () => {
+  const handleRemoveImage = () => {
     Alert.alert(
       'Remover Foto',
       'Deseja remover sua foto de perfil?',
@@ -97,7 +83,20 @@ export default function ProfileScreen() {
     );
   };
 
-  const handleLogout = async () => {
+  const handleSaveUserInfo = async () => {
+    if (!userInfo) return;
+
+    await updateUserProfile({
+      userId,
+      userInfo,
+      onSuccess: () => {
+        setModalVisible(false);
+      },
+      setLoading,
+    });
+  };
+
+  const handleLogout = () => {
     Alert.alert(
       'Sair',
       'Deseja realmente sair da sua conta?',
@@ -107,39 +106,35 @@ export default function ProfileScreen() {
           text: 'Sair',
           style: 'destructive',
           onPress: async () => {
-            setLoading(true);
-            try {
-              await supabase.auth.signOut();
-              await removeProfileImage();
-              router.push('/auth/login');
-            } catch (error) {
-              Alert.alert('Erro', 'Falha ao sair');
-            } finally {
-              setLoading(false);
-            }
+            await logoutUser({
+              setLoading,
+              onSuccess: async () => {
+                await removeProfileImage();
+                router.replace('/auth/login');
+              },
+            });
           }
         }
       ]
     );
   };
 
-  if (!userInfo) {
+  if (loadingProfile || !userInfo) {
     return (
-      <View style={styles.container}>
+      <View style={[styles.container, { justifyContent: 'center', alignItems: 'center' }]}>
         <ActivityIndicator size="large" color="#bb6c12ff" />
-        <Text>Carregando perfil...</Text>
+        <Text style={{ marginTop: 16 }}>Carregando perfil...</Text>
       </View>
     );
   }
-
 
   return (
     <ScrollView style={styles.container}>
       {/* Foto de Perfil */}
       <View style={styles.profileSection}>
         <TouchableOpacity
-          onPress={pickImage}
-          onLongPress={image ? handleRemoveProfileImage : undefined}
+          onPress={handlePickImage}
+          onLongPress={image ? handleRemoveImage : undefined}
           style={styles.avatarContainer}
         >
           {image ? (
@@ -230,9 +225,7 @@ export default function ProfileScreen() {
           {loading ? (
             <ActivityIndicator color="#fff" />
           ) : (
-            <>
-              <Text style={styles.logoutText}>Sair da Conta</Text>
-            </>
+            <Text style={styles.logoutText}>Sair da Conta</Text>
           )}
         </TouchableOpacity>
       </View>
@@ -356,9 +349,14 @@ export default function ProfileScreen() {
 
             <TouchableOpacity
               style={styles.saveButton}
-              onPress={saveUserInfo}
+              onPress={handleSaveUserInfo}
+              disabled={loading}
             >
-              <Text style={styles.saveButtonText}>Salvar Alterações</Text>
+              {loading ? (
+                <ActivityIndicator color="#fff" />
+              ) : (
+                <Text style={styles.saveButtonText}>Salvar Alterações</Text>
+              )}
             </TouchableOpacity>
           </View>
         </View>

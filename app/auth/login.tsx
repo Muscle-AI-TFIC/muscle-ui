@@ -1,22 +1,9 @@
-import React, { useState } from "react";
-import {
-  View,
-  Image,
-  Text,
-  TextInput,
-  Alert,
-  TouchableOpacity,
-  ActivityIndicator,
-  KeyboardAvoidingView,
-  Platform,
-  ScrollView,
-  Modal,
-  Animated
-} from "react-native";
-import { supabase } from "@/services/supabase";
-import { loginProps } from "@/styles/Login";
-import { router } from "expo-router";
+import { View, Image, Text, TextInput, TouchableOpacity, ActivityIndicator, ScrollView, KeyboardAvoidingView, Platform } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { loginUser, navigateToHome, navigateToRegister } from "@/services/login";
 import SuccessModal from "@/components/SuccessModal/SuccessModal";
+import { loginProps } from "@/styles/Login";
+import React, { useState } from "react";
 
 export default function LoginScreen() {
   const [email, setEmail] = useState<string>("");
@@ -26,32 +13,20 @@ export default function LoginScreen() {
   const [userEmail, setUserEmail] = useState<string>("");
 
   const handleLogin = async (): Promise<void> => {
-    if (!email || !password) {
-      Alert.alert("Erro", "Preencha todos os campos");
-      return;
-    }
-
-    setLoading(true);
-    try {
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email: email,
-        password: password,
-      });
-
-      if (error) throw error;
-
-      setUserEmail(data.user?.email || email);
-      setShowSuccessModal(true);
-    } catch (error: any) {
-      Alert.alert("Erro", error.message || "Falha no login");
-    } finally {
-      setLoading(false);
-    }
+    await loginUser({
+      email,
+      password,
+      setLoading,
+      onSuccess: (userEmail) => {
+        setUserEmail(userEmail);
+        setShowSuccessModal(true);
+      },
+    });
   };
 
   const handleModalClose = () => {
     setShowSuccessModal(false);
-    router.push("/tabs/home");
+    navigateToHome();
   };
 
   return (
@@ -60,52 +35,63 @@ export default function LoginScreen() {
       behavior={Platform.OS === "android" ? "padding" : "height"}
       keyboardVerticalOffset={0}
     >
-      <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}>
+      <ScrollView 
+        contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}
+        keyboardShouldPersistTaps="handled"
+      >
         <View style={loginProps.screen}>
           <Text style={loginProps.containerTop}>Login</Text>
-          <Image style={loginProps.logo} source={require("assets/images/logo-final.png")} />
+          <Image 
+            style={loginProps.logo} 
+            source={require("assets/images/logo-final.png")} 
+          />
+
           <View style={loginProps.email}>
             <TextInput
               placeholder="Email"
               keyboardType="email-address"
               autoCapitalize="none"
+              autoCorrect={false}
               value={email}
               onChangeText={setEmail}
+              editable={!loading}
             />
           </View>
+
           <View style={loginProps.password}>
             <TextInput
               placeholder="Senha"
               secureTextEntry
+              autoCapitalize="none"
+              autoCorrect={false}
               value={password}
               onChangeText={setPassword}
+              editable={!loading}
             />
           </View>
 
-          <View>
-            <TouchableOpacity
-              style={loginProps.loginButton}
-              onPress={handleLogin}
-              disabled={loading}
-            >
-              {loading ? (
-                <ActivityIndicator color="#fff" />
-              ) : (
-                <Text style={loginProps.loginButtonText}>Login</Text>
-              )}
-            </TouchableOpacity>
-          </View>
+          <TouchableOpacity
+            style={loginProps.loginButton}
+            onPress={handleLogin}
+            disabled={loading}
+            activeOpacity={0.8}
+          >
+            {loading ? (
+              <ActivityIndicator color="#fff" />
+            ) : (
+              <Text style={loginProps.loginButtonText}>Login</Text>
+            )}
+          </TouchableOpacity>
 
           <View style={loginProps.footer}>
             <Text style={loginProps.footerText}>Esqueceu a senha?</Text>
-            <TouchableOpacity onPress={() => router.push("/auth/register")}>
+            <TouchableOpacity onPress={navigateToRegister}>
               <Text style={loginProps.footerText}>Criar conta</Text>
             </TouchableOpacity>
           </View>
         </View>
       </ScrollView>
 
-      {/* Modal Customizado */}
       <SuccessModal
         visible={showSuccessModal}
         onClose={handleModalClose}
