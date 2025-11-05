@@ -12,24 +12,36 @@ export const loadUserProfile = async ({
   setUserName,
 }: LoadProfileParams) => {
   try {
-    // Buscar dados do auth
     const { data: { user } } = await supabase.auth.getUser();
-    
+    const { data: { session } } = await supabase.auth.getSession();
+
+    if (!session) {
+      Alert.alert("Erro", "Usuário não autenticado");
+      return;
+    }
+
     if (user) {
       setUserEmail(user.email || "");
       setUserName(user.user_metadata?.name || user.email?.split('@')[0] || "Usuário");
 
-      // Buscar dados do perfil
-      const { data: profileData, error } = await supabase
-        .from('user_profiles')
-        .select('*')
-        .eq('id', userId)
-        .single();
+      const response = await fetch(`${process.env.EXPO_PUBLIC_API_BASE_URL}/userProfile/${userId}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${session.access_token}`,
+        },
+      });
 
-      if (error) throw error;
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const profileData = await response.json();
+
+      console.log(profileData);
 
       if (profileData) {
-        setUserInfo(profileData as UserInfo);
+        setUserInfo(profileData.message as UserInfo);
       }
     }
   } catch (error: any) {
@@ -59,20 +71,25 @@ export const updateUserProfile = async ({
   if (setLoading) setLoading(true);
 
   try {
-    const { error } = await supabase
-      .from('user_profiles')
-      .update({
-        weight_kg: userInfo.weight_kg,
-        height_cm: userInfo.height_cm,
-        birth_date: userInfo.birth_date,
-        gender: userInfo.gender,
-        goal: userInfo.goal,
-        fitness_level: userInfo.fitness_level,
-        updated_at: new Date().toISOString(),
-      })
-      .eq('id', userId);
+    const { data: { session } } = await supabase.auth.getSession();
 
-    if (error) throw error;
+    if (!session) {
+      Alert.alert("Erro", "Usuário não autenticado");
+      return;
+    }
+
+    const response = await fetch(`${process.env.EXPO_PUBLIC_API_BASE_URL}/userProfile/${userId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${session.access_token}`
+      },
+      body: JSON.stringify(userInfo),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
 
     Alert.alert('Sucesso', 'Perfil atualizado com sucesso!');
     onSuccess();
@@ -81,6 +98,34 @@ export const updateUserProfile = async ({
     Alert.alert('Erro', 'Não foi possível atualizar o perfil');
   } finally {
     if (setLoading) setLoading(false);
+  }
+};
+
+export const deleteUserProfile = async (userId: string) => {
+  try {
+    const { data: { session } } = await supabase.auth.getSession();
+
+    if (!session) {
+      Alert.alert("Erro", "Usuário não autenticado");
+      return;
+    }
+
+    const response = await fetch(`${process.env.EXPO_PUBLIC_API_BASE_URL}/deleteProfile/${userId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${session.access_token}`
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    Alert.alert('Sucesso', 'Perfil excluído com sucesso!');
+  } catch (error: any) {
+    console.error('Erro ao excluir perfil:', error);
+    Alert.alert('Erro', 'Não foi possível excluir o perfil');
   }
 };
 
