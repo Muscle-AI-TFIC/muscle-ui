@@ -49,6 +49,7 @@ export default function LoginScreen() {
           <View style={loginProps.email}>
             <TextInput
               placeholder="Email"
+              placeholderTextColor="#999"
               keyboardType="email-address"
               autoCapitalize="none"
               autoCorrect={false}
@@ -61,6 +62,7 @@ export default function LoginScreen() {
           <View style={loginProps.password}>
             <TextInput
               placeholder="Senha"
+              placeholderTextColor="#999"
               secureTextEntry
               autoCapitalize="none"
               autoCorrect={false}

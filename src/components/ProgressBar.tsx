@@ -1,12 +1,17 @@
-import { ProgressBarProps } from '@/types/interfaces/progressBar';
 import { View, Text } from 'react-native';
-import { styles } from '@/styles/ToDo';
+import { styles } from '@/styles/ToDo'; // Assuming styles are shared or will be moved
 
-export const ProgressBar: React.FC<ProgressBarProps> = ({ 
-  completed, 
-  total, 
-  percentage 
-}) => {
+interface ProgressBarProps {
+  completed: number;
+  total: number;
+}
+
+export default function ProgressBar({
+  completed,
+  total,
+}: ProgressBarProps) {
+  const progressPercentage = total > 0 ? (completed / total) * 100 : 0;
+
   return (
     <View style={styles.progressContainer}>
       <View style={styles.progressTextContainer}>
@@ -14,17 +19,17 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
           {completed}/{total} completos
         </Text>
         <Text style={styles.percentageText}>
-          {percentage}%
+          {Math.round(progressPercentage)}%
         </Text>
       </View>
       <View style={styles.progressBar}>
         <View
           style={[
             styles.progressFill,
-            { width: `${percentage}%` }
+            { width: `${progressPercentage}%` }
           ]}
         />
       </View>
     </View>
   );
-};
+}

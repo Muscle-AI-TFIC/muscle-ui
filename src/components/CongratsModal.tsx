@@ -1,9 +1,16 @@
-import { CongratsModalProps } from '@/types/interfaces/congratsModal';
 import { View, Text, Modal } from 'react-native';
 import LottieView from 'lottie-react-native';
-import { styles } from '@/styles/ToDo';
+import { styles } from '@/styles/ToDo'; // Assuming styles are shared or will be moved
 
-export const CongratsModal: React.FC<CongratsModalProps> = ({ visible, onFinish }) => {
+interface CongratsModalProps {
+  visible: boolean;
+  onClose: () => void;
+}
+
+export default function CongratsModal({
+  visible,
+  onClose,
+}: CongratsModalProps) {
   return (
     <Modal visible={visible} transparent animationType="fade">
       <View style={styles.overlay}>
@@ -13,7 +20,7 @@ export const CongratsModal: React.FC<CongratsModalProps> = ({ visible, onFinish 
             autoPlay
             loop={false}
             style={{ width: 250, height: 250 }}
-            onAnimationFinish={onFinish}
+            onAnimationFinish={onClose}
           />
           <Text style={styles.congratsText}>Parabéns! 🎉</Text>
           <Text style={styles.subText}>Você concluiu todos os exercícios!</Text>
@@ -21,4 +28,4 @@ export const CongratsModal: React.FC<CongratsModalProps> = ({ visible, onFinish 
       </View>
     </Modal>
   );
-};
+}

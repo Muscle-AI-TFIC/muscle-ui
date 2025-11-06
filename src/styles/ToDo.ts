@@ -251,4 +251,16 @@ export const styles = StyleSheet.create({
     color: '#FFF',
     marginTop: 4,
   },
+  finishButton: {
+    backgroundColor: '#FFA500',
+    padding: 15,
+    borderRadius: 10,
+    alignItems: 'center',
+    marginTop: 20,
+  },
+  finishButtonText: {
+    color: '#121212',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
 });

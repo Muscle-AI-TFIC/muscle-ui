@@ -4,7 +4,7 @@ import { getDifficultyColor } from '@/utils/difficultyColor';
 import { Ionicons } from '@expo/vector-icons';
 import { styles } from '@/styles/ToDo';
 
-export const ExerciseDetails: React.FC<ExerciseDetailsProps> = ({ exercise, visible, onClose }) => {
+export default function ExerciseDetails({ exercise, visible, onClose }: ExerciseDetailsProps) {
   if (!exercise) return null;
 
   return (
@@ -86,4 +86,4 @@ export const ExerciseDetails: React.FC<ExerciseDetailsProps> = ({ exercise, visi
       </View>
     </Modal>
   );
-};
+}
