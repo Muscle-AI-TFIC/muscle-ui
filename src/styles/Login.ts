@@ -6,73 +6,75 @@ export const loginProps = StyleSheet.create({
   container: {
     alignItems: "center",
     justifyContent: "center",
-    borderColor: "black",
+    borderColor: "#FFA500",
     borderRadius: 100,
     borderWidth: 5,
   },
 
   containerTop: {
-    color: "white",
+    color: "#FFA500",
     fontSize: 50,
-    fontStyle: 'italic',
+    fontStyle: "italic",
   },
 
   containerBottom: {},
 
   screen: {
-    flex: 1,
-    backgroundColor: "hsla(253, 31%, 6%, 1.00)",
+    backgroundColor: "#121212",
     justifyContent: "center",
     alignItems: "center",
     padding: 20,
   },
 
   email: {
-    backgroundColor: "white",
+    backgroundColor: "#fff",
     elevation: 5,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
+    shadowOpacity: 0.3,
     shadowRadius: 5,
     padding: 5,
-    paddingHorizontal: screenWidth * 0.25,  
+    width: '65%',
+    textAlign: 'center',
     borderRadius: 10,
     marginTop: -24,
     borderWidth: 0,
-    color: 'white',
+    color: "#FFF",
   },
 
   password: {
-    backgroundColor: "white",
+    backgroundColor: "#ffffff",
     elevation: 5,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
+    shadowOpacity: 0.3,
     shadowRadius: 5,
     padding: 5,
     borderRadius: 10,
     marginTop: 16,
-    paddingHorizontal: screenWidth * 0.25,  
+    width: '65%',
+    textAlign: 'center',
+    color: "#FFF",
   },
 
   loginButton: {
     marginTop: 20,
     padding: 16,
-    paddingHorizontal: screenWidth * 0.10,
-    backgroundColor: "hsla(24, 90%, 52%, 1.00)",
+    paddingHorizontal: screenWidth * 0.1,
+    backgroundColor: "#FFA500",
     borderRadius: 30,
     alignItems: "center",
   },
 
   loginButtonText: {
-    color: "#fff",
+    color: "#000",
     fontWeight: "600",
   },
 
   logo: {
     margin: screenWidth * 0.1,
     width: screenWidth * 0.5,
-    height: screenWidth * 0.5,    
+    height: screenWidth * 0.5,
   },
 
   footer: {
@@ -84,6 +86,6 @@ export const loginProps = StyleSheet.create({
 
   footerText: {
     fontSize: 12,
-    color: "hsla(0, 0%, 100%, 1.00)",
+    color: "#FFA500",
   },
 });

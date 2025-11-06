@@ -18,6 +18,15 @@ This is an [Expo](https://expo.dev) project created with [`create-expo-app`](htt
    npx expo start
    ```
 
+## Jenkins Setup
+
+To set up and run the Jenkins master and agent using Docker Compose, and ensure the agent has proper Docker permissions, follow these steps:
+
+**Start Jenkins Master and Agent (Initial Setup):**
+    ```bash
+    docker compose up -d
+    ```
+
 In the output, you'll find options to open the app in a
 
 - [development build](https://docs.expo.dev/develop/development-builds/introduction/)

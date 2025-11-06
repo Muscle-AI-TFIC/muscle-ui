@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
-import {
-  View,
-  Text,
-  TouchableOpacity
-} from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { styleHome } from '@/styles/Home';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { styleHome } from '@/styles/Home';
+import ToDoList from './toDoList';
+import Profile from './profile';
 
 interface NavBarProps {
   onTabChange: (tab: string) => void;
@@ -26,7 +24,7 @@ export function CustomNavigationBar({ onTabChange }: NavBarProps) {
   };
 
   return (
-    <SafeAreaView  edges={['bottom']} style={styleHome.container}>
+    <SafeAreaView edges={['bottom']} style={styleHome.container}>
       <View style={styleHome.navbar}>
         {tabs.map((tab) => (
           <TouchableOpacity
@@ -40,11 +38,14 @@ export function CustomNavigationBar({ onTabChange }: NavBarProps) {
           >
             <View style={styleHome.iconContainer}>
               <Ionicons
-                name={activeTab === tab.id ? tab.icon as any : `${tab.icon}-outline` as any}
+                name={
+                  activeTab === tab.id
+                    ? (tab.icon as any)
+                    : (`${tab.icon}-outline` as any)
+                }
                 size={22}
-                color={activeTab === tab.id ? '#007AFF' : '#8E8E93'}
+                color={activeTab === tab.id ? '#FFA500' : '#8E8E93'}
               />
-              
             </View>
             <Text
               style={[
@@ -69,29 +70,13 @@ export default function HomeWithCustomNavBar() {
       case 'home':
         return (
           <View style={styleHome.content}>
-            <Text style={styleHome.contentTitle}>Início</Text>
-            <Text style={styleHome.contentText}>Conteúdo da tela </Text>
-          </View>
-        );
-      case 'search':
-        return (
-          <View style={styleHome.content}>
-            <Text style={styleHome.contentTitle}>Treinos</Text>
-            <Text style={styleHome.contentText}>Treinos</Text>
-          </View>
-        );
-      case 'notifications':
-        return (
-          <View style={styleHome.content}>
-            <Text style={styleHome.contentTitle}>Notificações</Text>
-            <Text style={styleHome.contentText}>Suas notificações</Text>
+            <ToDoList />
           </View>
         );
       case 'profile':
         return (
           <View style={styleHome.content}>
-            <Text style={styleHome.contentTitle}>Perfil</Text>
-            <Text style={styleHome.contentText}>Seu perfil</Text>
+            <Profile />
           </View>
         );
       default:

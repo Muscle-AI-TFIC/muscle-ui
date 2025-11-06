@@ -16,7 +16,8 @@
         "foregroundImage": "assets/images/icons/favicon-32x32.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "package": "com.tobsbp.muscleui"
     },
     "web": {
       "bundler": "metro",
@@ -37,6 +38,13 @@
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "7bd0aa16-3cb1-4622-b278-fafbe61967d1"
+      }
+    },
+    "owner": "tobsbp"
   }
 }

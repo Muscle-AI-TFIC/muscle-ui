@@ -1,7 +1,32 @@
 import LoginScreen from "./auth/login";
+import { useEffect, useState } from "react";
+import { supabase } from "@/services/supabase";
+import { router } from "expo-router";
+import { ActivityIndicator, View } from "react-native";
 
 export default function Index() {
-  return (
-    <LoginScreen />
-  );
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const checkSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session) {
+        router.replace("/tabs/home");
+      } else {
+        setLoading(false);
+      }
+    };
+
+    checkSession();
+  }, []);
+
+  if (loading) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: "#121212" }}>
+        <ActivityIndicator size="large" color="#fff" />
+      </View>
+    );
+  }
+
+  return <LoginScreen />;
 }
