@@ -30,10 +30,16 @@ export default function ProfileScreen() {
       if (user) {
         setUserId(user.id);
         
-        // Carregar dados do perfil
+        // Carregar dados do perfil usando o service
         await loadUserProfile({
           userId: user.id,
-          setUserInfo,
+          setUserInfo: (info) => {
+            setUserInfo(info);
+            // Se o name vier da API, usar ele como userName
+            if (info?.name) {
+              setUserName(info.name);
+            }
+          },
           setUserEmail,
           setUserName,
         });
@@ -86,6 +92,7 @@ export default function ProfileScreen() {
   const handleSaveUserInfo = async () => {
     if (!userInfo) return;
 
+    // Usar o service de update
     await updateUserProfile({
       userId,
       userInfo,
@@ -106,6 +113,7 @@ export default function ProfileScreen() {
           text: 'Sair',
           style: 'destructive',
           onPress: async () => {
+            // Usar o service de logout
             await logoutUser({
               setLoading,
               onSuccess: async () => {
@@ -152,6 +160,7 @@ export default function ProfileScreen() {
         </TouchableOpacity>
 
         <Text style={styles.userName}>{userName}</Text>
+        <Text style={styles.userEmail}>{userEmail}</Text>
 
         {image && (
           <Text style={styles.hintText}>
@@ -167,7 +176,11 @@ export default function ProfileScreen() {
           <Text style={styles.statLabel}>Peso (kg)</Text>
         </View>
         <View style={styles.statCard}>
-          <Text style={styles.statValue}>{userInfo.height_cm || '--'}</Text>
+          <Text style={styles.statValue}>
+            {userInfo.height_cm 
+              ? (userInfo.height_cm > 10 ? userInfo.height_cm : userInfo.height_cm * 100).toFixed(0)
+              : '--'}
+          </Text>
           <Text style={styles.statLabel}>Altura (cm)</Text>
         </View>
         <View style={styles.statCard}>
@@ -185,15 +198,29 @@ export default function ProfileScreen() {
         <View style={styles.infoCard}>
           <View style={styles.infoRow}>
             <Text style={styles.infoLabel}>🎯 Objetivo</Text>
-            <Text style={styles.infoValue}>{userInfo.goal}</Text>
+            <Text style={styles.infoValue}>
+              {userInfo.goal 
+                ? userInfo.goal.split(' ').map(word => 
+                    word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+                  ).join(' ')
+                : '--'}
+            </Text>
           </View>
           <View style={styles.infoRow}>
             <Text style={styles.infoLabel}>💪 Nível de Atividade</Text>
-            <Text style={styles.infoValue}>{userInfo.fitness_level}</Text>
+            <Text style={styles.infoValue}>
+              {userInfo.fitness_level 
+                ? userInfo.fitness_level.charAt(0).toUpperCase() + userInfo.fitness_level.slice(1).toLowerCase()
+                : '--'}
+            </Text>
           </View>
           <View style={styles.infoRow}>
             <Text style={styles.infoLabel}>👤 Gênero</Text>
-            <Text style={styles.infoValue}>{userInfo.gender}</Text>
+            <Text style={styles.infoValue}>
+              {userInfo.gender 
+                ? userInfo.gender.charAt(0).toUpperCase() + userInfo.gender.slice(1).toLowerCase()
+                : '--'}
+            </Text>
           </View>
         </View>
       </View>
@@ -266,8 +293,15 @@ export default function ProfileScreen() {
                 <Text style={styles.inputLabel}>Altura (cm)</Text>
                 <TextInput
                   style={styles.input}
-                  value={userInfo?.height_cm?.toString() || ''}
-                  onChangeText={(text) => setUserInfo(prev => prev ? { ...prev, height_cm: parseFloat(text) || 0 } : null)}
+                  value={userInfo?.height_cm 
+                    ? (userInfo.height_cm > 10 ? userInfo.height_cm : userInfo.height_cm * 100).toString()
+                    : ''}
+                  onChangeText={(text) => {
+                    const value = parseFloat(text) || 0;
+                    // Converter de volta para o formato da API (metros se > 10)
+                    const heightValue = value > 10 ? value : value / 100;
+                    setUserInfo(prev => prev ? { ...prev, height_cm: heightValue } : null);
+                  }}
                   keyboardType="numeric"
                   placeholder="Ex: 175"
                 />
@@ -286,19 +320,23 @@ export default function ProfileScreen() {
               <View style={styles.inputGroup}>
                 <Text style={styles.inputLabel}>Gênero</Text>
                 <View style={styles.optionsContainer}>
-                  {['M', 'F', 'Outro'].map((gen) => (
+                  {[
+                    { label: 'Masculino', value: 'masculino' },
+                    { label: 'Feminino', value: 'feminino' },
+                    { label: 'Outro', value: 'outro' }
+                  ].map((gen) => (
                     <TouchableOpacity
-                      key={gen}
+                      key={gen.value}
                       style={[
                         styles.optionButton,
-                        userInfo?.gender === gen && styles.optionButtonActive
+                        userInfo?.gender?.toLowerCase() === gen.value && styles.optionButtonActive
                       ]}
-                      onPress={() => setUserInfo(prev => prev ? { ...prev, gender: gen } : null)}
+                      onPress={() => setUserInfo(prev => prev ? { ...prev, gender: gen.value } : null)}
                     >
                       <Text style={[
                         styles.optionText,
-                        userInfo?.gender === gen && styles.optionTextActive
-                      ]}>{gen}</Text>
+                        userInfo?.gender?.toLowerCase() === gen.value && styles.optionTextActive
+                      ]}>{gen.label}</Text>
                     </TouchableOpacity>
                   ))}
                 </View>
@@ -307,19 +345,23 @@ export default function ProfileScreen() {
               <View style={styles.inputGroup}>
                 <Text style={styles.inputLabel}>Objetivo</Text>
                 <View style={styles.optionsContainer}>
-                  {['Perder Peso', 'Manter Peso', 'Ganhar massa'].map((obj) => (
+                  {[
+                    { label: 'Perder Peso', value: 'perder peso' },
+                    { label: 'Manter Peso', value: 'manter peso' },
+                    { label: 'Ganhar Massa', value: 'ganhar massa' }
+                  ].map((obj) => (
                     <TouchableOpacity
-                      key={obj}
+                      key={obj.value}
                       style={[
                         styles.optionButton,
-                        userInfo?.goal === obj && styles.optionButtonActive
+                        userInfo?.goal?.toLowerCase() === obj.value && styles.optionButtonActive
                       ]}
-                      onPress={() => setUserInfo(prev => prev ? { ...prev, goal: obj } : null)}
+                      onPress={() => setUserInfo(prev => prev ? { ...prev, goal: obj.value } : null)}
                     >
                       <Text style={[
                         styles.optionText,
-                        userInfo?.goal === obj && styles.optionTextActive
-                      ]}>{obj}</Text>
+                        userInfo?.goal?.toLowerCase() === obj.value && styles.optionTextActive
+                      ]}>{obj.label}</Text>
                     </TouchableOpacity>
                   ))}
                 </View>
@@ -328,19 +370,24 @@ export default function ProfileScreen() {
               <View style={styles.inputGroup}>
                 <Text style={styles.inputLabel}>Nível de Atividade</Text>
                 <View style={styles.optionsContainer}>
-                  {['Sedentário', 'Leve', 'Moderado', 'Intenso', 'Intermediário'].map((nivel) => (
+                  {[
+                    { label: 'Sedentário', value: 'sedentário' },
+                    { label: 'Iniciante', value: 'iniciante' },
+                    { label: 'Intermediário', value: 'intermediário' },
+                    { label: 'Avançado', value: 'avançado' }
+                  ].map((nivel) => (
                     <TouchableOpacity
-                      key={nivel}
+                      key={nivel.value}
                       style={[
                         styles.optionButton,
-                        userInfo?.fitness_level === nivel && styles.optionButtonActive
+                        userInfo?.fitness_level?.toLowerCase() === nivel.value && styles.optionButtonActive
                       ]}
-                      onPress={() => setUserInfo(prev => prev ? { ...prev, fitness_level: nivel } : null)}
+                      onPress={() => setUserInfo(prev => prev ? { ...prev, fitness_level: nivel.value } : null)}
                     >
                       <Text style={[
                         styles.optionText,
-                        userInfo?.fitness_level === nivel && styles.optionTextActive
-                      ]}>{nivel}</Text>
+                        userInfo?.fitness_level?.toLowerCase() === nivel.value && styles.optionTextActive
+                      ]}>{nivel.label}</Text>
                     </TouchableOpacity>
                   ))}
                 </View>

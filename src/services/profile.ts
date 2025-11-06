@@ -38,10 +38,8 @@ export const loadUserProfile = async ({
 
       const profileData = await response.json();
 
-      console.log(profileData);
-
       if (profileData) {
-        setUserInfo(profileData.message as UserInfo);
+        setUserInfo(profileData.message.data as UserInfo);
       }
     }
   } catch (error: any) {
