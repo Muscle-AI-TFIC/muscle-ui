@@ -25,7 +25,6 @@ export const getExercises = async (): Promise<Exercise[]> => {
     }
 
     const data = await response.json();
-    console.log('getExercises response:', JSON.stringify(data, null, 2));
     if (data && data.message && Array.isArray(data.message.data) && data.message.data.length > 0 && Array.isArray(data.message.data[0].daily_workout_exercises)) {
       const exercises = data.message.data[0].daily_workout_exercises.map((item: any) => ({
         id: item.id.toString(), 
@@ -48,8 +47,6 @@ export const getExercises = async (): Promise<Exercise[]> => {
   }
 };
 
-
-
 export const updateWorkoutStatus = async (workoutId: number): Promise<boolean> => {
   try {
     const { data: { session } } = await supabase.auth.getSession();
@@ -68,8 +65,6 @@ export const updateWorkoutStatus = async (workoutId: number): Promise<boolean> =
         },
       }
     );
-
-    console.log(response)
 
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
