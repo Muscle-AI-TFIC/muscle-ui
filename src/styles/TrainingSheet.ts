@@ -153,39 +153,14 @@ export const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
   },
-  // Adicione estes estilos ao seu arquivo existente:
-
-list: {
-  flex: 1,
-},
-
-checkboxContainer: {
-  marginRight: 12,
-},
-
-checkbox: {
-  width: 24,
-  height: 24,
-  borderRadius: 6,
-  borderWidth: 2,
-  borderColor: '#bb6c12ff',
-  alignItems: 'center',
-  justifyContent: 'center',
-  backgroundColor: 'transparent',
-},
-
-checkboxChecked: {
-  backgroundColor: '#bb6c12ff',
-},
-
-checkmark: {
-  color: '#fff',
-  fontSize: 16,
-  fontWeight: 'bold',
-},
-
-exerciseTextCompleted: {
-  textDecorationLine: 'line-through',
-  opacity: 0.6,
-},
+  list: {
+    flex: 1,
+  },
+  checkboxContainer: {
+    marginRight: 12,
+  },
+  exerciseTextCompleted: {
+    textDecorationLine: 'line-through',
+    opacity: 0.6,
+  },
 });

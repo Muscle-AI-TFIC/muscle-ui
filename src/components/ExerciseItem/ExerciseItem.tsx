@@ -1,4 +1,5 @@
 import { View, Text, TouchableOpacity } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { styles } from '@/styles/TrainingSheet';
 import type { TrainingSheetExercise } from '@/types/interfaces/trainingSheet';
 
@@ -21,9 +22,11 @@ export function ExerciseItem({ item, index, day, toggleExerciseCompletion, remov
         onPress={() => toggleExerciseCompletion(day, index)}
         style={styles.checkboxContainer}
       >
-        <View style={[styles.checkbox, item.completed && styles.checkboxChecked]}>
-          {item.completed && <Text style={styles.checkmark}>✓</Text>}
-        </View>
+        <Ionicons
+          name={item.completed ? 'checkmark-circle-outline' : 'square-outline'}
+          size={24}
+          color={item.completed ? 'orange' : 'gray'}
+        />
       </TouchableOpacity>
       
       <Text style={[styles.exerciseText, item.completed && styles.exerciseTextCompleted]}>
