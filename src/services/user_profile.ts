@@ -44,9 +44,7 @@ export const loadProfileImage = async () => {
 export const saveProfileImage = async (imageUri: string) => {
   try {
     await AsyncStorage.setItem(STORAGE_KEYS.PROFILE_IMAGE, imageUri);
-    console.log('Imagem salva com sucesso!');
   } catch (error) {
-    console.error('Erro ao salvar imagem:', error);
     Alert.alert('Erro', 'Não foi possível salvar a imagem');
   }
 };
@@ -54,7 +52,6 @@ export const saveProfileImage = async (imageUri: string) => {
 export const removeProfileImage = async () => {
   try {
     await AsyncStorage.removeItem(STORAGE_KEYS.PROFILE_IMAGE);
-    console.log('Imagem removida com sucesso!');
   } catch (error) {
     console.error('Erro ao remover imagem:', error);
     Alert.alert('Erro', 'Não foi possível remover a imagem');

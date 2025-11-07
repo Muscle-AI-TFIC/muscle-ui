@@ -25,7 +25,7 @@ export const getExercises = async (): Promise<Exercise[]> => {
     }
 
     const data = await response.json();
-    console.log('getExercises response:', JSON.stringify(data, null, 2));
+    
     if (data && data.message && Array.isArray(data.message.data) && data.message.data.length > 0 && Array.isArray(data.message.data[0].daily_workout_exercises)) {
       const exercises = data.message.data[0].daily_workout_exercises.map((item: any) => ({
         id: item.id.toString(), 
@@ -37,7 +37,11 @@ export const getExercises = async (): Promise<Exercise[]> => {
         description: item.exercises.description,
         difficulty: item.exercises.difficulty,
         duration_minutes: item.exercises.duration_minutes,
+        url: item.exercises.gif_url,
       })) as Exercise[];
+
+      console.log(exercises)
+
       return exercises;
     }
     return [];
@@ -47,8 +51,6 @@ export const getExercises = async (): Promise<Exercise[]> => {
     return [];
   }
 };
-
-
 
 export const updateWorkoutStatus = async (workoutId: number): Promise<boolean> => {
   try {
@@ -68,8 +70,6 @@ export const updateWorkoutStatus = async (workoutId: number): Promise<boolean> =
         },
       }
     );
-
-    console.log(response)
 
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);

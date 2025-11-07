@@ -5,6 +5,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { styleHome } from '@/styles/Home';
 import ToDoList from './toDoList';
 import Profile from './profile';
+import TrainingSheet from './trainingSheet';
 
 interface NavBarProps {
   onTabChange: (tab: string) => void;
@@ -14,8 +15,9 @@ export function CustomNavigationBar({ onTabChange }: NavBarProps) {
   const [activeTab, setActiveTab] = useState('home');
 
   const tabs = [
-    { id: 'home', title: 'Início', icon: 'home' },
-    { id: 'profile', title: 'Perfil', icon: 'person' },
+    { id: 'home', title: 'Exercises', icon: 'barbell' },
+    { id: 'trainingSheet', title: 'Training Sheet', icon: 'clipboard' },
+    { id: 'profile', title: 'Profile', icon: 'person' },
   ];
 
   const handleTabPress = (tabId: string) => {
@@ -71,6 +73,12 @@ export default function HomeWithCustomNavBar() {
         return (
           <View style={styleHome.content}>
             <ToDoList />
+          </View>
+        );
+      case 'trainingSheet':
+        return (
+          <View style={styleHome.content}>
+            <TrainingSheet/>
           </View>
         );
       case 'profile':
