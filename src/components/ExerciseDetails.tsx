@@ -1,4 +1,4 @@
-import { View, Text, Modal, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, Modal, TouchableOpacity, ScrollView, Image } from 'react-native';
 import type { ExerciseDetailsProps } from '@/types/interfaces/exerciseDetails';
 import { getDifficultyColor } from '@/utils/difficultyColor';
 import { Ionicons } from '@expo/vector-icons';
@@ -65,6 +65,15 @@ export default function ExerciseDetails({ exercise, visible, onClose }: Exercise
             <Text style={styles.descriptionText}>
               {exercise.description}
             </Text>
+          </View>
+
+          <View style={{ alignItems: 'center' }}>
+            <Text style={styles.sectionTitle}>How to do</Text>
+            <Image
+              source={{ uri: exercise.url }}
+              style={{ width: 200, height: 200, borderRadius: 8 }}
+              resizeMode="cover"
+            />
           </View>
 
           <View style={styles.instructionsSection}>
