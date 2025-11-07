@@ -1,6 +1,6 @@
 import { View, Text, FlatList, ActivityIndicator, TouchableOpacity } from 'react-native';
 import type { Exercise } from '@/types/interfaces/exercises'
-import React, {useState, useEffect, useCallback} from 'react';
+import React, {useState, useCallback} from 'react';
 import { styles } from '@/styles/ToDo';
 import ExerciseItem from '@/components/ExerciseItem';
 import ProgressBar from '@/components/ProgressBar';

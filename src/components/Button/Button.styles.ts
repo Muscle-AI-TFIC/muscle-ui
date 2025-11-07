@@ -1,8 +1,7 @@
 import { StyleSheet } from 'react-native';
 
-export const styleButton = StyleSheet.create({
+export const styles = StyleSheet.create({
   button: {
-    backgroundColor: '#007AFF',
     paddingVertical: 12,
     paddingHorizontal: 20,
     borderRadius: 8,
@@ -13,6 +12,12 @@ export const styleButton = StyleSheet.create({
     color: '#fff',
     fontSize: 16,
     fontWeight: '600',
+  },
+  primary: {
+    backgroundColor: '#007AFF',
+  },
+  secondary: {
+    backgroundColor: '#8E8E93',
   },
   disabled: {
     opacity: 0.5,

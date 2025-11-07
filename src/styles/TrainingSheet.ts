@@ -13,37 +13,34 @@ export const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 20,
-    color: '#333',
+    color: '#FFA500',
   },
   emptyText: {
     textAlign: 'center',
-    color: '#666',
+    color: '#AAA',
     fontSize: 16,
     marginVertical: 20,
     fontStyle: 'italic',
   },
   dayContainer: {
     marginBottom: 15,
-    backgroundColor: '#fff',
+    backgroundColor: '#1E1E1E',
     borderRadius: 8,
     overflow: 'hidden',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
+    borderWidth: 1,
+    borderColor: '#333',
   },
   dayButton: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: 16,
-    backgroundColor: '#bb6c12ff',
+    backgroundColor: '#1E1E1E',
   },
   dayText: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#fff',
+    color: '#FFA500',
     flex: 1,
   },
   dayButtonActions: {
@@ -56,10 +53,11 @@ export const styles = StyleSheet.create({
   },
   removeDayButtonText: {
     fontSize: 18,
+    color: '#FF3B30',
   },
   expandIcon: {
     fontSize: 24,
-    color: '#fff',
+    color: '#FFA500',
     fontWeight: 'bold',
   },
   exerciseList: {
@@ -79,14 +77,14 @@ export const styles = StyleSheet.create({
   },
   exerciseText: {
     fontSize: 16,
-    color: '#333',
+    color: '#DDD',
     flex: 1,
   },
   removeButton: {
     width: 28,
     height: 28,
     borderRadius: 14,
-    backgroundColor: '#ff4444',
+    backgroundColor: '#FF3B30',
     justifyContent: 'center',
     alignItems: 'center',
     marginLeft: 10,
@@ -104,44 +102,44 @@ export const styles = StyleSheet.create({
   input: {
     flex: 1,
     borderWidth: 1,
-    borderColor: '#ddd',
+    borderColor: '#333',
     borderRadius: 6,
     padding: 12,
     fontSize: 16,
-    backgroundColor: '#f9f9f9',
-    color: '#333',
+    backgroundColor: '#1E1E1E',
+    color: '#DDD',
   },
   addButton: {
     width: 48,
     height: 48,
     borderRadius: 6,
-    backgroundColor: '#bb6c12ff',
+    backgroundColor: '#FFA500',
     justifyContent: 'center',
     alignItems: 'center',
   },
   addButtonText: {
-    color: '#fff',
+    color: '#121212',
     fontSize: 24,
     fontWeight: 'bold',
   },
   addDayButton: {
-    backgroundColor: '#fff',
+    backgroundColor: '#1E1E1E',
     padding: 16,
     borderRadius: 8,
     alignItems: 'center',
     marginTop: 10,
     marginBottom: 20,
     borderWidth: 2,
-    borderColor: '#bb6c12ff',
+    borderColor: '#FFA500',
     borderStyle: 'dashed',
   },
   addDayButtonText: {
-    color: '#bb6c12ff',
+    color: '#FFA500',
     fontSize: 16,
     fontWeight: 'bold',
   },
   saveButton: {
-    backgroundColor: '#a04c08ff',
+    backgroundColor: '#FFA500',
     padding: 16,
     borderRadius: 8,
     alignItems: 'center',
@@ -151,8 +149,43 @@ export const styles = StyleSheet.create({
     backgroundColor: '#6c757d',
   },
   saveButtonText: {
-    color: '#fff',
+    color: '#121212',
     fontSize: 18,
     fontWeight: 'bold',
   },
+  // Adicione estes estilos ao seu arquivo existente:
+
+list: {
+  flex: 1,
+},
+
+checkboxContainer: {
+  marginRight: 12,
+},
+
+checkbox: {
+  width: 24,
+  height: 24,
+  borderRadius: 6,
+  borderWidth: 2,
+  borderColor: '#bb6c12ff',
+  alignItems: 'center',
+  justifyContent: 'center',
+  backgroundColor: 'transparent',
+},
+
+checkboxChecked: {
+  backgroundColor: '#bb6c12ff',
+},
+
+checkmark: {
+  color: '#fff',
+  fontSize: 16,
+  fontWeight: 'bold',
+},
+
+exerciseTextCompleted: {
+  textDecorationLine: 'line-through',
+  opacity: 0.6,
+},
 });
