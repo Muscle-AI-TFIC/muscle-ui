@@ -67,7 +67,7 @@ export default function ExerciseDetails({ exercise, visible, onClose }: Exercise
             </Text>
           </View>
 
-          <View style={{ alignItems: 'center' }}>
+          <View style={{marginBottom:20, alignItems: 'center' }}>
             <Text style={styles.sectionTitle}>How to do</Text>
             <Image
               source={{ uri: exercise.url }}
