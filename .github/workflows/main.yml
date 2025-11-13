@@ -12,7 +12,7 @@ jobs:
     steps:
       - name: Checkout the code
         uses: actions/checkout@v4
-      - name: Setup node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
@@ -23,12 +23,16 @@ jobs:
     steps:
       - name: Checkout the code
         uses: actions/checkout@v4
-      - name: Setup node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-      - name: Install dependencies
-        run: npm install
+      - name: Clean npm cache and lock files
+        run: |
+          rm -rf node_modules package-lock.json
+          npm cache clean --force
+      - name: Install dependencies (no optional)
+        run: npm install --no-optional
 
   tests:
     runs-on: ubuntu-latest
@@ -36,12 +40,17 @@ jobs:
     steps:
       - name: Checkout the code
         uses: actions/checkout@v4
-      - name: Setup node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-      - name: Install dependencies
-        run: npm install
+      - name: Clean npm cache and reinstall deps
+        run: |
+          rm -rf node_modules package-lock.json
+          npm cache clean --force
+          npm install --no-optional
+      - name: Rebuild Rollup (if missing)
+        run: npm rebuild rollup || true
       - name: Run tests with coverage
         run: npm run test:coverage
       - name: Upload coverage report
@@ -53,18 +62,19 @@ jobs:
   security:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-node@v4
-      with:
-        node-version: '20'
-    - run: npm install
-    - name: Run security audit
-      run: |
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install dependencies (no optional)
+        run: npm install --no-optional
+      - name: Run security audit
+        run: |
           npm audit --audit-level=high --json > audit.json
           cat audit.json
-      continue-on-error: true
-    - name: Upload audit report
-      uses: actions/upload-artifact@v4
-      with:
-        name: npm-audit-report
-        path: audit.json
+        continue-on-error: true
+      - name: Upload audit report
+        uses: actions/upload-artifact@v4
+        with:
+          name: npm-audit-report
+          path: audit.json
