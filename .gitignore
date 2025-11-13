@@ -38,3 +38,4 @@ yarn-error.*
 
 # jenkins
 jenkins_home/
+coverage/
