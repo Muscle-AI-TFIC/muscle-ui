@@ -1,5 +1,5 @@
 export interface ProgressBarProps {
-  completed: number;
-  total: number;
-  percentage: number;
+	completed: number;
+	total: number;
+	percentage: number;
 }

@@ -1,4 +1,4 @@
 export interface CongratsModalProps {
-  visible: boolean;
-  onFinish: () => void;
+	visible: boolean;
+	onFinish: () => void;
 }

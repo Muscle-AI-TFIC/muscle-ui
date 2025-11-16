@@ -5,28 +5,37 @@ import { router } from "expo-router";
 import { ActivityIndicator, View } from "react-native";
 
 export default function Index() {
-  const [loading, setLoading] = useState(true);
+	const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const checkSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (session) {
-        router.replace("/tabs/home");
-      } else {
-        setLoading(false);
-      }
-    };
+	useEffect(() => {
+		const checkSession = async () => {
+			const {
+				data: { session },
+			} = await supabase.auth.getSession();
+			if (session) {
+				router.replace("/tabs/home");
+			} else {
+				setLoading(false);
+			}
+		};
 
-    checkSession();
-  }, []);
+		checkSession();
+	}, []);
 
-  if (loading) {
-    return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: "#121212" }}>
-        <ActivityIndicator size="large" color="#fff" />
-      </View>
-    );
-  }
+	if (loading) {
+		return (
+			<View
+				style={{
+					flex: 1,
+					justifyContent: "center",
+					alignItems: "center",
+					backgroundColor: "#121212",
+				}}
+			>
+				<ActivityIndicator size="large" color="#fff" />
+			</View>
+		);
+	}
 
-  return <LoginScreen />;
+	return <LoginScreen />;
 }

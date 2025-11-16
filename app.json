@@ -1,50 +1,50 @@
 {
-  "expo": {
-    "name": "muscle-ui",
-    "slug": "muscle-ui",
-    "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/images/icons/android-chrome-512x512.png",
-    "scheme": "muscleui",
-    "userInterfaceStyle": "automatic",
-    "newArchEnabled": true,
-    "ios": {
-      "supportsTablet": true
-    },
-    "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "assets/images/icons/favicon-32x32.png",
-        "backgroundColor": "#ffffff"
-      },
-      "edgeToEdgeEnabled": true,
-      "package": "com.tobsbp.muscleui"
-    },
-    "web": {
-      "bundler": "metro",
-      "output": "static",
-      "favicon": "assets/images/favicon-32x32.png"
-    },
-    "plugins": [
-      "expo-router",
-      [
-        "expo-splash-screen",
-        {
-          "image": "./assets/images/splash-icon.png",
-          "imageWidth": 200,
-          "resizeMode": "contain",
-          "backgroundColor": "#ffffff"
-        }
-      ]
-    ],
-    "experiments": {
-      "typedRoutes": true
-    },
-    "extra": {
-      "router": {},
-      "eas": {
-        "projectId": "7bd0aa16-3cb1-4622-b278-fafbe61967d1"
-      }
-    },
-    "owner": "tobsbp"
-  }
+	"expo": {
+		"name": "muscle-ui",
+		"slug": "muscle-ui",
+		"version": "1.0.0",
+		"orientation": "portrait",
+		"icon": "./assets/images/icons/android-chrome-512x512.png",
+		"scheme": "muscleui",
+		"userInterfaceStyle": "automatic",
+		"newArchEnabled": true,
+		"ios": {
+			"supportsTablet": true
+		},
+		"android": {
+			"adaptiveIcon": {
+				"foregroundImage": "assets/images/icons/favicon-32x32.png",
+				"backgroundColor": "#ffffff"
+			},
+			"edgeToEdgeEnabled": true,
+			"package": "com.tobsbp.muscleui"
+		},
+		"web": {
+			"bundler": "metro",
+			"output": "static",
+			"favicon": "assets/images/favicon-32x32.png"
+		},
+		"plugins": [
+			"expo-router",
+			[
+				"expo-splash-screen",
+				{
+					"image": "./assets/images/splash-icon.png",
+					"imageWidth": 200,
+					"resizeMode": "contain",
+					"backgroundColor": "#ffffff"
+				}
+			]
+		],
+		"experiments": {
+			"typedRoutes": true
+		},
+		"extra": {
+			"router": {},
+			"eas": {
+				"projectId": "7bd0aa16-3cb1-4622-b278-fafbe61967d1"
+			}
+		},
+		"owner": "tobsbp"
+	}
 }
