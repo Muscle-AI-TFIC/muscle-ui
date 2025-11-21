@@ -13,23 +13,27 @@ import ProgressBar from "@/components/ProgressBar";
 import CongratsModal from "@/components/CongratsModal";
 import ExerciseDetails from "@/components/ExerciseDetails";
 import { getExercises, updateWorkoutStatus } from "@/services/exercise";
-import { useFocusEffect, useLocalSearchParams } from "expo-router";
+import { useFocusEffect, useRouter } from "expo-router";
 
-export default function Home() {
-	const { workoutId } = useLocalSearchParams<{ workoutId: string }>();
+export default function ToDoList() {
 	const [exercises, setExercises] = useState<Exercise[]>([]);
+	const [workoutId, setWorkoutId] = useState<number | null>(null);
 	const [selectedExercise, setSelectedExercise] = useState<Exercise | null>(
 		null,
 	);
 	const [detailsVisible, setDetailsVisible] = useState(false);
 	const [loading, setLoading] = useState(true);
+	const router = useRouter();
 
 	useFocusEffect(
 		useCallback(() => {
 			const fetchExercises = async () => {
 				setLoading(true);
 				const data = await getExercises();
-				setExercises(data);
+				if (data) {
+					setExercises(data.exercises);
+					setWorkoutId(data.workoutId);
+				}
 				setLoading(false);
 			};
 
@@ -48,8 +52,9 @@ export default function Home() {
 	const [showCongrats, setShowCongrats] = useState(false);
 
 	const handleFinishWorkout = async () => {
+		console.log("Finalizando treino com ID:", workoutId);
 		if (workoutId) {
-			await updateWorkoutStatus(parseInt(workoutId, 10));
+			await updateWorkoutStatus(workoutId);
 			setShowCongrats(true);
 		}
 	};
@@ -122,7 +127,10 @@ export default function Home() {
 
 			<CongratsModal
 				visible={showCongrats}
-				onClose={() => setShowCongrats(false)}
+				onClose={() => {
+					setShowCongrats(false);
+					router.push("/tabs/home");
+				}}
 			/>
 		</View>
 	);

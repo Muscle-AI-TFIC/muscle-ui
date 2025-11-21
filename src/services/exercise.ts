@@ -1,8 +1,8 @@
 import { supabase } from "./supabase";
 import { Alert } from "react-native";
-import type { Exercise } from "@/types/interfaces/exercises";
+import type { Exercise, WorkoutData } from "@/types/interfaces/exercises";
 
-export const getExercises = async (): Promise<Exercise[]> => {
+export const getExercises = async (): Promise<WorkoutData | null> => {
 	try {
 		const {
 			data: { user },
@@ -13,7 +13,7 @@ export const getExercises = async (): Promise<Exercise[]> => {
 
 		if (!session) {
 			Alert.alert("Erro", "Usuário não autenticado");
-			return [];
+			return null;
 		}
 
 		const response = await fetch(
@@ -40,11 +40,12 @@ export const getExercises = async (): Promise<Exercise[]> => {
 			data.message.data.length > 0 &&
 			Array.isArray(data.message.data[0].daily_workout_exercises)
 		) {
+			const workoutId = data.message.data[0].id;
 			const exercises = data.message.data[0].daily_workout_exercises.map(
 				(item: any) => ({
 					id: item.id.toString(),
 					name: item.exercises.name,
-					finished: false,
+					finished: item.finished,
 					sets: item.sets,
 					reps: item.reps,
 					position: item.position,
@@ -55,15 +56,13 @@ export const getExercises = async (): Promise<Exercise[]> => {
 				}),
 			) as Exercise[];
 
-			console.log(exercises);
-
-			return exercises;
+			return { exercises, workoutId };
 		}
-		return [];
+		return null;
 	} catch (error: any) {
 		console.error("Erro ao buscar exercícios:", error);
 		Alert.alert("Erro", "Não foi possível buscar os exercícios");
-		return [];
+		return null;
 	}
 };
 
@@ -88,11 +87,22 @@ export const updateWorkoutStatus = async (
 					"Content-Type": "application/json",
 					Authorization: `Bearer ${session.access_token}`,
 				},
+				body: JSON.stringify({}), // Added an empty JSON body
 			},
 		);
 
 		if (!response.ok) {
-			throw new Error(`HTTP error! status: ${response.status}`);
+			const errorBody = await response.text();
+			console.error(
+				`HTTP error! status: ${response.status}, body: ${errorBody}`,
+			);
+			Alert.alert(
+				"Erro",
+				`Não foi possível atualizar o status do treino: ${errorBody}`,
+			);
+			throw new Error(
+				`HTTP error! status: ${response.status}, body: ${errorBody}`,
+			);
 		}
 
 		return true;

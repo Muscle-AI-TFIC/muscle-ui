@@ -10,3 +10,8 @@ export interface Exercise {
 	duration_minutes?: number;
 	url: string;
 }
+
+export interface WorkoutData {
+	exercises: Exercise[];
+	workoutId: number;
+}
