@@ -29,9 +29,14 @@ yarn-error.*
 *.pem
 
 # local env files
-.env*.local
+.env
 
 # typescript
 *.tsbuildinfo
 .idea
 .expo/
+
+# jenkins
+jenkins_home/
+
+coverage/

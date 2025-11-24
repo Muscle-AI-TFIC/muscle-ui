@@ -1,42 +1,80 @@
-import { useState } from 'react';
-import { Button, Image, View, StyleSheet } from 'react-native';
-import * as ImagePicker from 'expo-image-picker';
+import { View, Text, ScrollView, ActivityIndicator } from "react-native";
+import ProfileHeader from "@/components/ProfileHeader";
+import LogoutSection from "@/components/LogoutSection";
+import EditUserModal from "@/components/EditUserModal";
+import StatsSection from "@/components/StatsSection";
+import InfoSection from "@/components/InfoSection";
+import MenuSection from "@/components/MenuSection";
+import { useProfile } from "@/hooks/useProfile";
+import { styles } from "@/styles/Profile";
 
-export default function ImagePickerExample() {
-  const [image, setImage] = useState<string | null>(null);
+export default function ProfileScreen() {
+	const {
+		image,
+		loading,
+		loadingProfile,
+		userEmail,
+		userName,
+		modalVisible,
+		userInfo,
+		setModalVisible,
+		setUserInfo,
+		handlePickImage,
+		handleRemoveImage,
+		handleSaveUserInfo,
+		handleLogout,
+		calculateIMC,
+		calculateAge,
+	} = useProfile();
 
-  const pickImage = async () => {
-    // No permissions request is necessary for launching the image library
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ['images', 'videos'],
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
+	if (loadingProfile || !userInfo) {
+		return (
+			<View
+				style={[
+					styles.container,
+					{ justifyContent: "center", alignItems: "center" },
+				]}
+			>
+				<ActivityIndicator size="large" color="#bb6c12ff" />
+				<Text style={{ marginTop: 16 }}>Carregando perfil...</Text>
+			</View>
+		);
+	}
 
-    console.log(result);
+	return (
+		<ScrollView style={styles.container}>
+			<ProfileHeader
+				image={image}
+				userName={userName}
+				userEmail={userEmail}
+				handlePickImage={handlePickImage}
+				handleRemoveImage={handleRemoveImage}
+			/>
 
-    if (!result.canceled) {
-      setImage(result.assets[0].uri);
-    }
-  };
+			<StatsSection
+				userInfo={userInfo}
+				calculateIMC={calculateIMC}
+				calculateAge={calculateAge}
+			/>
 
-  return (
-    <View style={styles.container}>
-      <Button title="Pick an image from camera roll" onPress={pickImage} />
-      {image && <Image source={{ uri: image }} style={styles.image} />}
-    </View>
-  );
+			<InfoSection userInfo={userInfo} />
+
+			<MenuSection setModalVisible={setModalVisible} />
+
+			<LogoutSection handleLogout={handleLogout} loading={loading} />
+
+			<View style={styles.footer}>
+				<Text style={styles.footerText}>Versão 1.0.0</Text>
+			</View>
+
+			<EditUserModal
+				modalVisible={modalVisible}
+				setModalVisible={setModalVisible}
+				userInfo={userInfo}
+				setUserInfo={setUserInfo}
+				handleSaveUserInfo={handleSaveUserInfo}
+				loading={loading}
+			/>
+		</ScrollView>
+	);
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  image: {
-    width: 200,
-    height: 200,
-  },
-});
