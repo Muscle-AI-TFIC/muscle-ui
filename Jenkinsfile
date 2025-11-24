@@ -1,10 +1,31 @@
 pipeline {
-  agent any
+  agent {
+    docker {
+      image 'node:20'
+      args '-v /var/run/docker.sock:/var/run/docker.sock'
+    }
+  }
+
   stages {
-    stage('Build & Test') {
+    stage('Build') {
       steps {
-        sh 'docker run --rm -v "$WORKSPACE:/app" -w /app node:20 /bin/sh -c "npm install && npm test"'
+        sh 'npm install'
       }
+    }
+
+    stage('Test') {
+      steps {
+        sh 'npm test'
+      }
+    }
+
+    stage('Security Audit') {
+        steps {
+            echo "Running npm audit..."
+            sh "npm audit --json --audit-level=high || true"
+        }
     }
   }
 }
+
+
