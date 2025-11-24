@@ -1,20 +1,9 @@
 pipeline {
-  agent {
-    docker {
-      image 'node:20'
-    }
-  }
-
+  agent any
   stages {
-    stage('Build') {
+    stage('Build & Test') {
       steps {
-        sh 'npm install'
-      }
-    }
-
-    stage('Test') {
-      steps {
-        sh 'npm test'
+        sh 'docker run --rm -v "$WORKSPACE:/app" -w /app node:20 /bin/sh -c "npm install && npm test"'
       }
     }
   }
