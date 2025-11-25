@@ -1,5 +1,5 @@
-import React from "react";
-import { Modal, View, Text, TouchableOpacity } from "react-native";
+import type React from "react";
+import { Modal, Text, TouchableOpacity, View } from "react-native";
 import { styles } from "./SuccessModal.styles";
 
 interface SuccessModalProps {

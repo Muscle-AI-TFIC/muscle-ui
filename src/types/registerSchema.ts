@@ -1,5 +1,5 @@
-import { parseNumber } from "@/utils/parseNumber";
 import z from "zod";
+import { parseNumber } from "@/utils/parseNumber";
 
 export const registerSchema = z
 	.object({

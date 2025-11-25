@@ -1,15 +1,15 @@
+import { Ionicons } from "@expo/vector-icons";
 import {
-	View,
-	Text,
-	Modal,
-	TouchableOpacity,
-	ScrollView,
 	Image,
+	Modal,
+	ScrollView,
+	Text,
+	TouchableOpacity,
+	View,
 } from "react-native";
+import { styles } from "@/styles/ToDo";
 import type { ExerciseDetailsProps } from "@/types/interfaces/exerciseDetails";
 import { getDifficultyColor } from "@/utils/difficultyColor";
-import { Ionicons } from "@expo/vector-icons";
-import { styles } from "@/styles/ToDo";
 
 export default function ExerciseDetails({
 	exercise,

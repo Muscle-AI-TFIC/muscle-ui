@@ -1,6 +1,6 @@
-import { WelcomeStepProps } from "@/types/interfaces/welcome";
+import { Text, View } from "react-native";
 import { welcomeStyles } from "@/styles/Welcome";
-import { View, Text } from "react-native";
+import type { WelcomeStepProps } from "@/types/interfaces/welcome";
 
 export const WelcomeStep: React.FC<WelcomeStepProps> = ({
 	title,

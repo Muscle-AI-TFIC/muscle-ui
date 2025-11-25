@@ -1,7 +1,7 @@
+import { router } from "expo-router";
+import { Alert } from "react-native";
 import type { LoginParams } from "@/types/interfaces/loginParams";
 import { supabase } from "./supabase";
-import { Alert } from "react-native";
-import { router } from "expo-router";
 
 export const loginUser = async ({
 	email,
@@ -26,8 +26,12 @@ export const loginUser = async ({
 
 		const userEmail = data.user?.email || email;
 		onSuccess(userEmail);
-	} catch (error: any) {
-		Alert.alert("Erro", error.message || "Falha no login");
+	} catch (error: unknown) {
+		let message = "Falha no login";
+		if (error instanceof Error) {
+			message = error.message;
+		}
+		Alert.alert("Erro", message);
 	} finally {
 		setLoading(false);
 	}

@@ -1,4 +1,4 @@
-import { View, TextInput, TouchableOpacity, Text } from "react-native";
+import { Text, TextInput, TouchableOpacity, View } from "react-native";
 import { styles } from "@/styles/TrainingSheet";
 
 interface AddExerciseProps {

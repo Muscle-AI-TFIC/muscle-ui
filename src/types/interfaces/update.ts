@@ -1,4 +1,4 @@
-import { UserInfo } from "@/types/UserInfo";
+import type { UserInfo } from "@/types/UserInfo";
 
 export interface UpdateProfileParams {
 	userId: string;

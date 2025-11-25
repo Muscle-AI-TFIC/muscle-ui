@@ -1,7 +1,7 @@
-import { View, Text, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import type { Exercise } from "@/types/interfaces/exercises";
+import { Text, TouchableOpacity, View } from "react-native";
 import { styles } from "@/styles/ToDo";
+import type { Exercise } from "@/types/interfaces/exercises";
 
 interface ExerciseItemProps {
 	exercise: Exercise;

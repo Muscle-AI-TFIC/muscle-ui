@@ -1,10 +1,10 @@
-import { View, Text, ScrollView, ActivityIndicator } from "react-native";
-import ProfileHeader from "@/components/ProfileHeader";
-import LogoutSection from "@/components/LogoutSection";
+import { ActivityIndicator, ScrollView, Text, View } from "react-native";
 import EditUserModal from "@/components/EditUserModal";
-import StatsSection from "@/components/StatsSection";
 import InfoSection from "@/components/InfoSection";
+import LogoutSection from "@/components/LogoutSection";
 import MenuSection from "@/components/MenuSection";
+import ProfileHeader from "@/components/ProfileHeader";
+import StatsSection from "@/components/StatsSection";
 import { useProfile } from "@/hooks/useProfile";
 import { styles } from "@/styles/Profile";
 

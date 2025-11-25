@@ -1,4 +1,4 @@
-import { View, Text } from "react-native";
+import { Text, View } from "react-native";
 import { styles } from "@/styles/ToDo"; // Assuming styles are shared or will be moved
 import { getProgressPercentage } from "../utils/progressPercentage";
 

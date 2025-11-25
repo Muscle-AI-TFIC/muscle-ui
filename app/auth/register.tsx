@@ -1,19 +1,19 @@
+import { StatusBar } from "expo-status-bar";
+import { useState } from "react";
 import {
-	View,
-	Text,
-	Image,
-	TextInput,
-	TouchableOpacity,
-	ScrollView,
 	ActivityIndicator,
+	Image,
 	KeyboardAvoidingView,
 	Platform,
+	ScrollView,
+	Text,
+	TextInput,
+	TouchableOpacity,
+	View,
 } from "react-native";
 import { submitRegistration } from "@/services/submiteRegistration";
 import { registerprops } from "@/styles/Register";
 import { FIELDS } from "@/types/registerSchema";
-import { StatusBar } from "expo-status-bar";
-import React, { useState } from "react";
 
 export default function RegisterScreen() {
 	const [formData, setFormData] = useState<Record<string, string>>(

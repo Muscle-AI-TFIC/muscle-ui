@@ -1,4 +1,4 @@
-import { UserInfo } from "../types/UserInfo";
+import type { UserInfo } from "../types/UserInfo";
 
 export const calculateAge = (userInfo: UserInfo) => {
 	if (userInfo?.birth_date) {

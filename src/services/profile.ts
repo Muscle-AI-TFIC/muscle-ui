@@ -1,9 +1,9 @@
+import { Alert } from "react-native";
+import { supabase } from "@/services/supabase";
 import type { LoadProfileParams } from "@/types/interfaces/load";
 import type { LogoutParams } from "@/types/interfaces/logout";
 import type { UpdateProfileParams } from "@/types/interfaces/update";
-import { supabase } from "@/services/supabase";
-import { UserInfo } from "@/types/UserInfo";
-import { Alert } from "react-native";
+import type { UserInfo } from "@/types/UserInfo";
 
 export const loadUserProfile = async ({
 	userId,
@@ -51,7 +51,7 @@ export const loadUserProfile = async ({
 				setUserInfo(profileData.message.data as UserInfo);
 			}
 		}
-	} catch (error: any) {
+	} catch (error: unknown) {
 		console.error("Erro ao carregar perfil:", error);
 		Alert.alert("Erro", "Não foi possível carregar os dados do perfil");
 	}
@@ -105,7 +105,7 @@ export const updateUserProfile = async ({
 
 		Alert.alert("Sucesso", "Perfil atualizado com sucesso!");
 		onSuccess();
-	} catch (error: any) {
+	} catch (error: unknown) {
 		console.error("Erro ao atualizar perfil:", error);
 		Alert.alert("Erro", "Não foi possível atualizar o perfil");
 	} finally {
@@ -140,7 +140,7 @@ export const deleteUserProfile = async (userId: string) => {
 		}
 
 		Alert.alert("Sucesso", "Perfil excluído com sucesso!");
-	} catch (error: any) {
+	} catch (error: unknown) {
 		console.error("Erro ao excluir perfil:", error);
 		Alert.alert("Erro", "Não foi possível excluir o perfil");
 	}
@@ -156,7 +156,7 @@ export const logoutUser = async ({ setLoading, onSuccess }: LogoutParams) => {
 		if (error) throw error;
 
 		onSuccess();
-	} catch (error: any) {
+	} catch (error: unknown) {
 		console.error("Erro ao fazer logout:", error);
 		Alert.alert("Erro", "Não foi possível sair da conta");
 	} finally {

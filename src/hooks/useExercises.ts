@@ -1,6 +1,6 @@
-import { useState, useEffect, useMemo } from "react";
-import type { Exercise } from "@/types/interfaces/exercises";
+import { useEffect, useMemo, useState } from "react";
 import { exerciseService } from "@/services/exercise";
+import type { Exercise } from "@/types/interfaces/exercises";
 
 export const useExercises = () => {
 	const [exercises, setExercises] = useState<Exercise[]>([]);

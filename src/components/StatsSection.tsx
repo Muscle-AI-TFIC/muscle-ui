@@ -1,6 +1,6 @@
 import { Text, View } from "react-native";
 import { styles } from "@/styles/Profile"; // Assuming styles are shared or will be moved
-import { UserInfo } from "@/types/UserInfo";
+import type { UserInfo } from "@/types/UserInfo";
 
 interface StatsSectionProps {
 	userInfo: UserInfo;

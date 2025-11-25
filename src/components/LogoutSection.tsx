@@ -1,4 +1,4 @@
-import { Text, View, TouchableOpacity, ActivityIndicator } from "react-native";
+import { ActivityIndicator, Text, TouchableOpacity, View } from "react-native";
 import { styles } from "@/styles/Profile"; // Assuming styles are shared or will be moved
 
 interface LogoutSectionProps {

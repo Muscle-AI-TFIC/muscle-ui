@@ -1,11 +1,9 @@
-import { supabase } from "./supabase";
 import { Alert } from "react-native";
-
 import type {
 	TrainingSheetExercise,
-	TrainingSheetMessage,
 	TrainingSheetResponse,
 } from "@/types/interfaces/trainingSheet";
+import { supabase } from "./supabase";
 
 export const getTrainingSheet =
 	async (): Promise<TrainingSheetResponse | null> => {
@@ -35,7 +33,7 @@ export const getTrainingSheet =
 
 			const data = await response.json();
 			return data;
-		} catch (error: any) {
+		} catch (error: unknown) {
 			console.error("Erro ao buscar a ficha de treino:", error);
 			Alert.alert("Erro", "Não foi possível buscar a ficha de treino");
 			return null;
@@ -83,12 +81,13 @@ export const createTrainingSheet = async (
 		}
 
 		return true;
-	} catch (error: any) {
+	} catch (error: unknown) {
+		let message = "Não foi possível criar a ficha de treino";
+		if (error instanceof Error) {
+			message = error.message;
+		}
 		console.error("Erro ao criar a ficha de treino:", error);
-		Alert.alert(
-			"Erro",
-			error.message || "Não foi possível criar a ficha de treino",
-		);
+		Alert.alert("Erro", message);
 		return false;
 	}
 };
@@ -120,7 +119,7 @@ export const deleteTrainingSheet = async (id: number): Promise<boolean> => {
 		}
 
 		return true;
-	} catch (error: any) {
+	} catch (error: unknown) {
 		console.error("Erro ao deletar a ficha de treino:", error);
 		Alert.alert("Erro", "Não foi possível deletar a ficha de treino");
 		return false;

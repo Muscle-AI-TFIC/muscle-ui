@@ -1,19 +1,19 @@
+import { useFocusEffect, useRouter } from "expo-router";
+import { useCallback, useState } from "react";
 import {
-	View,
-	Text,
-	FlatList,
 	ActivityIndicator,
+	FlatList,
+	Text,
 	TouchableOpacity,
+	View,
 } from "react-native";
-import type { Exercise } from "@/types/interfaces/exercises";
-import React, { useState, useCallback } from "react";
-import { styles } from "@/styles/ToDo";
-import ExerciseItem from "@/components/ExerciseItem";
-import ProgressBar from "@/components/ProgressBar";
 import CongratsModal from "@/components/CongratsModal";
 import ExerciseDetails from "@/components/ExerciseDetails";
+import ExerciseItem from "@/components/ExerciseItem";
+import ProgressBar from "@/components/ProgressBar";
 import { getExercises, updateWorkoutStatus } from "@/services/exercise";
-import { useFocusEffect, useRouter } from "expo-router";
+import { styles } from "@/styles/ToDo";
+import type { Exercise } from "@/types/interfaces/exercises";
 
 export default function ToDoList() {
 	const [exercises, setExercises] = useState<Exercise[]>([]);

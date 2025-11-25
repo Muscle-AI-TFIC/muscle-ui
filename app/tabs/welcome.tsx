@@ -1,10 +1,9 @@
-import { View, Text, TouchableOpacity, ScrollView } from "react-native";
+import { ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { ProgressDots } from "@/components/ProgressDots";
 import { WelcomeStep } from "@/components/WelcomeStep";
-import { WELCOME_STEPS } from "@/utils/welcomeSteps";
-import { welcomeStyles } from "@/styles/Welcome";
 import { useWelcome } from "@/hooks/useWelcome";
-import React from "react";
+import { welcomeStyles } from "@/styles/Welcome";
+import { WELCOME_STEPS } from "@/utils/welcomeSteps";
 
 export default function WelcomePage() {
 	const {
