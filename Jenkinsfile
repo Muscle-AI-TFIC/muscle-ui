@@ -37,6 +37,7 @@ pipeline {
             }
         }
 
+        // Estágio para executar verificador de segurança do node
         stage('Security Audit') {
             steps {
                 echo "Running npm audit..."
