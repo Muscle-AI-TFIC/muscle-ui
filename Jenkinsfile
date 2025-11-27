@@ -36,6 +36,13 @@ pipeline {
                 sh 'npm test'
             }
         }
+
+        stage('Security Audit') {
+        steps {
+            echo "Running npm audit..."
+            sh "npm audit --json --audit-level=high || true"
+        }
+    }
     }
 
     post {
