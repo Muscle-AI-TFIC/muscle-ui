@@ -38,11 +38,11 @@ pipeline {
         }
 
         stage('Security Audit') {
-        steps {
-            echo "Running npm audit..."
-            sh "npm audit --json --audit-level=high || true"
+            steps {
+                echo "Running npm audit..."
+                sh "npm audit --json --audit-level=high || true"
+            }
         }
-    }
     }
 
     post {
