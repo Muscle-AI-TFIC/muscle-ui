@@ -1,16 +1,16 @@
 import { router } from "expo-router";
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { supabase } from "@/services/supabase";
+import { getTrainingSheet } from "@/services/trainingSheet";
+import {
+	updateFirstAccessStatus,
+	updateWaitingStatus,
+} from "@/services/user_profile";
 import {
 	nextStepLogic,
 	prevStepLogic,
 	progressLogic,
 } from "@/services/welcomeLogic";
-import { supabase } from "@/services/supabase";
-import { getTrainingSheet } from "@/services/trainingSheet";
-import {
-	updateWaitingStatus,
-	updateFirstAccessStatus,
-} from "@/services/user_profile";
 
 const TOTAL_STEPS = 5;
 

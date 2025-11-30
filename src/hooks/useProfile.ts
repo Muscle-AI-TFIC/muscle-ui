@@ -14,8 +14,8 @@ import {
 } from "@/services/profile";
 import { supabase } from "@/services/supabase";
 import type { UserInfo } from "@/types/UserInfo";
-import { calculateIMC } from "@/utils/calcImc";
 import { calculateAge } from "@/utils/calcAge";
+import { calculateIMC } from "@/utils/calcImc";
 
 export function useProfile() {
 	const [image, setImage] = useState<string | null>(null);

@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it, vi, Mock } from "vitest";
+import { beforeEach, describe, expect, it, type Mock, vi } from "vitest";
 import { supabase } from "@/services/supabase";
 
 vi.mock("@/services/supabase", () => ({

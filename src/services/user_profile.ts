@@ -94,7 +94,7 @@ export const updateFirstAccessStatus = async (
 		}
 
 		return true;
-	} catch (error: any) {
+	} catch (error: unknown) {
 		console.error("Erro ao atualizar status de primeiro acesso:", error);
 		Alert.alert(
 			"Erro",
@@ -137,7 +137,7 @@ export const getFirstAccessStatus = async (
 		const data = await response.json();
 
 		return data.message.data.first_access;
-	} catch (error: any) {
+	} catch (error: unknown) {
 		console.error("Erro ao buscar status de primeiro acesso:", error);
 		Alert.alert(
 			"Erro",
@@ -180,7 +180,7 @@ export const updateWaitingStatus = async (
 
 		Alert.alert("Sucesso", "Status de espera atualizado com sucesso!");
 		return true;
-	} catch (error: any) {
+	} catch (error: unknown) {
 		console.error("Erro ao atualizar status de espera:", error);
 		Alert.alert(
 			"Erro",
