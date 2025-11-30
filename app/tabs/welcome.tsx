@@ -1,4 +1,4 @@
-import { ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { ProgressDots } from "@/components/ProgressDots";
 import { WelcomeStep } from "@/components/WelcomeStep";
 import { useWelcome } from "@/hooks/useWelcome";
@@ -14,6 +14,9 @@ export default function WelcomePage() {
 		isLastStep,
 		nextStep,
 		prevStep,
+		hasTrainingSheet,
+		loadingTrainingSheet,
+		handleGenerateTraining,
 	} = useWelcome();
 
 	const currentStepData = WELCOME_STEPS[currentStep - 1];
@@ -48,11 +51,26 @@ export default function WelcomePage() {
 					<Text style={welcomeStyles.buttonText}>Voltar</Text>
 				</TouchableOpacity>
 
-				<TouchableOpacity style={welcomeStyles.button} onPress={nextStep}>
-					<Text style={welcomeStyles.buttonText}>
-						{isLastStep ? "Finalizar" : "Próximo"}
-					</Text>
-				</TouchableOpacity>
+				{isLastStep ? (
+					loadingTrainingSheet ? (
+						<ActivityIndicator size="small" color="#0000ff" />
+					) : hasTrainingSheet ? (
+						<TouchableOpacity style={welcomeStyles.button} onPress={nextStep}>
+							<Text style={welcomeStyles.buttonText}>Finalizar</Text>
+						</TouchableOpacity>
+					) : (
+						<TouchableOpacity
+							style={welcomeStyles.button}
+							onPress={handleGenerateTraining}
+						>
+							<Text style={welcomeStyles.buttonText}>Gerar Treino</Text>
+						</TouchableOpacity>
+					)
+				) : (
+					<TouchableOpacity style={welcomeStyles.button} onPress={nextStep}>
+						<Text style={welcomeStyles.buttonText}>Próximo</Text>
+					</TouchableOpacity>
+				)}
 			</View>
 
 			<ProgressDots total={totalSteps} current={currentStep} />
