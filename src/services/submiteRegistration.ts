@@ -42,7 +42,7 @@ export const submitRegistration = async (
 		}
 
 		Alert.alert("Sucesso!", "Registro realizado! Verifique seu email.", [
-			{ text: "OK", onPress: () => router.replace("/auth/login") },
+			{ text: "OK", onPress: () => router.replace("/tabs/welcome") },
 		]);
 	} catch (err: unknown) {
 		let message = "Ocorreu um erro durante o registro.";

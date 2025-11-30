@@ -14,6 +14,8 @@ import {
 } from "@/services/profile";
 import { supabase } from "@/services/supabase";
 import type { UserInfo } from "@/types/UserInfo";
+import { calculateIMC } from "@/utils/calcImc";
+import { calculateAge } from "@/utils/calcAge";
 
 export function useProfile() {
 	const [image, setImage] = useState<string | null>(null);
@@ -144,24 +146,4 @@ export function useProfile() {
 		calculateIMC,
 		calculateAge,
 	};
-}
-
-function calculateIMC(userInfo: UserInfo | null): string {
-	if (!userInfo || !userInfo.weight_kg || !userInfo.height_cm) return "N/A";
-	const imc =
-		userInfo.weight_kg /
-		((userInfo.height_cm / 100) * (userInfo.height_cm / 100));
-	return imc.toFixed(2);
-}
-
-function calculateAge(userInfo: UserInfo | null): string {
-	if (!userInfo || !userInfo.birth_date) return "N/A";
-	const birthDate = new Date(userInfo.birth_date);
-	const today = new Date();
-	let age = today.getFullYear() - birthDate.getFullYear();
-	const m = today.getMonth() - birthDate.getMonth();
-	if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-		age--;
-	}
-	return age.toString();
 }

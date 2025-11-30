@@ -1,4 +1,4 @@
-import { Text, View } from "react-native";
+import { Image, Text, View } from "react-native";
 import { welcomeStyles } from "@/styles/Welcome";
 import type { WelcomeStepProps } from "@/types/interfaces/welcome";
 
@@ -7,6 +7,7 @@ export const WelcomeStep: React.FC<WelcomeStepProps> = ({
 	text,
 	imageText,
 	icon,
+	imageUrl,
 	isLast,
 }) => {
 	return (
@@ -15,11 +16,12 @@ export const WelcomeStep: React.FC<WelcomeStepProps> = ({
 			<Text style={welcomeStyles.stepText}>{text}</Text>
 			{isLast ? (
 				<Text style={welcomeStyles.successIcon}>{icon}</Text>
-			) : (
-				<View style={welcomeStyles.imagePlaceholder}>
-					<Text style={welcomeStyles.fakeImage}>{imageText}</Text>
+			) : imageUrl ? (
+				<View style={welcomeStyles.imageContainer}>
+					<Image source={{ uri: imageUrl }} style={welcomeStyles.image} />
+					{imageText && <Text style={welcomeStyles.imageText}>{imageText}</Text>}
 				</View>
-			)}
+			) : null}
 		</View>
 	);
 };

@@ -5,12 +5,13 @@ import {
 	progressLogic,
 } from "@/services/welcomeLogic";
 
-// total de steps 1 a 4
+// total de steps 1 a 5
 describe("welcomeLogic positive tests", () => {
 	it("nextStepLogic advances correctly", () => {
 		expect(nextStepLogic(1)).toBe(2);
 		expect(nextStepLogic(3)).toBe(4);
-		expect(nextStepLogic(4)).toBe(4); // limite
+		expect(nextStepLogic(4)).toBe(5);
+		expect(nextStepLogic(5)).toBe(5); // limite
 	});
 
 	it("prevStepLogic rewinds correctly", () => {
@@ -19,8 +20,10 @@ describe("welcomeLogic positive tests", () => {
 	});
 
 	it("calculates progress correctly", () => {
-		expect(progressLogic(1)).toBe(25);
-		expect(progressLogic(2)).toBe(50);
-		expect(progressLogic(4)).toBe(100);
+		expect(progressLogic(1)).toBe(20);
+		expect(progressLogic(2)).toBe(40);
+		expect(progressLogic(3)).toBe(60);
+		expect(progressLogic(4)).toBe(80);
+		expect(progressLogic(5)).toBe(100);
 	});
 });
