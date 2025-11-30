@@ -21,11 +21,7 @@ export const WelcomeStep: React.FC<WelcomeStepProps> = ({
 					<Image source={{ uri: imageUrl }} style={welcomeStyles.image} />
 					{imageText && <Text style={welcomeStyles.imageText}>{imageText}</Text>}
 				</View>
-			) : (
-				<View style={welcomeStyles.imagePlaceholder}>
-					<Text style={welcomeStyles.fakeImage}>{imageText}</Text>
-				</View>
-			)}
+			) : null}
 		</View>
 	);
 };
