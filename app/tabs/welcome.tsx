@@ -29,6 +29,7 @@ export default function WelcomePage() {
 					text={currentStepData.text}
 					imageText={currentStepData.imageText}
 					icon={currentStepData.icon}
+					imageUrl={currentStepData.imageUrl}
 					isLast={currentStepData.isLast}
 				/>
 			</View>
