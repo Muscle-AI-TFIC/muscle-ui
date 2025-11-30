@@ -10,7 +10,8 @@ describe("welcomeLogic positive tests", () => {
 	it("nextStepLogic advances correctly", () => {
 		expect(nextStepLogic(1)).toBe(2);
 		expect(nextStepLogic(3)).toBe(4);
-		expect(nextStepLogic(4)).toBe(4); // limite
+		expect(nextStepLogic(4)).toBe(5);
+        expect(nextStepLogic(5)).toBe(5);// limite
 	});
 
 	it("prevStepLogic rewinds correctly", () => {

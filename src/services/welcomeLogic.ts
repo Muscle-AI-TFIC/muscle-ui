@@ -1,6 +1,6 @@
 export const nextStepLogic = (
 	currentStep: number,
-	maxStep: number = 4,
+	maxStep: number = 5,
 ): number => {
 	return currentStep < maxStep ? currentStep + 1 : currentStep;
 };

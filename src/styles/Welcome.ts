@@ -1,4 +1,6 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Dimensions } from "react-native";
+
+const { width } = Dimensions.get('window');
 
 export const welcomeStyles = StyleSheet.create({
 	container: {
@@ -35,6 +37,15 @@ export const welcomeStyles = StyleSheet.create({
 		textAlign: "center",
 		marginBottom: 10,
 		color: "#DDD",
+	},
+	imageContainer: {
+		marginTop: 10,
+		alignItems: "center",
+	},
+	image: {
+		width: width * 0.7,
+		height: 200,
+		borderRadius: 8,
 	},
 	imagePlaceholder: {
 		marginTop: 10,

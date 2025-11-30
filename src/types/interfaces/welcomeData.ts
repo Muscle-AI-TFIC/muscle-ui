@@ -4,5 +4,6 @@ export interface WelcomeStepData {
 	text: string;
 	icon: string;
 	imageText?: string;
+    imageUrl?: string;
 	isLast?: boolean;
 }

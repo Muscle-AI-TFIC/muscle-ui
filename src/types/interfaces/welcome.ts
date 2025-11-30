@@ -3,5 +3,6 @@ export interface WelcomeStepProps {
 	text: string;
 	imageText?: string;
 	icon?: string;
+    imageUrl?: string;
 	isLast?: boolean;
 }

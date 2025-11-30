@@ -5,8 +5,9 @@ import {
 	prevStepLogic,
 	progressLogic,
 } from "@/services/welcomeLogic";
+import { WELCOME_STEPS } from "@/utils/welcomeSteps";
 
-const TOTAL_STEPS = 4;
+const TOTAL_STEPS = WELCOME_STEPS.length;
 
 export const useWelcome = () => {
 	const [currentStep, setCurrentStep] = useState(1);
