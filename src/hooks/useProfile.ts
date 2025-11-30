@@ -1,19 +1,19 @@
-import { useState, useEffect } from "react";
-import { Alert } from "react-native";
 import { router } from "expo-router";
+import { useCallback, useEffect, useState } from "react";
+import { Alert } from "react-native";
 import {
 	loadProfileImage,
-	saveProfileImage,
-	removeProfileImage,
 	pickImageFromGallery,
+	removeProfileImage,
+	saveProfileImage,
 } from "@/services/image";
 import {
 	loadUserProfile,
-	updateUserProfile,
 	logoutUser,
+	updateUserProfile,
 } from "@/services/profile";
 import { supabase } from "@/services/supabase";
-import { UserInfo } from "@/types/UserInfo";
+import type { UserInfo } from "@/types/UserInfo";
 
 export function useProfile() {
 	const [image, setImage] = useState<string | null>(null);
@@ -25,11 +25,7 @@ export function useProfile() {
 	const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
 	const [userId, setUserId] = useState<string>("");
 
-	useEffect(() => {
-		initializeProfile();
-	}, []);
-
-	const initializeProfile = async () => {
+	const initializeProfile = useCallback(async () => {
 		try {
 			const {
 				data: { user },
@@ -60,7 +56,11 @@ export function useProfile() {
 		} finally {
 			setLoadingProfile(false);
 		}
-	};
+	}, []);
+
+	useEffect(() => {
+		initializeProfile();
+	}, [initializeProfile]);
 
 	const handlePickImage = async () => {
 		const imageUri = await pickImageFromGallery();
@@ -82,7 +82,7 @@ export function useProfile() {
 						await removeProfileImage();
 						setImage(null);
 						Alert.alert("Sucesso", "Foto removida com sucesso!");
-					} catch (error) {
+					} catch (_error) {
 						Alert.alert("Erro", "Não foi possível remover a foto");
 					}
 				},

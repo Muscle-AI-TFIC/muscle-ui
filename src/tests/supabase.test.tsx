@@ -1,4 +1,4 @@
-import { vi, describe, it, expect, beforeEach } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { supabase } from "@/services/supabase";
 
 vi.mock("@/services/supabase", () => ({
@@ -35,7 +35,7 @@ describe("Supabase Auth", () => {
 			const email = "test@example.com";
 			const password = "password123";
 			const user = { id: "123", email };
-			(supabase.auth.signInWithPassword as any).mockResolvedValue({
+			(supabase.auth.signInWithPassword as vi.Mock).mockResolvedValue({
 				data: { user },
 				error: null,
 			});
@@ -57,7 +57,7 @@ describe("Supabase Auth", () => {
 			const email = "test@example.com";
 			const password = "wrongpassword";
 			const errorMessage = "Invalid credentials";
-			(supabase.auth.signInWithPassword as any).mockResolvedValue({
+			(supabase.auth.signInWithPassword as vi.Mock).mockResolvedValue({
 				data: null,
 				error: { message: errorMessage },
 			});
@@ -81,7 +81,7 @@ describe("Supabase Auth", () => {
 			const email = "newuser@example.com";
 			const password = "newpassword";
 			const user = { id: "456", email };
-			(supabase.auth.signUp as any).mockResolvedValue({
+			(supabase.auth.signUp as vi.Mock).mockResolvedValue({
 				data: { user },
 				error: null,
 			});
@@ -97,7 +97,7 @@ describe("Supabase Auth", () => {
 			const email = "existinguser@example.com";
 			const password = "password123";
 			const errorMessage = "User already registered";
-			(supabase.auth.signUp as any).mockResolvedValue({
+			(supabase.auth.signUp as vi.Mock).mockResolvedValue({
 				data: null,
 				error: { message: errorMessage },
 			});
@@ -121,7 +121,7 @@ describe("Supabase Auth", () => {
 				user_id: "123",
 			};
 			const insertMock = vi.fn().mockResolvedValue({ error: null });
-			(supabase.from as any).mockReturnValue({ insert: insertMock });
+			(supabase.from as vi.Mock).mockReturnValue({ insert: insertMock });
 
 			const { error } = await supabase.from("person_info").insert(userInfo);
 
@@ -143,7 +143,7 @@ describe("Supabase Auth", () => {
 			const insertMock = vi
 				.fn()
 				.mockResolvedValue({ error: { message: errorMessage } });
-			(supabase.from as any).mockReturnValue({ insert: insertMock });
+			(supabase.from as vi.Mock).mockReturnValue({ insert: insertMock });
 
 			const { error } = await supabase.from("person_info").insert(userInfo);
 

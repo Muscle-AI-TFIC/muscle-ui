@@ -44,7 +44,7 @@ export const loadProfileImage = async () => {
 export const saveProfileImage = async (imageUri: string) => {
 	try {
 		await AsyncStorage.setItem(STORAGE_KEYS.PROFILE_IMAGE, imageUri);
-	} catch (error) {
+	} catch (_error) {
 		Alert.alert("Erro", "Não foi possível salvar a imagem");
 	}
 };

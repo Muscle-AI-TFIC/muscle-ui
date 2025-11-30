@@ -1,6 +1,6 @@
-import { UserInfo } from "../types/UserInfo";
+import type { UserInfo } from "../types/UserInfo";
 
-export const calculateIMC = (userInfo: UserInfo) => {
+export const calculateIMC = (userInfo: UserInfo | null) => {
 	if (userInfo?.weight_kg && userInfo?.height_cm) {
 		const pesoNum = userInfo.weight_kg;
 		const alturaMetros =

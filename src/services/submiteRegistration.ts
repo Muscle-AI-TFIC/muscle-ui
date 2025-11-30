@@ -1,7 +1,8 @@
+import { router } from "expo-router";
+import { Alert } from "react-native";
+import { ZodError } from "zod";
 import { registerSchema } from "@/types/registerSchema";
 import { supabase } from "./supabase";
-import { Alert } from "react-native";
-import { router } from "expo-router";
 
 export const submitRegistration = async (
 	formData: Record<string, string>,
@@ -43,10 +44,13 @@ export const submitRegistration = async (
 		Alert.alert("Sucesso!", "Registro realizado! Verifique seu email.", [
 			{ text: "OK", onPress: () => router.replace("/auth/login") },
 		]);
-	} catch (err: any) {
-		const message = err.errors
-			? "Por favor, corrija os erros no formulário"
-			: err.message || "Ocorreu um erro durante o registro.";
+	} catch (err: unknown) {
+		let message = "Ocorreu um erro durante o registro.";
+		if (err instanceof ZodError) {
+			message = "Por favor, corrija os erros no formulário";
+		} else if (err instanceof Error) {
+			message = err.message;
+		}
 		Alert.alert("Erro", message);
 	} finally {
 		setLoading(false);

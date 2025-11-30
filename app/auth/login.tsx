@@ -1,23 +1,22 @@
+import { useState } from "react";
 import {
-	View,
+	ActivityIndicator,
 	Image,
+	KeyboardAvoidingView,
+	Platform,
+	ScrollView,
 	Text,
 	TextInput,
 	TouchableOpacity,
-	ActivityIndicator,
-	ScrollView,
-	KeyboardAvoidingView,
-	Platform,
+	View,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import SuccessModal from "@/components/SuccessModal/SuccessModal";
 import {
 	loginUser,
 	navigateToHome,
 	navigateToRegister,
 } from "@/services/login";
-import SuccessModal from "@/components/SuccessModal/SuccessModal";
 import { loginProps } from "@/styles/Login";
-import React, { useState } from "react";
 
 export default function LoginScreen() {
 	const [email, setEmail] = useState<string>("");

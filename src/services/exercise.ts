@@ -1,6 +1,21 @@
-import { supabase } from "./supabase";
 import { Alert } from "react-native";
 import type { Exercise, WorkoutData } from "@/types/interfaces/exercises";
+import { supabase } from "./supabase";
+
+interface DailyWorkoutExerciseItem {
+	id: { toString: () => string };
+	exercises: {
+		name: string;
+		description: string;
+		difficulty: string;
+		duration_minutes: number;
+		gif_url: string;
+	};
+	finished: boolean;
+	sets: number;
+	reps: number;
+	position: number;
+}
 
 export const getExercises = async (): Promise<WorkoutData | null> => {
 	try {
@@ -34,15 +49,14 @@ export const getExercises = async (): Promise<WorkoutData | null> => {
 		const data = await response.json();
 
 		if (
-			data &&
-			data.message &&
+			data?.message &&
 			Array.isArray(data.message.data) &&
 			data.message.data.length > 0 &&
 			Array.isArray(data.message.data[0].daily_workout_exercises)
 		) {
 			const workoutId = data.message.data[0].id;
 			const exercises = data.message.data[0].daily_workout_exercises.map(
-				(item: any) => ({
+				(item: DailyWorkoutExerciseItem) => ({
 					id: item.id.toString(),
 					name: item.exercises.name,
 					finished: item.finished,
@@ -59,7 +73,7 @@ export const getExercises = async (): Promise<WorkoutData | null> => {
 			return { exercises, workoutId };
 		}
 		return null;
-	} catch (error: any) {
+	} catch (error: unknown) {
 		console.error("Erro ao buscar exercícios:", error);
 		Alert.alert("Erro", "Não foi possível buscar os exercícios");
 		return null;
@@ -106,7 +120,7 @@ export const updateWorkoutStatus = async (
 		}
 
 		return true;
-	} catch (error: any) {
+	} catch (error: unknown) {
 		console.error("Erro ao atualizar status do treino:", error);
 		Alert.alert("Erro", "Não foi possível atualizar o status do treino");
 		return false;

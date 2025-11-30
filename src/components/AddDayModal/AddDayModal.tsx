@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import { View, Text, TextInput, Modal, TouchableOpacity } from "react-native";
-import { styles } from "./AddDayModal.styles";
+import { useState } from "react";
+import { Modal, Text, TextInput, View } from "react-native";
 import { Button } from "../Button/Button";
+import { styles } from "./AddDayModal.styles";
 
 interface AddDayModalProps {
 	visible: boolean;

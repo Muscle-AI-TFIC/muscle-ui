@@ -1,23 +1,46 @@
-import React, { useState } from "react";
-import { View, Text, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import type React from "react";
+import { useState } from "react";
+import { Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { styleHome } from "@/styles/Home";
-import ToDoList from "./toDoList";
 import Profile from "./profile";
+import ToDoList from "./toDoList";
 import TrainingSheet from "./trainingSheet";
 
 interface NavBarProps {
 	onTabChange: (tab: string) => void;
 }
 
+type IconName = React.ComponentProps<typeof Ionicons>["name"];
+
 export function CustomNavigationBar({ onTabChange }: NavBarProps) {
 	const [activeTab, setActiveTab] = useState("home");
 
-	const tabs = [
-		{ id: "home", title: "Exercises", icon: "barbell" },
-		{ id: "trainingSheet", title: "Training Sheet", icon: "clipboard" },
-		{ id: "profile", title: "Profile", icon: "person" },
+	const tabs: {
+		id: string;
+		title: string;
+		icon: IconName;
+		iconOutline: IconName;
+	}[] = [
+		{
+			id: "home",
+			title: "Exercises",
+			icon: "barbell",
+			iconOutline: "barbell-outline",
+		},
+		{
+			id: "trainingSheet",
+			title: "Training Sheet",
+			icon: "clipboard",
+			iconOutline: "clipboard-outline",
+		},
+		{
+			id: "profile",
+			title: "Profile",
+			icon: "person",
+			iconOutline: "person-outline",
+		},
 	];
 
 	const handleTabPress = (tabId: string) => {
@@ -37,11 +60,7 @@ export function CustomNavigationBar({ onTabChange }: NavBarProps) {
 					>
 						<View style={styleHome.iconContainer}>
 							<Ionicons
-								name={
-									activeTab === tab.id
-										? (tab.icon as any)
-										: (`${tab.icon}-outline` as any)
-								}
+								name={activeTab === tab.id ? tab.icon : tab.iconOutline}
 								size={22}
 								color={activeTab === tab.id ? "#FFA500" : "#8E8E93"}
 							/>

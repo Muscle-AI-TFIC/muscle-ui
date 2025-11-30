@@ -1,6 +1,6 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { calculateAge } from "../utils/calcAge";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { UserInfo } from "../types/UserInfo";
+import { calculateAge } from "../utils/calcAge";
 
 describe("CalculateAge", () => {
 	const fixedToday = new Date("2025-11-10T00:00:00Z");

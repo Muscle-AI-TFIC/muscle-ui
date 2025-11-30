@@ -1,8 +1,8 @@
-import { View, ActivityIndicator, Text } from "react-native";
-import { styles } from "@/styles/TrainingSheet";
+import { ActivityIndicator, Text, View } from "react-native";
 import { AddDayModal } from "@/components/AddDayModal/AddDayModal";
-import { useTrainingSheet } from "@/hooks/useTrainingSheet";
 import { TrainingSheetList } from "@/components/TrainingSheetList/TrainingSheetList";
+import { useTrainingSheet } from "@/hooks/useTrainingSheet";
+import { styles } from "@/styles/TrainingSheet";
 
 export default function TrainingSheetComponent() {
 	const {

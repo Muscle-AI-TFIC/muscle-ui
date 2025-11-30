@@ -1,8 +1,8 @@
-import LoginScreen from "./auth/login";
-import { useEffect, useState } from "react";
-import { supabase } from "@/services/supabase";
 import { router } from "expo-router";
+import { useEffect, useState } from "react";
 import { ActivityIndicator, View } from "react-native";
+import { supabase } from "@/services/supabase";
+import LoginScreen from "./auth/login";
 
 export default function Index() {
 	const [loading, setLoading] = useState(true);

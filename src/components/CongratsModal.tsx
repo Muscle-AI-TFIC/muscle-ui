@@ -1,5 +1,5 @@
-import { View, Text, Modal } from "react-native";
 import LottieView from "lottie-react-native";
+import { Modal, Text, View } from "react-native";
 import { styles } from "@/styles/ToDo"; // Assuming styles are shared or will be moved
 
 interface CongratsModalProps {

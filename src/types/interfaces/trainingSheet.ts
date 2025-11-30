@@ -14,7 +14,7 @@ export interface TrainingSheet {
 }
 
 export interface TrainingSheetMessage {
-	error: any;
+	error: unknown;
 	data: TrainingSheet[];
 	count: number | null;
 	status: number;

@@ -1,14 +1,14 @@
 import {
-	Text,
-	View,
-	TouchableOpacity,
-	ScrollView,
-	TextInput,
-	Modal,
 	ActivityIndicator,
+	Modal,
+	ScrollView,
+	Text,
+	TextInput,
+	TouchableOpacity,
+	View,
 } from "react-native";
 import { styles } from "@/styles/Profile"; // Assuming styles are shared or will be moved
-import { UserInfo } from "@/types/UserInfo";
+import type { UserInfo } from "@/types/UserInfo";
 
 interface EditUserModalProps {
 	modalVisible: boolean;

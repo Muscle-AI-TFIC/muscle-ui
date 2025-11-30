@@ -1,5 +1,5 @@
-import { View, Text, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { Text, TouchableOpacity, View } from "react-native";
 import { styles } from "@/styles/TrainingSheet";
 import type { TrainingSheetExercise } from "@/types/interfaces/trainingSheet";
 

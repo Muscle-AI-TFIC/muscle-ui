@@ -1,11 +1,11 @@
-import { View, Text, TouchableOpacity, FlatList } from "react-native";
+import { FlatList, Text, TouchableOpacity, View } from "react-native";
 import { styles } from "@/styles/TrainingSheet";
-import { ExerciseItem } from "../ExerciseItem/ExerciseItem";
-import { AddExercise } from "../AddExercise/AddExercise";
 import type {
 	TrainingSheet,
 	TrainingSheetExercise,
 } from "@/types/interfaces/trainingSheet";
+import { AddExercise } from "../AddExercise/AddExercise";
+import { ExerciseItem } from "../ExerciseItem/ExerciseItem";
 
 interface ExerciseWithCompletion extends TrainingSheetExercise {
 	completed?: boolean;
@@ -72,7 +72,7 @@ export function DayItem({
 
 					<FlatList
 						data={sheet.training_sheet_exercises}
-						keyExtractor={(item, index) => index.toString()}
+						keyExtractor={(_item, index) => index.toString()}
 						renderItem={({ item, index }) => (
 							<ExerciseItem
 								item={item}

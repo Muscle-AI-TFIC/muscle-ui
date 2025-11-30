@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
-import { Alert } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useCallback, useEffect, useState } from "react";
+import { Alert } from "react-native";
 import type {
 	TrainingSheet,
 	TrainingSheetExercise,
@@ -26,11 +26,7 @@ export function useTrainingSheet() {
 	const [newExercise, setNewExercise] = useState<{ [key: string]: string }>({});
 	const [isAddDayModalVisible, setIsAddDayModalVisible] = useState(false);
 
-	useEffect(() => {
-		fetchTrainingSheet();
-	}, []);
-
-	const fetchTrainingSheet = async () => {
+	const fetchTrainingSheet = useCallback(async () => {
 		setLoading(true);
 		try {
 			const storedSheets = await AsyncStorage.getItem(
@@ -39,7 +35,7 @@ export function useTrainingSheet() {
 			if (storedSheets) {
 				setTrainingSheets(JSON.parse(storedSheets));
 			}
-		} catch (error) {
+		} catch (error: unknown) {
 			console.error("Error fetching training sheet from storage:", error);
 			Alert.alert(
 				"Erro",
@@ -47,7 +43,11 @@ export function useTrainingSheet() {
 			);
 		}
 		setLoading(false);
-	};
+	}, []);
+
+	useEffect(() => {
+		fetchTrainingSheet();
+	}, [fetchTrainingSheet]);
 
 	const handleSave = async () => {
 		if (trainingSheets.length === 0) {

@@ -1,6 +1,6 @@
-import { describe, it, expect } from "vitest";
+import { describe, expect, it } from "vitest";
+import type { UserInfo } from "../types/UserInfo";
 import { calculateIMC } from "../utils/calcImc";
-import { UserInfo } from "../types/UserInfo";
 
 describe("CalculateIMC", () => {
 	const baseUser: UserInfo = {
@@ -32,19 +32,19 @@ describe("CalculateIMC", () => {
 	});
 
 	it('should return "--" if weight is missing', () => {
-		const user: UserInfo = { ...baseUser, weight_kg: undefined as any };
+		const user: UserInfo = { ...baseUser, weight_kg: undefined };
 		const result = calculateIMC(user);
 		expect(result).toBe("--");
 	});
 
 	it('should return "--" if height is missing', () => {
-		const user: UserInfo = { ...baseUser, height_cm: undefined as any };
+		const user: UserInfo = { ...baseUser, height_cm: undefined };
 		const result = calculateIMC(user);
 		expect(result).toBe("--");
 	});
 
 	it('should return "--" if userInfo is null', () => {
-		const result = calculateIMC(null as any);
+		const result = calculateIMC(null);
 		expect(result).toBe("--");
 	});
 });

@@ -1,10 +1,10 @@
 import { FlatList, Text, TouchableOpacity } from "react-native";
 import { styles } from "@/styles/TrainingSheet";
-import { DayItem } from "../DayItem/DayItem";
 import type {
 	TrainingSheet,
 	TrainingSheetExercise,
 } from "@/types/interfaces/trainingSheet";
+import { DayItem } from "../DayItem/DayItem";
 
 interface ExerciseWithCompletion extends TrainingSheetExercise {
 	completed?: boolean;

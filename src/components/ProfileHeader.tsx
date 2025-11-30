@@ -1,4 +1,4 @@
-import { Text, Image, View, TouchableOpacity } from "react-native";
+import { Image, Text, TouchableOpacity, View } from "react-native";
 import { styles } from "@/styles/Profile"; // Assuming styles are shared or will be moved
 
 interface ProfileHeaderProps {

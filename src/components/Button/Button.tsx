@@ -1,5 +1,8 @@
-import React from "react";
-import { TouchableOpacity, Text, GestureResponderEvent } from "react-native";
+import {
+	type GestureResponderEvent,
+	Text,
+	TouchableOpacity,
+} from "react-native";
 import { styles } from "./Button.styles";
 
 interface ButtonProps {
