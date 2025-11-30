@@ -4,7 +4,7 @@
 		"slug": "muscle-ui",
 		"version": "1.0.0",
 		"orientation": "portrait",
-		"icon": "./assets/images/icons/android-chrome-512x512.png",
+		"icon": "./assets/images/logo.png",
 		"scheme": "muscleui",
 		"userInterfaceStyle": "automatic",
 		"newArchEnabled": true,
