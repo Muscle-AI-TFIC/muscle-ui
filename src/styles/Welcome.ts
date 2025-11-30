@@ -36,6 +36,20 @@ export const welcomeStyles = StyleSheet.create({
 		marginBottom: 10,
 		color: "#DDD",
 	},
+	imageContainer: {
+		marginTop: 10,
+		alignItems: "center",
+	},
+	image: {
+		width: "100%",
+		height: 200,
+		borderRadius: 8,
+	},
+	imageText: {
+		marginTop: 5,
+		color: "#AAA",
+		fontStyle: "italic",
+	},
 	imagePlaceholder: {
 		marginTop: 10,
 		padding: 30,
