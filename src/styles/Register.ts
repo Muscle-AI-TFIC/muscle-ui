@@ -6,7 +6,6 @@ export const registerprops = StyleSheet.create({
 	container: {
 		flex: 1,
 		padding: 20,
-		backgroundColor: "#121212",
 		alignItems: "center",
 		justifyContent: "center",
 	},
@@ -57,7 +56,7 @@ export const registerprops = StyleSheet.create({
 	},
 
 	input: {
-		width: "65%",
+		width: "80%",
 		maxWidth: 350,
 		height: 50,
 		backgroundColor: "#fff",

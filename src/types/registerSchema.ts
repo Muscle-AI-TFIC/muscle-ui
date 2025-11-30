@@ -41,7 +41,7 @@ export const FIELDS = [
 	},
 	{
 		key: "password",
-		placeholder: "Senha (mínimo 6 caracteres)",
+		placeholder: "Senha",
 		secureTextEntry: true,
 	},
 	{
@@ -52,15 +52,15 @@ export const FIELDS = [
 	{ key: "dataNascimento", placeholder: "YYYY-MM-DD" },
 	{
 		key: "altura",
-		placeholder: "Altura em metros (Ex: 1.75)",
+		placeholder: "Altura (Ex: 1.75)",
 		keyboardType: "decimal-pad" as const,
 	},
 	{
 		key: "peso",
-		placeholder: "Peso em kg (Ex: 70.5)",
+		placeholder: "Peso (Ex: 70.5)",
 		keyboardType: "decimal-pad" as const,
 	},
 	{ key: "gender", placeholder: "Gênero" },
-	{ key: "fitness_level", placeholder: "Nível de fitness (Ex: Iniciante)" },
-	{ key: "goal", placeholder: "Objetivo (Ex: Ganhar massa muscular)" },
+	{ key: "fitness_level", placeholder: "Nível de fitness" },
+	{ key: "goal", placeholder: "Objetivo" },
 ];
