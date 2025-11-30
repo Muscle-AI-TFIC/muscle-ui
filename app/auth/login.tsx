@@ -1,53 +1,117 @@
-import React, { useState } from "react";
-import { View, Text, TextInput, Alert, Button } from "react-native";
-import { auth } from "@/services/firebase"; // seu serviço Firebase
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { useState } from "react";
+import {
+	ActivityIndicator,
+	Image,
+	KeyboardAvoidingView,
+	Platform,
+	ScrollView,
+	Text,
+	TextInput,
+	TouchableOpacity,
+	View,
+} from "react-native";
+import SuccessModal from "@/components/SuccessModal/SuccessModal";
+import {
+	loginUser,
+	navigateToHome,
+	navigateToRegister,
+} from "@/services/login";
+import { loginProps } from "@/styles/Login";
 
-export const LoginScreen: React.FC = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
+export default function LoginScreen() {
+	const [email, setEmail] = useState<string>("");
+	const [password, setPassword] = useState<string>("");
+	const [loading, setLoading] = useState<boolean>(false);
+	const [showSuccessModal, setShowSuccessModal] = useState<boolean>(false);
+	const [userEmail, setUserEmail] = useState<string>("");
 
-  const handleLogin = async () => {
-    if (!email || !password) {
-      Alert.alert("Erro", "Preencha todos os campos");
-      return;
-    }
+	const handleLogin = async (): Promise<void> => {
+		await loginUser({
+			email,
+			password,
+			setLoading,
+			onSuccess: (userEmail) => {
+				setUserEmail(userEmail);
+				setShowSuccessModal(true);
+			},
+		});
+	};
 
-    setLoading(true);
-    try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      const user = userCredential.user;
-      Alert.alert("Sucesso", `Bem-vindo, ${user.email}`);
-    } catch (error: any) {
-      Alert.alert("Erro", error.code || "Falha no login");
-    } finally {
-      setLoading(false);
-    }
-  };
+	const handleModalClose = () => {
+		setShowSuccessModal(false);
+		navigateToHome();
+	};
 
-  return (
-    <View style={{ padding: 20 }}>
-      <Text style={{ fontSize: 24, marginBottom: 20 }}>Login</Text>
+	return (
+		<KeyboardAvoidingView
+			style={{ flex: 1, backgroundColor: "#121212" }}
+			behavior={Platform.OS === "android" ? "padding" : "height"}
+			keyboardVerticalOffset={0}
+		>
+			<ScrollView
+				contentContainerStyle={{ flexGrow: 1, justifyContent: "center" }}
+				keyboardShouldPersistTaps="handled"
+			>
+				<View style={loginProps.screen}>
+					<Text style={loginProps.containerTop}>Login</Text>
+					<Image
+						style={loginProps.logo}
+						source={require("assets/images/logo-final.png")}
+					/>
 
-      <TextInput
-        placeholder="Email"
-        keyboardType="email-address"
-        autoCapitalize="none"
-        value={email}
-        onChangeText={setEmail}
-        style={{ borderWidth: 1, marginBottom: 10, padding: 10 }}
-      />
+					<View style={loginProps.email}>
+						<TextInput
+							placeholder="Email"
+							placeholderTextColor="#999"
+							keyboardType="email-address"
+							autoCapitalize="none"
+							autoCorrect={false}
+							value={email}
+							onChangeText={setEmail}
+							editable={!loading}
+						/>
+					</View>
 
-      <TextInput
-        placeholder="Senha"
-        secureTextEntry
-        value={password}
-        onChangeText={setPassword}
-        style={{ borderWidth: 1, marginBottom: 20, padding: 10 }}
-      />
+					<View style={loginProps.password}>
+						<TextInput
+							placeholder="Senha"
+							placeholderTextColor="#999"
+							secureTextEntry
+							autoCapitalize="none"
+							autoCorrect={false}
+							value={password}
+							onChangeText={setPassword}
+							editable={!loading}
+						/>
+					</View>
 
-      <Button title={loading ? "Entrando..." : "Login"} onPress={handleLogin} disabled={loading} />
-    </View>
-  );
-};
+					<TouchableOpacity
+						style={loginProps.loginButton}
+						onPress={handleLogin}
+						disabled={loading}
+						activeOpacity={0.8}
+					>
+						{loading ? (
+							<ActivityIndicator color="#fff" />
+						) : (
+							<Text style={loginProps.loginButtonText}>Login</Text>
+						)}
+					</TouchableOpacity>
+
+					<View style={loginProps.footer}>
+						<Text style={loginProps.footerText}>Esqueceu a senha?</Text>
+						<TouchableOpacity onPress={navigateToRegister}>
+							<Text style={loginProps.footerText}>Criar conta</Text>
+						</TouchableOpacity>
+					</View>
+				</View>
+			</ScrollView>
+
+			<SuccessModal
+				visible={showSuccessModal}
+				onClose={handleModalClose}
+				email={userEmail}
+			/>
+		</KeyboardAvoidingView>
+	);
+}

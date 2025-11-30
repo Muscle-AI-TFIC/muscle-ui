@@ -1,15 +1,23 @@
-import React from 'react';
-import { TouchableOpacity, Text, GestureResponderEvent } from 'react-native';
-import { styleButton } from './Button.styles';
+import {
+	type GestureResponderEvent,
+	Text,
+	TouchableOpacity,
+} from "react-native";
+import { styles } from "./Button.styles";
 
-export const button_test = () => {
-  return "It works"
+interface ButtonProps {
+	title: string;
+	onPress: (event: GestureResponderEvent) => void;
+	variant?: "primary" | "secondary";
 }
 
-export const Button = () => {
-  return (
-    <button style={styleButton.button} type="submit" onClick={button_test}>
-      <span>Enviar</span>
-    </button>
-  );
-};
+export function Button({ title, onPress, variant = "primary" }: ButtonProps) {
+	return (
+		<TouchableOpacity
+			style={[styles.button, styles[variant]]}
+			onPress={onPress}
+		>
+			<Text style={styles.text}>{title}</Text>
+		</TouchableOpacity>
+	);
+}

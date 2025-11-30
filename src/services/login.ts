@@ -1,21 +1,46 @@
-import { auth, getFirebaseErrorMessage } from "@/services/firebase";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { router } from "expo-router";
+import { Alert } from "react-native";
+import type { LoginParams } from "@/types/interfaces/loginParams";
+import { supabase } from "./supabase";
 
-export interface LoginInfos {
-  email: string;
-  password: string;
-}
+export const loginUser = async ({
+	email,
+	password,
+	setLoading,
+	onSuccess,
+}: LoginParams) => {
+	if (!email || !password) {
+		Alert.alert("Erro", "Preencha todos os campos");
+		return;
+	}
 
-export const submitLogin = async (infos: LoginInfos) => {
-  try {
-    const userCredential = await signInWithEmailAndPassword(auth, infos.email, infos.password);
-    const user = userCredential.user;
+	setLoading(true);
 
-    return {
-      uid: user.uid,
-      email: user.email,
-    };
-  } catch (error: any) {
-    throw new Error(getFirebaseErrorMessage(error.code));
-  }
+	try {
+		const { data, error } = await supabase.auth.signInWithPassword({
+			email: email.trim().toLowerCase(),
+			password: password,
+		});
+
+		if (error) throw error;
+
+		const userEmail = data.user?.email || email;
+		onSuccess(userEmail);
+	} catch (error: unknown) {
+		let message = "Falha no login";
+		if (error instanceof Error) {
+			message = error.message;
+		}
+		Alert.alert("Erro", message);
+	} finally {
+		setLoading(false);
+	}
+};
+
+export const navigateToHome = () => {
+	router.push("/tabs/home");
+};
+
+export const navigateToRegister = () => {
+	router.push("/auth/register");
 };

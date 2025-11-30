@@ -1,3 +1,5 @@
+[![Muscle-ai CI](https://github.com/Muscle-AI-TFIC/muscle-ui/actions/workflows/main.yml/badge.svg)](https://github.com/Muscle-AI-TFIC/muscle-ui/actions/workflows/main.yml)
+
 # Welcome to your Expo app 👋
 
 This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
@@ -15,6 +17,15 @@ This is an [Expo](https://expo.dev) project created with [`create-expo-app`](htt
    ```bash
    npx expo start
    ```
+
+## Jenkins Setup
+
+To set up and run the Jenkins master and agent using Docker Compose, and ensure the agent has proper Docker permissions, follow these steps:
+
+**Start Jenkins Master and Agent (Initial Setup):**
+    ```bash
+    docker compose up -d
+    ```
 
 In the output, you'll find options to open the app in a
 

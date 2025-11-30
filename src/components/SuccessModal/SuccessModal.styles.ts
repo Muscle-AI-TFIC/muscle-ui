@@ -1,0 +1,73 @@
+import { StyleSheet } from "react-native";
+
+export const styles = StyleSheet.create({
+	modalContainer: {
+		flex: 1,
+		backgroundColor: "rgba(0, 0, 0, 0.7)",
+		justifyContent: "center",
+		alignItems: "center",
+		padding: 20,
+	},
+	animatedView: {
+		backgroundColor: "#1E1E1E",
+		borderRadius: 20,
+		padding: 30,
+		width: "90%",
+		maxWidth: 400,
+		alignItems: "center",
+		shadowColor: "#000",
+		shadowOffset: { width: 0, height: 10 },
+		shadowOpacity: 0.5,
+		shadowRadius: 20,
+		elevation: 10,
+	},
+	iconContainer: {
+		width: 80,
+		height: 80,
+		borderRadius: 40,
+		backgroundColor: "#ad5813ffff",
+		justifyContent: "center",
+		alignItems: "center",
+		marginBottom: 20,
+	},
+	iconText: {
+		fontSize: 40,
+		color: "#fff",
+	},
+	title: {
+		fontSize: 24,
+		fontWeight: "bold",
+		color: "#fff",
+		marginBottom: 10,
+		textAlign: "center",
+	},
+	message: {
+		fontSize: 16,
+		color: "#B0B0B0",
+		textAlign: "center",
+		marginBottom: 30,
+		lineHeight: 22,
+	},
+	emailText: {
+		color: "#fff",
+		fontWeight: "600",
+	},
+	button: {
+		backgroundColor: "#b36a0bff",
+		paddingHorizontal: 40,
+		paddingVertical: 15,
+		borderRadius: 12,
+		width: "100%",
+		alignItems: "center",
+		shadowColor: "#a15f13ff",
+		shadowOffset: { width: 0, height: 4 },
+		shadowOpacity: 0.3,
+		shadowRadius: 8,
+		elevation: 5,
+	},
+	buttonText: {
+		color: "#fff",
+		fontSize: 16,
+		fontWeight: "bold",
+	},
+});
