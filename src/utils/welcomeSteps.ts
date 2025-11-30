@@ -13,7 +13,7 @@ export const WELCOME_STEPS: WelcomeStepData[] = [
 		text: "Monitore suas estatísticas, evolução muscular e desempenho nos treinos.",
 		icon: "📊",
 		imageText: "Tela de Treinos",
-		imageUrl: "https://i.imgur.com/tMi9qXH.jpeg",
+		imageUrl: "https://i.imgur.com/OygBs3m.jpeg",
 	},
 	{
 		id: 3,
@@ -21,7 +21,7 @@ export const WELCOME_STEPS: WelcomeStepData[] = [
 		text: "Receba recomendações de exercícios baseadas no seu histórico e objetivos.",
 		icon: "🎯",
 		imageText: "Treinos customizáveis",
-		imageUrl: "https://i.imgur.com/zdCfrJE.jpeg",
+		imageUrl: "https://i.imgur.com/g7uYMYF.jpeg",
 	},
 	{
 		id: 4,
@@ -29,7 +29,7 @@ export const WELCOME_STEPS: WelcomeStepData[] = [
 		text: "Você pode criar um perfil! Que servirá de base para a nossa AI criar um treino exclusivo para você!👀",
 		icon: "🎯",
 		imageText: "Treinos customizáveis",
-		imageUrl: "https://i.imgur.com/DzSE03E.jpeg",
+		imageUrl: "https://i.imgur.com/FJLZKsP.jpeg",
 	},
 	{
 		id: 5,
