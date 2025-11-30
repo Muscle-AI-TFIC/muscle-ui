@@ -29,11 +29,16 @@ pipeline {
             }
         }
 
-        // Estágio para executar os testes unitários
+        // Estágio para executar os testes com cobertura
         stage('Test') {
             steps {
-                // Usa o script de teste do package.json
-                sh 'npm test'
+                sh 'npm test:coverage'
+            }
+            post {
+                always {
+                    // Salva o relatório de cobertura
+                    archiveArtifacts artifacts: 'coverage/**', allowEmptyArchive: false
+                }
             }
         }
 
