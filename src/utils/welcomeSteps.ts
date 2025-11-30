@@ -13,14 +13,25 @@ export const WELCOME_STEPS: WelcomeStepData[] = [
 		title: "📊 Acompanhe Seu Progresso",
 		text: "Monitore suas estatísticas, evolução muscular e desempenho nos treinos.",
 		icon: "📊",
-		imageText: "Gráfico de Progresso",
+		imageText: "Tela de Treinos",
+		imageUrl: "123",
 	},
 	{
 		id: 3,
 		title: "🎯 Treinos Personalizados",
 		text: "Receba recomendações de exercícios baseadas no seu histórico e objetivos.",
 		icon: "🎯",
-		imageText: "Exercícios Personalizados",
+		imageText: "Treinos customizáveis",
+		imageUrl: "123",
+	},
+	{
+		id: 4,
+		title:
+			"🎯 voce pode criar um perfil! Que servirá de base para a nossa AI criar um treino exclusivo para você!👀",
+		text: "Crie Treinos do seu jeito!",
+		icon: "🎯",
+		imageText: "Treinos customizáveis",
+		imageUrl: "123",
 	},
 	{
 		id: 4,
