@@ -1,4 +1,10 @@
-import { ActivityIndicator, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import {
+	ActivityIndicator,
+	ScrollView,
+	Text,
+	TouchableOpacity,
+	View,
+} from "react-native";
 import { ProgressDots } from "@/components/ProgressDots";
 import { WelcomeStep } from "@/components/WelcomeStep";
 import { useWelcome } from "@/hooks/useWelcome";

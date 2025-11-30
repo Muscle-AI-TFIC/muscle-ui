@@ -189,4 +189,3 @@ export const updateWaitingStatus = async (
 		return false;
 	}
 };
-

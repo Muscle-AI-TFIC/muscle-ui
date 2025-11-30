@@ -19,7 +19,9 @@ export const WelcomeStep: React.FC<WelcomeStepProps> = ({
 			) : imageUrl ? (
 				<View style={welcomeStyles.imageContainer}>
 					<Image source={{ uri: imageUrl }} style={welcomeStyles.image} />
-					{imageText && <Text style={welcomeStyles.imageText}>{imageText}</Text>}
+					{imageText && (
+						<Text style={welcomeStyles.imageText}>{imageText}</Text>
+					)}
 				</View>
 			) : null}
 		</View>

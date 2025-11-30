@@ -7,7 +7,10 @@ import {
 } from "@/services/welcomeLogic";
 import { supabase } from "@/services/supabase";
 import { getTrainingSheet } from "@/services/trainingSheet";
-import { updateWaitingStatus, updateFirstAccessStatus } from "@/services/user_profile";
+import {
+	updateWaitingStatus,
+	updateFirstAccessStatus,
+} from "@/services/user_profile";
 
 const TOTAL_STEPS = 5;
 
@@ -91,4 +94,3 @@ export const useWelcome = () => {
 		handleGenerateTraining,
 	};
 };
-
