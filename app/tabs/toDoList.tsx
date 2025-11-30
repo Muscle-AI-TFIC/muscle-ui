@@ -94,7 +94,43 @@ export default function ToDoList() {
 				]}
 			>
 				<ActivityIndicator size="large" color="#bb6c12ff" />
-				<Text style={{ marginTop: 16 }}>Carregando exercícios...</Text>
+				<Text style={{ marginTop: 16, color: "#fff" }}>
+					Carregando exercícios...
+				</Text>
+			</View>
+		);
+	}
+
+	if (exercises.length === 0) {
+		return (
+			<View
+				style={[
+					styles.container,
+					{ justifyContent: "center", alignItems: "center" },
+				]}
+			>
+				<ActivityIndicator size="large" color="#FFA500" />
+				<Text
+					style={{
+						fontSize: 24,
+						fontWeight: "bold",
+						color: "#fff",
+						marginTop: 20,
+						textAlign: "center",
+					}}
+				>
+					Seu treino está sendo preparado!
+				</Text>
+				<Text
+					style={{
+						fontSize: 16,
+						color: "#8E8E93",
+						marginTop: 10,
+						textAlign: "center",
+					}}
+				>
+					Volte mais tarde para conferir.
+				</Text>
 			</View>
 		);
 	}

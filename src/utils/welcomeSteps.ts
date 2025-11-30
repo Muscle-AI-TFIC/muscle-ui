@@ -34,7 +34,7 @@ export const WELCOME_STEPS: WelcomeStepData[] = [
 		imageUrl: "123",
 	},
 	{
-		id: 4,
+		id: 5,
 		title: "🚀 Comece Agora!",
 		text: "Explore todas as funcionalidades e transforme seus treinos!",
 		icon: "✅",
