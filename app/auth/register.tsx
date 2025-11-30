@@ -57,6 +57,7 @@ export default function RegisterScreen() {
 								<TextInput
 									style={registerprops.input}
 									placeholder={placeholder}
+									placeholderTextColor="#888"
 									value={formData[key]}
 									onChangeText={(v) => updateField(key, v)}
 									autoCapitalize="none"

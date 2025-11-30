@@ -32,12 +32,12 @@ export const FIELDS = [
 	{
 		key: "name",
 		placeholder: "Nome completo",
-		autoCapitalize: "words" as const,
+		autoCapitalize: "words",
 	},
 	{
 		key: "email",
 		placeholder: "Email",
-		keyboardType: "email-address" as const,
+		keyboardType: "email-address",
 	},
 	{
 		key: "password",
@@ -53,12 +53,12 @@ export const FIELDS = [
 	{
 		key: "altura",
 		placeholder: "Altura (Ex: 1.75)",
-		keyboardType: "decimal-pad" as const,
+		keyboardType: "decimal-pad",
 	},
 	{
 		key: "peso",
 		placeholder: "Peso (Ex: 70.5)",
-		keyboardType: "decimal-pad" as const,
+		keyboardType: "decimal-pad",
 	},
 	{ key: "gender", placeholder: "Gênero" },
 	{ key: "fitness_level", placeholder: "Nível de fitness" },
