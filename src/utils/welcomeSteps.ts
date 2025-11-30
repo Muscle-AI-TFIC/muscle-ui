@@ -13,7 +13,7 @@ export const WELCOME_STEPS: WelcomeStepData[] = [
 		text: "Gere treinos personalizados de acordo com suas necessidades!",
 		icon: "📊",
 		imageText: "Tela de Treinos",
-        imageUrl: "123",
+        imageUrl: "https://imgur.com/tMi9qXH",
 	},
 	{
 		id: 3,
@@ -21,15 +21,15 @@ export const WELCOME_STEPS: WelcomeStepData[] = [
 		text: "Crie Treinos do seu jeito!",
 		icon: "🎯",
 		imageText: "Treinos customizáveis",
-        imageUrl: "123",
+        imageUrl: "https://imgur.com/zdCfrJE",
 	},
     {
 		id: 4,
-		title: "🎯 voce pode criar um perfil! Que servirá de base para a nossa AI criar um treino exclusivo para você!👀",
+		title: "🎯 Você pode criar um perfil! Que servirá de base para a nossa AI criar um treino exclusivo para você!👀",
 		text: "Crie Treinos do seu jeito!",
 		icon: "🎯",
 		imageText: "Treinos customizáveis",
-        imageUrl: "123",
+        imageUrl: "https://imgur.com/DzSE03E",
 	},
 	{
 		id: 5,
